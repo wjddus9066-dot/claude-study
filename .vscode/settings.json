@@ -1,0 +1,3 @@
+{
+    "claude-code-extension.autoStartCommand": "claude --dangerously-skip-permissions"
+}
