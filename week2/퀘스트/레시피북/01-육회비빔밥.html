@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>육회비빔밥 · 조리 페이지</title>
+
+<!-- CDN 버전 고정 (Babel 은 반드시 7.x) -->
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.25.9/babel.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+<style>
+  /* ========================================
+     Tailwind 로 표현 불가한 것만 (폰트 스택 · 키프레임 · 스크롤 오프셋)
+     ======================================== */
+  :root {
+    --font-title: 'Gowun Batang', 'Nanum Myeongjo', serif;
+    --font-body: 'Gowun Dodum', system-ui, -apple-system, sans-serif;
+  }
+  body {
+    margin: 0;
+    background: #fffdf7;
+    color: #292524;
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  .font-title { font-family: var(--font-title); }
+  section[id] { scroll-margin-top: 76px; }
+  html { scroll-behavior: smooth; }
+
+  @keyframes pulseRing {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: .55; }
+  }
+  .pulse-ring { animation: pulseRing 2s ease-in-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .pulse-ring { animation: none; }
+  }
+
+  .nav-scroll::-webkit-scrollbar { display: none; }
+  .nav-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useMemo, useCallback, useRef } = React;
+
+// ========================================
+// 1. 레시피 데이터 — 2주차/레시피북/01-육회비빔밥.md 에서 추출 (계량·시간은 원문 그대로)
+// ========================================
+const RECIPE = {
+  title: `육회비빔밥`,
+  tagline: `불을 쓰는 곳이 밥뿐이다. 그래서 이 요리는 조리가 아니라 온도 관리와 물기 제거에 가깝다. 고기를 차갑게 유지하고 핏물을 빼는 두 가지만 지키면, 양념은 오히려 단순할수록 낫다.`,
+  time: `20분`, timeNote: `준비 16분 + 무침 4분`,
+  serving: `2인분`,
+  level: `중`,
+  technique: `차갑게 유지 · 핏물 제거 · 결 직각 채썰기`,
+};
+
+const GROUPS = [
+  { name: `기본`, items: [
+    { n: `소고기 우둔살`, a: `200g`, note: `육회용으로 당일 구입한 것. 기름기·힘줄 없는 부위` },
+    { n: `따뜻한 밥`, a: `2공기 (420g)`, note: `뜨겁지 않게. 고기와 닿는 순간 익는다` },
+    { n: `배`, a: `1/4개 (100g)`, note: `단단한 것. 무르면 채가 서지 않는다` },
+    { n: `오이`, a: `1/2개`, note: `돌려깎아 채썰기` },
+    { n: `달걀 노른자`, a: `2개`, note: `흰자는 쓰지 않는다` },
+    { n: `김가루`, a: `한 줌` },
+    { n: `통깨`, a: `1작은술` },
+  ]},
+  { name: `고기 양념 — 미리 섞어 냉장`, items: [
+    { n: `진간장`, a: `1큰술` },
+    { n: `설탕`, a: `1작은술` },
+    { n: `다진 마늘`, a: `1/2작은술` },
+    { n: `참기름`, a: `1큰술` },
+    { n: `통깨`, a: `1/2작은술` },
+    { n: `후추`, a: `약간` },
+  ]},
+  { name: `비빔장 — 밥용`, items: [
+    { n: `고추장`, a: `1.5큰술` },
+    { n: `참기름`, a: `1/2큰술` },
+    { n: `설탕`, a: `1/2작은술` },
+    { n: `식초`, a: `1/2작은술` },
+  ]},
+  { name: `있으면 좋은 것`, optional: true, items: [
+    { n: `잣`, a: `1작은술`, note: `굵게 다져서` },
+    { n: `쪽파`, a: `1대` },
+    { n: `깻잎`, a: `3장`, note: `채썰어` },
+    { n: `무순`, a: `한 줌` },
+  ]},
+];
+
+const MAGIC = {
+  title: `배가 두 번 일한다`,
+  body: `채썬 배는 아삭한 식감과 단맛을 담당하고, 배의 단백질 분해효소는 고기를 부드럽게 만든다. 다만 배즙에 오래 재우면 고기 표면이 물러 죽처럼 되니, 무치는 건 먹기 직전 15초다.`,
+};
+
+const TOOLS = [
+  `잘 드는 칼 (무딘 칼로는 채가 뭉개진다)`,
+  `고기 전용 도마 — 채소용과 분리`,
+  `볼 2개 (고기 무칠 볼은 미리 냉장실에)`,
+  `키친타월`,
+];
+
+// start/end 는 타임라인을 초로 환산한 값
+const STEPS = [
+  {
+    time: `0:00–2:00`, start: 0, end: 120,
+    label: `고기부터 차갑게`,
+    body: [
+      `고기를 키친타월로 감싸 냉동실에 10분 넣는다. 그 사이 밥을 데우고, 무칠 볼을 냉장실에 넣는다.`,
+      `표면이 살짝 단단해져야 얇게 썰린다. 상온 고기는 칼에 눌려 뭉개진다.`,
+      `완전히 얼리면 안 된다. 10분, 길어도 15분.`,
+      `밥은 뜨겁지 않고 따뜻한 정도로. 갓 지은 밥이면 5분 식힌다.`,
+    ],
+    note: {
+      kind: `safety`,
+      body: `육회는 가열하지 않는 요리다. 당일 구입한 육회용 부위를 쓰고, 사 온 즉시 냉장 보관해 4시간 안에 먹는다. 칼과 도마는 채소용과 반드시 분리한다. 임산부·영유아·면역저하자에게는 권하지 않는다.`,
+    },
+  },
+  {
+    time: `2:00–10:00`, start: 120, end: 600,
+    label: `채소 손질과 양념`,
+    body: [
+      `고기가 냉동실에 있는 동안 나머지를 전부 끝낸다.`,
+      `배는 껍질을 벗겨 0.3cm 두께로 채 썬 뒤, 소금물(물 1컵 + 소금 1/4작은술)에 1분 담갔다 건져 물기를 뺀다. 갈변을 막는다.`,
+      `오이는 돌려깎아 껍질 쪽만 채 썬다. 씨 부분은 물이 많아 뺀다.`,
+      `고기 양념과 비빔장을 각각 다른 종지에 섞고, 고기 양념은 냉장실에 넣어둔다.`,
+    ],
+  },
+  {
+    time: `10:00–14:00`, start: 600, end: 840,
+    label: `고기 채썰기`,
+    body: [
+      `냉동실에서 꺼내 결과 직각으로 0.5cm 두께로 썰고, 그 조각을 다시 0.5cm 폭으로 채 썬다.`,
+      `한 번에 다 썰지 말고, 썬 것은 바로 냉장실 볼에 옮긴다.`,
+      `칼이 미끄러지면 고기가 아직 덜 차갑다는 뜻이다.`,
+    ],
+    note: {
+      kind: `why`,
+      title: `왜 결 직각인가`,
+      body: `육회는 익히지 않아 근섬유가 그대로 남는다. 결대로 썰면 긴 섬유가 통째로 씹혀 질기다. 직각으로 끊어야 부드럽다.`,
+    },
+  },
+  {
+    time: `14:00–15:00`, start: 840, end: 900,
+    label: `핏물 제거 — 이 요리의 핵심`,
+    core: true,
+    body: [
+      `썬 고기를 키친타월 위에 펼치고 위에서 눌러 핏물을 뺀다. 타월을 갈아가며 두 번.`,
+    ],
+    note: {
+      kind: `why`,
+      title: `왜 이렇게까지`,
+      body: `핏물이 남으면 양념이 고기에 붙지 않고 흘러내려 밥이 질척해진다. 비린내의 정체도 대부분 이 핏물이다. 양념을 늘리는 것보다 물기를 빼는 쪽이 훨씬 효과가 크다.`,
+    },
+  },
+  {
+    time: `15:00–16:00`, start: 900, end: 960,
+    label: `무치기`,
+    body: [
+      `냉장실에서 꺼낸 차가운 볼에 고기와 양념을 넣고 15초만 섞는다.`,
+      `젓가락으로 가볍게 들어 올렸다 놓는 식으로. 주무르면 체온이 전해지고 고기가 뭉친다.`,
+      `맛을 보고 싱거우면 간장 몇 방울. 짜면 참기름을 조금 더한다.`,
+      `먹기 직전에 무친다. 미리 무쳐두면 물이 나와 양념이 묽어진다.`,
+    ],
+  },
+  {
+    time: `16:00–20:00`, start: 960, end: 1200,
+    label: `담기`,
+    body: [
+      `밥 → 비빔장을 밥 위에 얇게 → 오이·배를 가장자리로 → 육회를 가운데 봉긋하게 → 노른자 → 김가루·통깨·잣.`,
+      `비빔장은 절반만 올리고 비비면서 맛을 보며 추가한다.`,
+      `노른자는 마지막에. 미리 올리면 흘러 고기가 텁텁해진다.`,
+    ],
+  },
+];
+
+const FINAL_STEP = {
+  label: `먹기`,
+  body: [
+    `노른자를 터뜨려 육회와 먼저 섞고, 그다음 밥과 비빈다.`,
+    `순서를 바꾸면 노른자가 밥에 먼저 흡수돼 고기에 감기지 않는다.`,
+  ],
+};
+
+const TOTAL = STEPS[STEPS.length - 1].end;
+
+const TROUBLES = [
+  { s: `밥이 질척하다`, c: `고기 핏물 또는 배 물기를 안 뺌`, f: `키친타월로 눌러 두 번 제거` },
+  { s: `고기가 뭉쳐 덩어리진다`, c: `오래 주물렀거나 볼이 미지근함`, f: `차가운 볼에 젓가락으로 15초만` },
+  { s: `비린내가 난다`, c: `핏물이 남았거나 오래된 고기`, f: `당일 구입 + 핏물 제거. 마늘·참기름이 보조한다` },
+  { s: `고기가 질기다`, c: `결대로 썰었거나 칼이 무딤`, f: `결과 직각으로. 냉동실 10분 후 썰기` },
+  { s: `채가 뭉개진다`, c: `고기가 덜 차가움`, f: `칼이 미끄러지면 5분 더 냉동` },
+  { s: `배가 갈색으로 변했다`, c: `썰어놓고 공기에 노출`, f: `소금물에 1분 담갔다 건지기` },
+  { s: `짜다`, c: `간장 과다`, f: `고기 양념은 간장 1큰술 고정, 간은 비빔장으로 조절` },
+  { s: `맛이 흐리고 미지근하다`, c: `미리 무쳐둠`, f: `담기 직전에 무친다` },
+];
+
+const VARIATIONS = [
+  { title: `참기름 육회`, body: `비빔장을 빼고 간장 양념만. 고추장 없이 담백하게 먹는 버전.` },
+  { title: `매콤하게`, body: `비빔장에 청양고추 1/2개를 다져 넣는다.` },
+  { title: `육회 유부초밥`, body: `밥 대신 유부주머니에 밥을 채우고 위에 육회를 얹는다.` },
+  { title: `사과 버전`, body: `배 대신 사과. 산미가 더 강하니 비빔장의 식초를 뺀다.` },
+  { title: `낙지 추가`, body: `삶은 낙지를 잘게 썰어 함께 올리면 탕탕이 스타일이 된다.` },
+  { title: `밥 없이`, body: `상추·깻잎에 육회와 배만 싸 먹는다. 술안주 버전.` },
+];
+
+const SUBSTITUTES = [
+  { m: `우둔살`, i: `홍두깨살, 설도 (기름기 없는 부위면 된다)` },
+  { m: `배`, i: `사과 1/4개 (갈변이 빠르니 소금물 필수), 배즙 1큰술` },
+  { m: `고추장`, i: `초고추장 2큰술 (이 경우 설탕·식초 생략)` },
+  { m: `달걀 노른자`, i: `메추리알 노른자 3개` },
+  { m: `오이`, i: `무순, 깻잎 채, 데친 콩나물` },
+  { m: `다진 마늘`, i: `마늘 1쪽을 아주 곱게. 굵으면 매운맛이 튄다` },
+];
+
+const STORAGE = `비빔장은 밀폐용기에 냉장 1주. 비빔밥·회덮밥에 그대로 쓸 수 있다. 무친 육회는 보관하지 않는다 — 물이 나와 맛이 무너지고, 생고기라 시간이 지날수록 위험하다. 고기가 남았다면 냉장에 두지 말고 그날 바로 익혀 불고기나 볶음으로 소진한다.`;
+
+const NAV = [
+  { id: 'ingredients', label: '재료' },
+  { id: 'timer',       label: '타이머' },
+  { id: 'steps',       label: '만드는 법' },
+  { id: 'trouble',     label: '실패 진단' },
+  { id: 'extra',       label: '응용 · 보관' },
+];
+
+// ========================================
+// 2. 타이머 훅 — 카운트업
+// ========================================
+function useCookTimer(total) {
+  const [elapsed, setElapsed] = useState(0);
+  const [running, setRunning] = useState(false);
+
+  useEffect(() => {
+    if (!running) return;
+    const id = setInterval(() => {
+      setElapsed(prev => {
+        if (prev + 1 >= total) { setRunning(false); return total; }
+        return prev + 1;
+      });
+    }, 1000);
+    return () => clearInterval(id);   // cleanup 필수
+  }, [running, total]);
+
+  const start = useCallback(() => setRunning(true), []);
+  const pause = useCallback(() => setRunning(false), []);
+  const reset = useCallback(() => { setRunning(false); setElapsed(0); }, []);
+
+  return { elapsed, running, done: elapsed >= total, start, pause, reset };
+}
+
+const fmt = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+
+// ========================================
+// 3. 스티키 내비 — IntersectionObserver 로 현재 섹션 추적
+// ========================================
+function TopNav({ active }) {
+  return (
+    <nav className="sticky top-0 z-40 border-b border-stone-200/80 bg-[#fffdf7]/90 backdrop-blur">
+      <div className="mx-auto flex max-w-5xl items-center gap-3 px-4 py-3 sm:px-6">
+        <span className="hidden shrink-0 font-title text-base text-stone-800 sm:block">육회비빔밥</span>
+        <div className="nav-scroll flex flex-1 gap-1 overflow-x-auto">
+          {NAV.map(n => (
+            <a
+              key={n.id}
+              href={`#${n.id}`}
+              className={`shrink-0 rounded-full px-3.5 py-1.5 text-sm transition ${
+                active === n.id
+                  ? 'bg-amber-500 text-white'
+                  : 'text-stone-500 hover:bg-amber-100/70 hover:text-stone-800'
+              }`}
+            >
+              {n.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+// ========================================
+// 4. 히어로
+// ========================================
+function Hero() {
+  return (
+    <header className="relative overflow-hidden border-b border-stone-200 bg-gradient-to-b from-amber-50 to-[#fffdf7]">
+      <div className="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
+        <div className="text-6xl">🥩</div>
+        <div className="mt-5 text-xs tracking-[0.35em] text-amber-700">2주차 · 레시피북 01</div>
+        <h1 className="mt-2 font-title text-4xl leading-tight text-stone-900 sm:text-5xl">{RECIPE.title}</h1>
+        <p className="mt-5 max-w-2xl font-title text-base leading-relaxed text-stone-600 sm:text-lg">
+          {RECIPE.tagline}
+        </p>
+
+        <div className="mt-9 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
+          {[
+            { k: '조리 시간', v: RECIPE.time, sub: RECIPE.timeNote },
+            { k: '분량', v: RECIPE.serving },
+            { k: '난이도', v: RECIPE.level },
+            { k: '핵심 기술', v: RECIPE.technique, small: true },
+          ].map(m => (
+            <div key={m.k} className="rounded-2xl border border-stone-200 bg-white px-4 py-3.5">
+              <div className="text-[11px] tracking-widest text-stone-400">{m.k}</div>
+              <div className={`mt-1 font-title text-stone-900 ${m.small ? 'text-sm leading-snug' : 'text-2xl'}`}>{m.v}</div>
+              {m.sub && <div className="mt-0.5 text-[11px] text-stone-400">{m.sub}</div>}
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 flex flex-wrap gap-3">
+          <a href="#ingredients" className="rounded-full bg-stone-900 px-6 py-3 text-sm text-white transition hover:bg-stone-700">
+            재료 체크부터 시작
+          </a>
+          <a href="#timer" className="rounded-full border border-stone-300 px-6 py-3 text-sm text-stone-700 transition hover:bg-white">
+            조리 타이머 열기
+          </a>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+// ========================================
+// 5. 재료 체크리스트
+// ========================================
+function Ingredients() {
+  const all = useMemo(
+    () => GROUPS.flatMap(g => g.items.map(it => `${g.name}/${it.n}`)),
+    []
+  );
+  const [checked, setChecked] = useState(() => new Set());
+
+  const toggle = (key) => setChecked(prev => {
+    const nextSet = new Set(prev);
+    nextSet.has(key) ? nextSet.delete(key) : nextSet.add(key);
+    return nextSet;
+  });
+
+  const pct = all.length ? (checked.size / all.length) * 100 : 0;
+
+  return (
+    <section id="ingredients" className="mx-auto max-w-5xl px-5 py-16 sm:px-6">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <div className="text-xs tracking-[0.3em] text-amber-700">재료</div>
+          <h2 className="mt-2 font-title text-3xl text-stone-900">계량이 절반이다</h2>
+        </div>
+        <button
+          onClick={() => setChecked(new Set())}
+          className="rounded-full border border-stone-300 px-4 py-2 text-xs text-stone-500 transition hover:bg-white"
+        >
+          체크 초기화
+        </button>
+      </div>
+
+      <div className="mt-5 rounded-2xl border border-stone-200 bg-white px-5 py-4">
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-stone-500">준비한 재료</span>
+          <span className="font-title text-stone-900">{checked.size} / {all.length}</span>
+        </div>
+        <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-stone-100">
+          <div className="h-full rounded-full bg-amber-500 transition-all duration-300" style={{ width: `${pct}%` }} />
+        </div>
+      </div>
+
+      <div className="mt-7 grid gap-5 md:grid-cols-2">
+        {GROUPS.map(g => (
+          <div key={g.name} className="rounded-2xl border border-stone-200 bg-white p-5">
+            <div className={`text-xs tracking-[0.2em] ${g.optional ? 'text-stone-400' : 'text-amber-700'}`}>{g.name}</div>
+            <ul className="mt-3 space-y-1.5">
+              {g.items.map(it => {
+                const key = `${g.name}/${it.n}`;
+                const on = checked.has(key);
+                return (
+                  <li key={key}>
+                    <button
+                      onClick={() => toggle(key)}
+                      aria-pressed={on}
+                      className={`flex w-full items-start gap-3 rounded-xl px-3 py-2 text-left transition ${on ? 'bg-amber-50' : 'hover:bg-stone-50'}`}
+                    >
+                      <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border text-[11px] ${
+                        on ? 'border-amber-500 bg-amber-500 text-white' : 'border-stone-300 text-transparent'
+                      }`}>✓</span>
+                      <span className="flex-1">
+                        <span className="flex flex-wrap items-baseline justify-between gap-x-3">
+                          <span className={`font-title text-base ${on ? 'text-stone-400 line-through' : 'text-stone-900'}`}>{it.n}</span>
+                          <span className={`text-sm ${on ? 'text-stone-300' : 'text-amber-700'}`}>{it.a}</span>
+                        </span>
+                        {it.note && <span className="mt-0.5 block text-[11px] leading-relaxed text-stone-400">{it.note}</span>}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-6 grid gap-5 md:grid-cols-2">
+        <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-6">
+          <div className="text-xs tracking-[0.2em] text-amber-700">왜 이 재료인가</div>
+          <h3 className="mt-2 font-title text-xl text-stone-900">{MAGIC.title}</h3>
+          <p className="mt-3 text-sm leading-relaxed text-stone-600">{MAGIC.body}</p>
+        </div>
+        <div className="rounded-2xl border border-stone-200 bg-white p-6">
+          <div className="text-xs tracking-[0.2em] text-stone-400">도구</div>
+          <ul className="mt-3 space-y-2">
+            {TOOLS.map(t => (
+              <li key={t} className="flex gap-2 text-sm leading-relaxed text-stone-600">
+                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-amber-500" />
+                <span>{t}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ========================================
+// 6. 조리 타이머 — SVG 진행 링 + 단계 구간 바
+// ========================================
+function Timer({ timer, activeIndex }) {
+  const { elapsed, running, done, start, pause, reset } = timer;
+  const active = STEPS[activeIndex];
+  const remainInStep = Math.max(0, active.end - elapsed);
+
+  const R = 88;
+  const C = 2 * Math.PI * R;
+  const progress = Math.min(1, elapsed / TOTAL);
+
+  return (
+    <section id="timer" className="border-y border-stone-200 bg-white">
+      <div className="mx-auto max-w-5xl px-5 py-16 sm:px-6">
+        <div className="text-xs tracking-[0.3em] text-amber-700">조리 타이머</div>
+        <h2 className="mt-2 font-title text-3xl text-stone-900">{RECIPE.time} 동안 무엇을 하고 있나</h2>
+
+        <div className="mt-8 grid items-center gap-10 md:grid-cols-[auto,1fr]">
+          <div className="relative mx-auto h-56 w-56 shrink-0">
+            <svg viewBox="0 0 200 200" className="h-full w-full -rotate-90">
+              <circle cx="100" cy="100" r={R} fill="none" stroke="#f5f0e6" strokeWidth="14" />
+              <circle
+                cx="100" cy="100" r={R} fill="none"
+                stroke={done ? '#65a30d' : '#f59e0b'} strokeWidth="14" strokeLinecap="round"
+                strokeDasharray={C} strokeDashoffset={C * (1 - progress)}
+                className="transition-all duration-500"
+              />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <div className="font-title text-4xl text-stone-900">{fmt(elapsed)}</div>
+              <div className="mt-1 text-xs text-stone-400">/ {fmt(TOTAL)}</div>
+              {running && <div className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-500 pulse-ring" />}
+            </div>
+          </div>
+
+          <div>
+            <div
+              aria-live="polite"
+              className={`rounded-2xl border p-5 ${done ? 'border-lime-300 bg-lime-50' : 'border-amber-200 bg-amber-50/70'}`}
+            >
+              {done ? (
+                <>
+                  <div className="font-title text-xl text-stone-900">완성 — 바로 먹는다</div>
+                  <p className="mt-2 text-sm leading-relaxed text-stone-600">
+                    무친 육회는 시간이 지날수록 물이 나온다. 담자마자 노른자를 터뜨려 육회와 먼저 섞는다.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div className="text-xs tracking-[0.2em] text-amber-700">
+                    STEP {activeIndex + 1} / {STEPS.length} · {active.time}
+                  </div>
+                  <div className="mt-1.5 font-title text-xl text-stone-900">{active.label}</div>
+                  <p className="mt-2 text-sm leading-relaxed text-stone-600">{active.body[0]}</p>
+                  <div className="mt-3 text-sm text-stone-500">
+                    이 단계 남은 시간 <span className="font-title text-base text-stone-900">{fmt(remainInStep)}</span>
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-2">
+              {!running && !done && (
+                <button onClick={start} className="rounded-full bg-amber-500 px-6 py-2.5 text-sm text-white transition hover:bg-amber-600">
+                  {elapsed > 0 ? '이어서' : '시작'}
+                </button>
+              )}
+              {running && (
+                <button onClick={pause} className="rounded-full bg-stone-900 px-6 py-2.5 text-sm text-white transition hover:bg-stone-700">
+                  일시정지
+                </button>
+              )}
+              <button onClick={reset} className="rounded-full border border-stone-300 px-6 py-2.5 text-sm text-stone-600 transition hover:bg-stone-50">
+                초기화
+              </button>
+            </div>
+
+            {/* 단계별 구간 바 — 각 단계 소요 시간에 비례 */}
+            <div className="mt-6">
+              <div className="flex h-3 w-full gap-0.5 overflow-hidden rounded-full bg-stone-100">
+                {STEPS.map((s, i) => {
+                  const w = ((s.end - s.start) / TOTAL) * 100;
+                  const passed = elapsed >= s.end;
+                  const current = i === activeIndex && !done;
+                  return (
+                    <div
+                      key={i}
+                      title={`${s.time} ${s.label}`}
+                      style={{ width: `${w}%` }}
+                      className={`h-full transition-colors ${
+                        passed ? 'bg-amber-400' : current ? 'bg-amber-500' : 'bg-stone-200'
+                      }`}
+                    />
+                  );
+                })}
+              </div>
+              <div className="mt-2 flex justify-between text-[10px] text-stone-400">
+                <span>0:00</span><span>{fmt(TOTAL)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ========================================
+// 7. 만드는 법 — 타이머와 연동해 현재 단계 강조
+// ========================================
+function Steps({ activeIndex, running }) {
+  const [doneSet, setDoneSet] = useState(() => new Set());
+  const toggle = (i) => setDoneSet(prev => {
+    const n = new Set(prev);
+    n.has(i) ? n.delete(i) : n.add(i);
+    return n;
+  });
+
+  return (
+    <section id="steps" className="mx-auto max-w-5xl px-5 py-16 sm:px-6">
+      <div className="text-xs tracking-[0.3em] text-amber-700">만드는 법</div>
+      <h2 className="mt-2 font-title text-3xl text-stone-900">순서를 지키면 양념은 단순해도 된다</h2>
+
+      <ol className="mt-8 space-y-4">
+        {STEPS.map((s, i) => {
+          const isActive = running && i === activeIndex;
+          const isDone = doneSet.has(i);
+          return (
+            <li
+              key={i}
+              className={`rounded-2xl border bg-white p-5 transition ${
+                isActive ? 'border-amber-400 ring-2 ring-amber-300/60' : 'border-stone-200'
+              } ${isDone ? 'opacity-60' : ''}`}
+            >
+              <div className="flex items-start gap-4">
+                <button
+                  onClick={() => toggle(i)}
+                  aria-pressed={isDone}
+                  aria-label={`${i + 1}단계 완료 표시`}
+                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border font-title text-sm transition ${
+                    isDone
+                      ? 'border-amber-500 bg-amber-500 text-white'
+                      : 'border-stone-300 text-stone-500 hover:border-amber-400 hover:text-amber-600'
+                  }`}
+                >
+                  {isDone ? '✓' : i + 1}
+                </button>
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-baseline gap-3">
+                    <h3 className={`font-title text-lg ${isDone ? 'text-stone-400 line-through' : 'text-stone-900'}`}>{s.label}</h3>
+                    <span className="rounded-md bg-stone-100 px-2 py-0.5 text-[11px] text-stone-500">{s.time}</span>
+                    {s.core && <span className="rounded-md bg-amber-100 px-2 py-0.5 text-[11px] text-amber-700">핵심</span>}
+                    {isActive && <span className="rounded-md bg-amber-500 px-2 py-0.5 text-[11px] text-white">진행 중</span>}
+                  </div>
+                  <ul className="mt-2.5 space-y-1.5">
+                    {s.body.map((b, j) => (
+                      <li key={j} className="flex gap-2 text-sm leading-relaxed text-stone-600">
+                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-amber-400" />
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {s.note && (
+                    <div className={`mt-3 rounded-xl border p-4 ${
+                      s.note.kind === 'safety' ? 'border-rose-200 bg-rose-50/70' : 'border-amber-200 bg-amber-50/70'
+                    }`}>
+                      <div className={`text-[11px] tracking-[0.2em] ${s.note.kind === 'safety' ? 'text-rose-700' : 'text-amber-700'}`}>
+                        {s.note.kind === 'safety' ? '생고기 취급 주의' : (s.note.title || '원리')}
+                      </div>
+                      <p className="mt-1.5 text-sm leading-relaxed text-stone-600">{s.note.body}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </li>
+          );
+        })}
+
+        <li className="rounded-2xl border border-dashed border-stone-300 bg-white/60 p-5">
+          <div className="flex items-start gap-4">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-stone-300 text-lg">🥢</span>
+            <div>
+              <h3 className="font-title text-lg text-stone-900">{FINAL_STEP.label}</h3>
+              <ul className="mt-2.5 space-y-1.5">
+                {FINAL_STEP.body.map((b, j) => (
+                  <li key={j} className="flex gap-2 text-sm leading-relaxed text-stone-600">
+                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-amber-400" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ol>
+    </section>
+  );
+}
+
+// ========================================
+// 8. 실패 진단표 — 아코디언
+// ========================================
+function Troubles() {
+  const [open, setOpen] = useState(null);
+  return (
+    <section id="trouble" className="border-y border-stone-200 bg-white">
+      <div className="mx-auto max-w-5xl px-5 py-16 sm:px-6">
+        <div className="text-xs tracking-[0.3em] text-amber-700">실패 진단표</div>
+        <h2 className="mt-2 font-title text-3xl text-stone-900">증상부터 찾는다</h2>
+
+        <div className="mt-7 divide-y divide-stone-200 rounded-2xl border border-stone-200">
+          {TROUBLES.map((t, i) => {
+            const on = open === i;
+            return (
+              <div key={t.s}>
+                <button
+                  onClick={() => setOpen(on ? null : i)}
+                  aria-expanded={on}
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition hover:bg-amber-50/60"
+                >
+                  <span className="font-title text-base text-stone-900">{t.s}</span>
+                  <span className={`shrink-0 text-stone-400 transition-transform ${on ? 'rotate-45' : ''}`}>＋</span>
+                </button>
+                {on && (
+                  <div className="px-5 pb-5">
+                    <div className="rounded-xl bg-stone-50 p-4">
+                      <div className="text-xs text-stone-400">원인</div>
+                      <div className="mt-1 text-sm text-stone-600">{t.c}</div>
+                      <div className="mt-3 border-t border-stone-200 pt-3 text-xs text-amber-700">해결</div>
+                      <div className="mt-1 text-sm text-stone-800">{t.f}</div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ========================================
+// 9. 응용 · 재료 대체 · 보관
+// ========================================
+function Extra() {
+  return (
+    <section id="extra" className="mx-auto max-w-5xl px-5 py-16 sm:px-6">
+      <div className="text-xs tracking-[0.3em] text-amber-700">응용 · 재료 대체 · 보관</div>
+      <h2 className="mt-2 font-title text-3xl text-stone-900">한 번 익히면 여러 갈래</h2>
+
+      <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {VARIATIONS.map(v => (
+          <div key={v.title} className="rounded-2xl border border-stone-200 bg-white p-5">
+            <div className="font-title text-base text-stone-900">{v.title}</div>
+            <p className="mt-1.5 text-sm leading-relaxed text-stone-600">{v.body}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-10 grid gap-6 md:grid-cols-2">
+        <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white">
+          <div className="border-b border-stone-200 px-5 py-3 text-xs tracking-[0.2em] text-stone-400">재료 대체</div>
+          <table className="w-full text-left text-sm">
+            <tbody className="divide-y divide-stone-100">
+              {SUBSTITUTES.map(s => (
+                <tr key={s.m}>
+                  <td className="w-32 px-5 py-3 font-title text-stone-900">{s.m}</td>
+                  <td className="px-5 py-3 text-stone-600">{s.i}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-6">
+          <div className="text-xs tracking-[0.2em] text-amber-700">보관</div>
+          <p className="mt-3 text-sm leading-relaxed text-stone-700">{STORAGE}</p>
+        </div>
+      </div>
+
+      <footer className="mt-14 border-t border-stone-200 pt-6 text-xs text-stone-400">
+        2주차 · 레시피북 01 — 원문: 01-육회비빔밥.md
+      </footer>
+    </section>
+  );
+}
+
+// ========================================
+// 10. 앱
+// ========================================
+function App() {
+  const timer = useCookTimer(TOTAL);
+  const { elapsed, running } = timer;
+
+  const activeIndex = useMemo(() => {
+    const i = STEPS.findIndex(s => elapsed >= s.start && elapsed < s.end);
+    return i === -1 ? STEPS.length - 1 : i;
+  }, [elapsed]);
+
+  const [activeSection, setActiveSection] = useState('ingredients');
+
+  useEffect(() => {
+    const els = NAV.map(n => document.getElementById(n.id)).filter(Boolean);
+    const io = new IntersectionObserver(
+      entries => {
+        const visible = entries.filter(e => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]) setActiveSection(visible[0].target.id);
+      },
+      { rootMargin: '-80px 0px -55% 0px', threshold: [0.05, 0.25, 0.5] }
+    );
+    els.forEach(el => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div>
+      <Hero />
+      <TopNav active={activeSection} />
+      <Ingredients />
+      <Timer timer={timer} activeIndex={activeIndex} />
+      <Steps activeIndex={activeIndex} running={running} />
+      <Troubles />
+      <Extra />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

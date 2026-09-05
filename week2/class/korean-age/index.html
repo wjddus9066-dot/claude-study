@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>한국 만나이 계산기</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <!-- ⚠️ 모든 CDN 버전 고정. Babel 은 반드시 7.x (8.x 는 인라인 text/babel 미지원) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.25.9/babel.min.js"></script>
+  <style>
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up { animation: fadeUp .3s ease-out both; }
+    .tabular { font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body class="bg-slate-50">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useMemo, useRef } = React;
+
+    // ========================================
+    // 🛠️ Date Utilities
+    // ========================================
+
+    /** 'YYYY-MM-DD' → 로컬 자정 Date (타임존 밀림 방지) */
+    function parseDateOnly(iso) {
+      const [y, m, d] = (iso || '').split('-').map(Number);
+      if (!y || !m || !d) return null;
+      const dt = new Date(y, m - 1, d, 0, 0, 0, 0);
+      // 2월 30일 같은 존재하지 않는 날짜를 걸러낸다
+      if (dt.getFullYear() !== y || dt.getMonth() !== m - 1 || dt.getDate() !== d) return null;
+      return dt;
+    }
+
+    function toISODate(date) {
+      const p = (n) => String(n).padStart(2, '0');
+      return `${date.getFullYear()}-${p(date.getMonth() + 1)}-${p(date.getDate())}`;
+    }
+
+    function todayMidnight() {
+      const n = new Date();
+      return new Date(n.getFullYear(), n.getMonth(), n.getDate(), 0, 0, 0, 0);
+    }
+
+    const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
+
+    function formatKoreanDate(date) {
+      return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일 (${WEEKDAYS[date.getDay()]})`;
+    }
+
+    const DAY_MS = 86400000;
+    const diffDays = (a, b) => Math.round((a.getTime() - b.getTime()) / DAY_MS);
+
+    /**
+     * 만 나이: 생일이 지났으면 (기준연도 - 출생연도), 아니면 -1
+     * 2023.6.28 시행 '만 나이 통일법'에 따른 공식 나이
+     */
+    function calcInternationalAge(birth, base) {
+      let age = base.getFullYear() - birth.getFullYear();
+      const beforeBirthday =
+        base.getMonth() < birth.getMonth() ||
+        (base.getMonth() === birth.getMonth() && base.getDate() < birth.getDate());
+      if (beforeBirthday) age -= 1;
+      return age;
+    }
+
+    /** 만 나이의 개월·일 나머지까지 분해 */
+    function calcAgeBreakdown(birth, base) {
+      let years = base.getFullYear() - birth.getFullYear();
+      let months = base.getMonth() - birth.getMonth();
+      let days = base.getDate() - birth.getDate();
+
+      if (days < 0) {
+        months -= 1;
+        // 직전 달의 말일 수를 빌려온다
+        const prevMonthLast = new Date(base.getFullYear(), base.getMonth(), 0).getDate();
+        days += prevMonthLast;
+      }
+      if (months < 0) {
+        years -= 1;
+        months += 12;
+      }
+      return { years, months, days };
+    }
+
+    /** 기준일 이후 다음 생일 (2/29생은 평년엔 3/1로 넘어간다) */
+    function nextBirthday(birth, base) {
+      const make = (year) => {
+        const d = new Date(year, birth.getMonth(), birth.getDate(), 0, 0, 0, 0);
+        // 2/29 → 평년이면 3/1 로 자동 보정된다
+        return d;
+      };
+      let candidate = make(base.getFullYear());
+      if (candidate.getTime() < base.getTime()) candidate = make(base.getFullYear() + 1);
+      return candidate;
+    }
+
+    const ZODIAC = ['원숭이', '닭', '개', '돼지', '쥐', '소', '호랑이', '토끼', '용', '뱀', '말', '양'];
+    const ZODIAC_EMOJI = ['🐵', '🐔', '🐶', '🐷', '🐭', '🐮', '🐯', '🐰', '🐲', '🐍', '🐴', '🐑'];
+
+    function zodiacOf(year) {
+      const i = ((year % 12) + 12) % 12;
+      return { name: ZODIAC[i], emoji: ZODIAC_EMOJI[i] };
+    }
+
+    const CONSTELLATIONS = [
+      { name: '염소자리', emoji: '♑', from: [1, 1],   to: [1, 19] },
+      { name: '물병자리', emoji: '♒', from: [1, 20],  to: [2, 18] },
+      { name: '물고기자리', emoji: '♓', from: [2, 19], to: [3, 20] },
+      { name: '양자리',   emoji: '♈', from: [3, 21],  to: [4, 19] },
+      { name: '황소자리', emoji: '♉', from: [4, 20],  to: [5, 20] },
+      { name: '쌍둥이자리', emoji: '♊', from: [5, 21], to: [6, 21] },
+      { name: '게자리',   emoji: '♋', from: [6, 22],  to: [7, 22] },
+      { name: '사자자리', emoji: '♌', from: [7, 23],  to: [8, 22] },
+      { name: '처녀자리', emoji: '♍', from: [8, 23],  to: [9, 22] },
+      { name: '천칭자리', emoji: '♎', from: [9, 23],  to: [10, 22] },
+      { name: '전갈자리', emoji: '♏', from: [10, 23], to: [11, 22] },
+      { name: '사수자리', emoji: '♐', from: [11, 23], to: [12, 24] },
+      { name: '염소자리', emoji: '♑', from: [12, 25], to: [12, 31] },
+    ];
+
+    function constellationOf(date) {
+      const m = date.getMonth() + 1;
+      const d = date.getDate();
+      const key = m * 100 + d;
+      const found = CONSTELLATIONS.find(c => key >= c.from[0] * 100 + c.from[1] && key <= c.to[0] * 100 + c.to[1]);
+      return found || CONSTELLATIONS[0];
+    }
+
+    const nf = new Intl.NumberFormat('ko-KR');
+
+    // ========================================
+    // 🎨 Design System Components
+    // ========================================
+
+    function Button({ variant = 'primary', size = 'md', disabled = false, onClick, type = 'button', className = '', children, ...rest }) {
+      const base = 'inline-flex items-center justify-center gap-1.5 rounded-xl font-semibold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed';
+      const variants = {
+        primary:   'bg-slate-900 text-white hover:bg-slate-700 active:scale-[.98] focus-visible:ring-slate-900',
+        secondary: 'bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 active:scale-[.98] focus-visible:ring-slate-400',
+        danger:    'bg-rose-600 text-white hover:bg-rose-700 active:scale-[.98] focus-visible:ring-rose-500',
+        ghost:     'bg-transparent text-slate-500 hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-slate-300',
+      };
+      const sizes = { sm: 'px-2.5 py-1.5 text-xs', md: 'px-4 py-2.5 text-sm', lg: 'px-6 py-3 text-base' };
+      return (
+        <button type={type} onClick={onClick} disabled={disabled}
+          className={`${base} ${variants[variant]} ${sizes[size]} ${className}`} {...rest}>
+          {children}
+        </button>
+      );
+    }
+
+    function Input({ type = 'text', label, value, onChange, placeholder, error, hint, disabled = false, id, className = '', ...rest }) {
+      const autoId = useRef(`in-${Math.random().toString(36).slice(2, 8)}`).current;
+      const inputId = id || autoId;
+      return (
+        <div className={className}>
+          {label && (
+            <label htmlFor={inputId} className="mb-1.5 block text-sm font-semibold text-slate-700">{label}</label>
+          )}
+          <input
+            id={inputId} type={type} value={value} onChange={onChange}
+            placeholder={placeholder} disabled={disabled}
+            aria-invalid={error ? 'true' : 'false'}
+            className={`w-full rounded-xl border bg-white px-3.5 py-3 text-base text-slate-900 placeholder-slate-400 transition-colors focus:outline-none focus:ring-2 disabled:bg-slate-100 ${
+              error ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-200'
+                    : 'border-slate-300 focus:border-slate-900 focus:ring-slate-200'
+            }`}
+            {...rest}
+          />
+          {error ? <p className="mt-1.5 text-xs text-rose-600">{error}</p>
+                 : hint && <p className="mt-1.5 text-xs text-slate-500">{hint}</p>}
+        </div>
+      );
+    }
+
+    /**
+     * tone 으로 배경/글자색을 정하고 className 은 여백·배치에만 쓴다.
+     * 배경 클래스가 항상 하나만 존재하므로 색이 겹쳐 글자가 묻히는 일이 없다.
+     */
+    function Card({ tone = 'light', className = '', children, ...rest }) {
+      const tones = {
+        light: 'border-slate-200 bg-white text-slate-900',
+        muted: 'border-slate-200 bg-slate-50 text-slate-900',
+        dark:  'border-slate-900 bg-slate-900 text-white',
+        bad:   'border-rose-300 bg-rose-50 text-rose-900',
+      };
+      return (
+        <div className={`rounded-2xl border p-5 shadow-sm ${tones[tone]} ${className}`} {...rest}>
+          {children}
+        </div>
+      );
+    }
+
+    function Badge({ className = '', children }) {
+      return (
+        <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ${className}`}>
+          {children}
+        </span>
+      );
+    }
+
+    // ========================================
+    // 🧩 Common Components
+    // ========================================
+
+    function StatTile({ label, value, unit, sub, accent = 'slate' }) {
+      const accents = {
+        slate:   'border-slate-200 bg-slate-50 text-slate-900',
+        indigo:  'border-indigo-200 bg-indigo-50 text-indigo-900',
+        emerald: 'border-emerald-200 bg-emerald-50 text-emerald-900',
+        amber:   'border-amber-200 bg-amber-50 text-amber-900',
+      };
+      return (
+        <div className={`rounded-xl border p-4 ${accents[accent]}`}>
+          <p className="text-xs font-semibold opacity-70">{label}</p>
+          <p className="tabular mt-1 text-2xl font-black leading-none">
+            {value}
+            {unit && <span className="ml-1 text-sm font-bold opacity-70">{unit}</span>}
+          </p>
+          {sub && <p className="mt-1.5 text-[11px] leading-tight opacity-60">{sub}</p>}
+        </div>
+      );
+    }
+
+    function InfoRow({ label, value, note }) {
+      return (
+        <div className="flex items-baseline justify-between gap-4 border-b border-slate-100 py-2.5 last:border-0">
+          <span className="shrink-0 text-sm text-slate-500">{label}</span>
+          <span className="text-right">
+            <span className="tabular text-sm font-semibold text-slate-900">{value}</span>
+            {note && <span className="ml-1.5 text-xs text-slate-400">{note}</span>}
+          </span>
+        </div>
+      );
+    }
+
+    // ========================================
+    // 📄 Page Components
+    // ========================================
+
+    function AgeCalculator() {
+      const [birth, setBirth] = useState('1995-03-15');
+      const [baseDate, setBaseDate] = useState(toISODate(todayMidnight()));
+
+      const result = useMemo(() => {
+        const b = parseDateOnly(birth);
+        const base = parseDateOnly(baseDate);
+
+        if (!b) return { error: '생년월일을 올바르게 입력해 주세요.' };
+        if (!base) return { error: '기준일을 올바르게 입력해 주세요.' };
+        if (b.getTime() > base.getTime()) return { error: '생년월일이 기준일보다 뒤에 있습니다.' };
+        if (b.getFullYear() < 1900) return { error: '1900년 이후 날짜만 계산합니다.' };
+
+        const intlAge = calcInternationalAge(b, base);
+        const breakdown = calcAgeBreakdown(b, base);
+        const yearAge = base.getFullYear() - b.getFullYear();      // 연 나이 (병역법·청소년보호법)
+        const koreanAge = yearAge + 1;                              // 이른바 '세는 나이'
+        const livedDays = diffDays(base, b);
+
+        const nb = nextBirthday(b, base);
+        const untilBirthday = diffDays(nb, base);
+        const isBirthdayToday = b.getMonth() === base.getMonth() && b.getDate() === base.getDate();
+
+        return {
+          birth: b,
+          base,
+          intlAge,
+          breakdown,
+          yearAge,
+          koreanAge,
+          livedDays,
+          livedWeeks: Math.floor(livedDays / 7),
+          livedHours: livedDays * 24,
+          nextBirthday: nb,
+          untilBirthday,
+          isBirthdayToday,
+          turningAgeAtNextBirthday: intlAge + 1,
+          zodiac: zodiacOf(b.getFullYear()),
+          constellation: constellationOf(b),
+          // 다음 만 나이 생일까지의 진행률
+          birthdayProgress: Math.round(((365 - Math.min(365, untilBirthday)) / 365) * 100),
+        };
+      }, [birth, baseDate]);
+
+      const isToday = baseDate === toISODate(todayMidnight());
+
+      return (
+        <div className="space-y-5">
+          {/* 입력 */}
+          <Card>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Input
+                type="date"
+                label="생년월일"
+                value={birth}
+                onChange={(e) => setBirth(e.target.value)}
+                max={toISODate(todayMidnight())}
+                min="1900-01-01"
+              />
+              <Input
+                type="date"
+                label="기준일"
+                value={baseDate}
+                onChange={(e) => setBaseDate(e.target.value)}
+                hint={isToday ? '오늘 기준으로 계산 중' : '오늘이 아닌 날짜로 계산 중'}
+              />
+            </div>
+            {!isToday && (
+              <div className="mt-3">
+                <Button variant="secondary" size="sm" onClick={() => setBaseDate(toISODate(todayMidnight()))}>
+                  오늘로 되돌리기
+                </Button>
+              </div>
+            )}
+          </Card>
+
+          {result.error ? (
+            <Card tone="bad" className="text-center">
+              <p className="text-sm font-bold">{result.error}</p>
+            </Card>
+          ) : (
+            <>
+              {/* 만 나이 — 주인공 */}
+              <Card tone="dark" className="animate-fade-up relative overflow-hidden text-center">
+                <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-indigo-500/20 blur-3xl" aria-hidden="true" />
+                <div className="relative">
+                  <div className="flex items-center justify-center gap-2">
+                    <Badge className="bg-white/15 text-white">공식 나이</Badge>
+                    {result.isBirthdayToday && <Badge className="bg-amber-300 text-amber-950">🎉 오늘 생일</Badge>}
+                  </div>
+                  <p className="tabular mt-4 text-6xl font-black leading-none sm:text-7xl">
+                    만 {result.intlAge}
+                    <span className="ml-2 text-2xl font-bold text-slate-400">세</span>
+                  </p>
+                  <p className="mt-3 text-sm text-slate-300">
+                    {result.breakdown.years}년 {result.breakdown.months}개월 {result.breakdown.days}일 살았습니다
+                  </p>
+                  <p className="mt-1 text-xs text-slate-500">{formatKoreanDate(result.base)} 기준</p>
+                </div>
+              </Card>
+
+              {/* 다른 나이 셈법 */}
+              <div className="grid gap-3 sm:grid-cols-3">
+                <StatTile
+                  label="만 나이 (공식)"
+                  value={result.intlAge}
+                  unit="세"
+                  sub="법령·계약·일상 기본"
+                  accent="indigo"
+                />
+                <StatTile
+                  label="연 나이"
+                  value={result.yearAge}
+                  unit="세"
+                  sub="병역법·청소년보호법 기준"
+                  accent="emerald"
+                />
+                <StatTile
+                  label="세는 나이 (옛 한국식)"
+                  value={result.koreanAge}
+                  unit="세"
+                  sub="법적 효력 없음"
+                  accent="amber"
+                />
+              </div>
+
+              {/* 다음 생일 */}
+              <Card className="animate-fade-up">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h2 className="text-sm font-bold text-slate-900">다음 생일</h2>
+                    <p className="mt-1 text-xs text-slate-500">{formatKoreanDate(result.nextBirthday)}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="tabular text-3xl font-black text-slate-900">
+                      {result.untilBirthday === 0 ? 'D-DAY' : `D-${result.untilBirthday}`}
+                    </p>
+                    <p className="mt-0.5 text-xs text-slate-500">만 {result.turningAgeAtNextBirthday}세가 됩니다</p>
+                  </div>
+                </div>
+                <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-slate-100">
+                  <div
+                    className="h-full rounded-full bg-slate-900 transition-all duration-500"
+                    style={{ width: `${result.birthdayProgress}%` }}
+                    role="progressbar"
+                    aria-valuenow={result.birthdayProgress}
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-label="다음 생일까지 진행률"
+                  />
+                </div>
+                {result.birth.getMonth() === 1 && result.birth.getDate() === 29 && (
+                  <p className="mt-3 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800">
+                    2월 29일생입니다. 평년에는 생일이 3월 1일로 계산됩니다.
+                  </p>
+                )}
+              </Card>
+
+              {/* 살아온 시간 */}
+              <Card className="animate-fade-up">
+                <h2 className="mb-2 text-sm font-bold text-slate-900">살아온 시간</h2>
+                <InfoRow label="총 일수" value={`${nf.format(result.livedDays)}일`} />
+                <InfoRow label="총 주수" value={`${nf.format(result.livedWeeks)}주`} />
+                <InfoRow label="총 시간" value={`${nf.format(result.livedHours)}시간`} note="자정 기준" />
+                <InfoRow label="1만 일" value={
+                  result.livedDays >= 10000
+                    ? `${nf.format(result.livedDays - 10000)}일 지남`
+                    : `${nf.format(10000 - result.livedDays)}일 남음`
+                } />
+              </Card>
+
+              {/* 부가 정보 */}
+              <Card className="animate-fade-up">
+                <h2 className="mb-2 text-sm font-bold text-slate-900">부가 정보</h2>
+                <InfoRow label="생년월일" value={formatKoreanDate(result.birth)} />
+                <InfoRow label="태어난 요일" value={`${WEEKDAYS[result.birth.getDay()]}요일`} />
+                <InfoRow
+                  label="띠"
+                  value={`${result.zodiac.emoji} ${result.zodiac.name}띠`}
+                  note="양력 연도 기준"
+                />
+                <InfoRow label="별자리" value={`${result.constellation.emoji} ${result.constellation.name}`} />
+              </Card>
+
+              {/* 나이 기준 안내 */}
+              <Card tone="muted" className="animate-fade-up">
+                <h2 className="mb-3 text-sm font-bold text-slate-900">나이 셈법이 헷갈릴 때</h2>
+                <ul className="space-y-2 text-xs leading-relaxed text-slate-600">
+                  <li>
+                    <strong className="text-slate-900">만 나이</strong> — 2023년 6월 28일 시행된 '만 나이 통일법'에 따라
+                    법령·계약·공문서의 나이는 별도 규정이 없으면 만 나이입니다.
+                  </li>
+                  <li>
+                    <strong className="text-slate-900">연 나이</strong> — 현재 연도에서 출생 연도만 뺀 나이.
+                    병역법, 청소년보호법(술·담배) 등 일부 법률이 이 기준을 씁니다.
+                  </li>
+                  <li>
+                    <strong className="text-slate-900">세는 나이</strong> — 태어나면 1세, 해가 바뀌면 +1. 법적 효력은 없습니다.
+                  </li>
+                </ul>
+              </Card>
+            </>
+          )}
+        </div>
+      );
+    }
+
+    // ========================================
+    // 🚀 App Component
+    // ========================================
+
+    function App() {
+      return (
+        <div className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 sm:py-12">
+          <div className="mx-auto max-w-2xl">
+            <header className="mb-6">
+              <h1 className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">
+                한국 만나이 계산기
+              </h1>
+              <p className="mt-1.5 text-sm text-slate-500">
+                생년월일만 넣으면 만 나이 · 연 나이 · 세는 나이를 한 번에 보여줍니다.
+              </p>
+            </header>
+
+            <AgeCalculator />
+
+            <p className="mt-8 text-center text-xs text-slate-400">
+              모든 계산은 브라우저 안에서만 이루어집니다.
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    // ========================================
+    // Rendering
+    // ========================================
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
