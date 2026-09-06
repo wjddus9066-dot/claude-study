@@ -383,7 +383,9 @@ function page(title, bodyHtml) {
   .article-footer p{margin:0 0 12px}
   .article-footer strong{display:block; color:var(--ink); font-weight:700; margin-top:20px}
   .article-footer p:first-child strong{margin-top:0}
-  .article-footer hr{display:none}
+  /* 꼬리말 안의 구분선 아래는 한 단계 더 작게 — 면책 문구 영역 */
+  .article-footer hr{border:0; border-top:1px solid var(--line); margin:22px 0 18px}
+  .article-footer hr ~ p{font-size:.93em; color:#8a97a5}
   /* 인라인 출처 — 수치·표 바로 아래 붙는 한 줄 */
   .src-note{
     margin:-8px 0 22px; padding-left:12px;
