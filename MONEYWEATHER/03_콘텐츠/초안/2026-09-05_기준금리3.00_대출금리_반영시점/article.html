@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>기준금리 3% 됐는데, 내 대출이자는 왜 아직 그대로일까?</title>
+<style>
+  :root{
+    --ink:#1d2b3a; --muted:#5d7185; --line:#dde5ed; --bg:#fbfcfd;
+    --accent:#2c5f8f; --mark:#e0a52c; --markbg:#fff7e6; --panel:#fff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Malgun Gothic','맑은 고딕',-apple-system,'Segoe UI',sans-serif;
+    line-height:1.75; font-size:17px;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:56px 20px 96px}
+  h1{font-size:2.05rem; line-height:1.32; letter-spacing:-1px; margin:0 0 28px}
+  h2{font-size:1.5rem; letter-spacing:-.5px; margin:56px 0 18px; padding-top:20px; border-top:2px solid var(--line)}
+  h3{font-size:1.18rem; margin:34px 0 12px; color:var(--accent)}
+  h4{font-size:1.02rem; margin:24px 0 10px}
+  p{margin:0 0 18px}
+  strong{font-weight:700}
+  a{color:var(--accent)}
+  hr{border:0; border-top:1px solid var(--line); margin:40px 0}
+  blockquote{
+    margin:26px 0; padding:20px 24px;
+    background:var(--markbg); border-left:5px solid var(--mark); border-radius:0 8px 8px 0;
+  }
+  blockquote p{margin:0 0 12px} blockquote p:last-child{margin:0}
+  .table-wrap{overflow-x:auto; margin:24px 0}
+  table{border-collapse:collapse; width:100%; font-size:.95rem; background:var(--panel)}
+  th,td{border:1px solid var(--line); padding:11px 13px; text-align:left; vertical-align:top}
+  th{background:#f1f5f9; font-weight:700; white-space:nowrap}
+  pre{
+    background:#f4f6f8; border:1px solid var(--line); border-radius:8px;
+    padding:16px 18px; overflow-x:auto; margin:24px 0;
+  }
+  /* ①②③ 같은 기호가 깨지지 않도록 한글 폰트를 폴백에 둔다 */
+  code{font-family:Consolas,'D2Coding','Malgun Gothic','맑은 고딕',monospace; font-size:.9rem}
+  pre code{line-height:1.65}
+  p code,li code,td code{background:#eef2f6; padding:2px 6px; border-radius:4px}
+  ul,ol{margin:0 0 20px; padding-left:24px}
+  li{margin-bottom:8px}
+  ul.checklist{list-style:none; padding-left:4px}
+  ul.checklist li{padding-left:28px; position:relative}
+  ul.checklist li::before{
+    content:''; position:absolute; left:0; top:.42em;
+    width:15px; height:15px; border:2px solid var(--accent); border-radius:4px;
+  }
+  figure{margin:32px 0}
+  figure img{width:100%; height:auto; border:1px solid var(--line); border-radius:10px; display:block}
+  figcaption{margin-top:10px; font-size:.86rem; color:var(--muted); text-align:center}
+  .meta{color:var(--muted); font-size:.9rem; margin:-16px 0 34px}
+  @media (max-width:640px){ body{font-size:16px} .wrap{padding:36px 16px 72px} h1{font-size:1.62rem} }
+</style>
+</head>
+<body>
+<article class="wrap">
+<figure><img src="../../../04_이미지/썸네일/2026-09-05_기준금리3.00_썸네일.png" alt="기준금리 3.00%와 대출금리 반영 시차를 나타낸 썸네일 이미지" loading="lazy"></figure>
+<h1>기준금리 3% 됐는데, 내 대출이자는 왜 아직 그대로일까?</h1>
+<hr>
+<p>기준금리가 올랐다는 뉴스는 8월 말에 이미 나왔습니다.</p>
+<p>그런데 대출이 있는 분들 중에 이번 달 이자가 실제로 늘어난 걸 확인한 사람은 아마 거의 없을 겁니다.</p>
+<p><strong>뉴스가 틀린 것도, 은행이 봐준 것도 아닙니다.</strong> 기준금리가 내 통장까지 도착하는 데는 시간이 걸리고, 그 경로가 정해져 있습니다.</p>
+<p>그 경로를 알면 언제 얼마가 오를지 미리 계산할 수 있습니다.</p>
+<h3>이 글에서 알 수 있는 것</h3>
+<ul>
+<li>지금 기준금리가 몇 %이고 언제 올랐는지</li>
+<li>기준금리 인상이 내 대출금리로 오는 3단계 경로와 <strong>날짜</strong></li>
+<li>3억원을 빌렸다면 이자가 얼마나 늘어나는지</li>
+<li>지금 고정금리가 변동금리보다 <strong>비싼</strong> 이유</li>
+<li>계약서에서 오늘 확인해야 할 항목</li>
+</ul>
+<hr>
+<h2>1. 6주 사이에 두 번 올랐습니다</h2>
+<p>한국은행 금융통화위원회는 2026년 8월 27일 기준금리를 연 2.75%에서 <strong>연 3.00%</strong>로 올렸습니다. 0.25%포인트 인상입니다.</p>
+<p>그런데 이게 첫 인상이 아닙니다.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>시점</th><th>기준금리</th><th>변화</th></tr></thead>
+<tbody>
+<tr><td>2026년 7월 16일 이전</td><td>2.50%</td><td>—</td></tr>
+<tr><td>2026년 7월 16일</td><td>2.75%</td><td>+0.25%p</td></tr>
+<tr><td><strong>2026년 8월 27일</strong></td><td><strong>3.00%</strong></td><td>+0.25%p</td></tr>
+</tbody></table></div>
+<p>7월 인상은 3년 9개월 만이었고, 8월에는 거기서 연속으로 한 번 더 올렸습니다. <strong>6주 사이에 누적 0.50%포인트입니다.</strong></p>
+<p>여기서 잠깐, <strong>"0.25%포인트"와 "0.25%"는 다릅니다.</strong></p>
+<p>2.75%에서 3.00%가 된 건 <strong>0.25%포인트 인상</strong>입니다. 이걸 "0.25% 인상"이라고 쓰면 2.75%의 0.25%, 그러니까 거의 변화가 없다는 뜻이 되어버립니다.</p>
+<p>금리 기사에서 자주 헷갈리는 지점이라 짚고 갑니다.</p>
+<h3>기준금리가 뭐길래 대출금리를 움직이나요</h3>
+<p>기준금리는 한국은행이 정하는 <strong>"돈의 기본 가격"</strong>입니다.</p>
+<p>은행도 돈을 어딘가에서 빌려와 우리에게 빌려줍니다. 기준금리는 그 은행이 돈을 구해오는 비용의 기준선 역할을 합니다.</p>
+<p>원가가 오르면 판매가도 오릅니다. 대출금리가 그렇습니다.</p>
+<h3>왜 지금 올리나요</h3>
+<p>물가 때문입니다.</p>
+<p>금융통화위원회는 8월 27일 결정에서 <strong>물가 오름세가 더 넓게 퍼지는 것을 미리 막는 게 중요하다</strong>는 취지로 인상 배경을 밝혔습니다.</p>
+<p>그리고 그 우려는 며칠 뒤 숫자로 나왔습니다. 9월 2일 발표된 <strong>2026년 8월 소비자물가는 1년 전보다 3.1%</strong> 올랐습니다. 7월에 2.8%였다가 두 달 만에 다시 3%대로 올라선 겁니다.</p>
+<p>가격 변동이 심한 식료품과 에너지를 뺀 <strong>근원물가는 3.4%</strong>로 더 높았습니다.</p>
+<blockquote>
+<p><strong>여기서 숫자를 한 겹 더 봐야 합니다.</strong></p>
+<p>8월 물가 3.1%에는 <strong>작년 통신요금 할인의 착시</strong>가 섞여 있습니다.</p>
+<p>지난해 8월 한 통신사가 전체 가입자 요금을 절반 깎아줬습니다. 그래서 작년 8월 통신비가 유난히 낮았고, 올해와 비교하니 휴대전화료가 <strong>26.7%</strong> 오른 것으로 잡혔습니다.</p>
+<p>요금이 실제로 그만큼 오른 게 아닙니다. <strong>비교 대상이던 작년 숫자가 유난히 낮았던 겁니다.</strong></p>
+<p>그래서 <strong>3.1%를 그대로 체감물가로 읽으면 조금 부풀려 보게 됩니다.</strong> 물가가 오르고 있는 건 맞지만, 이 숫자에는 한 번 걸러서 볼 대목이 있습니다.</p>
+</blockquote>
+<p>금리를 올리면 돈을 빌리기가 부담스러워집니다. 소비와 투자가 조금씩 줄어들고, 물가를 밀어올리는 힘도 약해집니다. 한국은행이 노리는 게 이 흐름입니다.</p>
+<p><strong>참고로 금통위의 8월 27일 결정은 이 8월 물가 발표(9월 2일)보다 먼저 나왔습니다.</strong> 지표를 보고 올린 게 아니라, 오름세를 앞질러 막겠다는 판단이었던 셈입니다.</p>
+<hr>
+<h2>2. 그런데 왜 아직 내 이자는 그대로일까</h2>
+<p>여기가 이 글의 핵심입니다.</p>
+<p>기준금리가 내 변동금리 대출 이자에 도착하려면 <strong>세 단계</strong>를 거칩니다.</p>
+<pre><code>[1단계]  한국은행 기준금리 인상
+             ↓   은행 조달비용에 반영
+[2단계]  코픽스(COFIX) 공시  — 매월 15일, 한 달에 한 번
+             ↓   내 대출의 금리변동주기에 따라
+[3단계]  내 대출금리 변경    — 보통 6개월 또는 12개월마다</code></pre>
+<figure><img src="../../../04_이미지/인포그래픽/2026-09-05_기준금리_전달경로.png" alt="기준금리 인상이 코픽스 공시를 거쳐 개인 대출금리에 반영되는 3단계 경로 인포그래픽" loading="lazy"><figcaption>기준금리 인상은 코픽스 공시와 내 대출 갱신일을 거쳐야 이자에 도착합니다.</figcaption></figure>
+<h3>코픽스가 뭔가요</h3>
+<p><strong>코픽스(COFIX)</strong>는 국내 주요 은행들이 돈을 조달하는 데 실제로 얼마를 썼는지 모아서 계산한 <strong>평균 조달비용 지수</strong>입니다.</p>
+<p>쉽게 말하면 <strong>은행의 원가표</strong>입니다. 변동금리 주택담보대출은 대부분 이 코픽스에 은행별 가산금리를 더해 금리를 정합니다.</p>
+<p>중요한 건 이겁니다. <strong>코픽스는 한 달에 한 번, 매월 15일에만 발표됩니다.</strong></p>
+<figure><img src="../../../04_이미지/차트/2026-09-05_코픽스추이.png" alt="2026년 5월분부터 7월분까지 신규취급액기준 코픽스 추이 차트" loading="lazy"><figcaption>여기서 봐야 할 건 선이 오르고 있다는 사실보다, 이 선의 마지막 점이 아직 7월이라는 점입니다.</figcaption></figure>
+<h3>지금 적용되는 코픽스는 '7월' 숫자입니다</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>공시일</th><th>대상월</th><th>신규취급액기준 코픽스</th></tr></thead>
+<tbody>
+<tr><td>2026년 6월 15일</td><td>2026년 5월</td><td>2.90%</td></tr>
+<tr><td>2026년 7월 15일</td><td>2026년 6월</td><td>3.05%</td></tr>
+<tr><td><strong>2026년 8월 18일</strong></td><td><strong>2026년 7월</strong></td><td><strong>3.18%</strong></td></tr>
+</tbody></table></div>
+<p>지금 은행 변동금리에 쓰이고 있는 건 <strong>8월 18일에 공시된 7월분 3.18%</strong>입니다. 다음 공시는 9월 15일입니다.</p>
+<p>7월분이라는 건 <strong>7월 한 달 동안</strong> 은행이 조달한 돈의 비용이라는 뜻입니다.</p>
+<p>그래서 <strong>8월 27일 기준금리 인상은 이 숫자에 아예 들어가 있지 않습니다.</strong> 아직 일어나지도 않은 일이니까요.</p>
+<h3>그럼 언제 반영되나요</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>공시일</th><th>대상월</th><th>8월 27일 인상분 반영 정도</th></tr></thead>
+<tbody>
+<tr><td>2026년 8월 18일</td><td>2026년 7월</td><td>반영 없음 (인상 전)</td></tr>
+<tr><td><strong>2026년 9월 15일</strong></td><td>2026년 8월</td><td><strong>극히 일부</strong> (8/27~8/31, 약 5일치)</td></tr>
+<tr><td><strong>2026년 10월 15일</strong></td><td>2026년 9월</td><td><strong>온전히 반영</strong> (한 달 전체)</td></tr>
+</tbody></table></div>
+<p>9월 15일에 8월분 코픽스가 나옵니다. 하지만 8월분은 8월 한 달 평균이고, 인상은 27일에 있었습니다. <strong>한 달 중 5일치만 인상된 조건</strong>이라는 뜻입니다.</p>
+<p><strong>8월 27일 인상의 효과가 온전히 담기는 건 9월분 코픽스, 즉 10월 15일 공시분부터입니다.</strong></p>
+<h3>그리고 한 단계가 더 남았습니다</h3>
+<p>코픽스가 올라도 <strong>내 대출금리가 그날 바로 바뀌지는 않습니다.</strong></p>
+<p>변동금리 대출에는 <strong>금리변동주기</strong>가 있습니다. 계약할 때 정한 주기(흔히 6개월 또는 12개월)가 돌아오는 날, 그 시점의 코픽스로 금리가 새로 계산됩니다.</p>
+<p>즉 내 갱신일이 11월이라면, 8월 27일 인상은 <strong>11월에</strong> 내 이자에 나타납니다.</p>
+<blockquote>
+<p><strong>정리하면 이렇습니다.</strong></p>
+<p>8월 27일 인상 → 10월 15일 코픽스에 온전히 반영 → <strong>그 이후 돌아오는 내 갱신일</strong>에 적용</p>
+<p>뉴스와 내 통장 사이에는 <strong>몇 달의 시차</strong>가 있습니다.</p>
+</blockquote>
+<hr>
+<h2>3. 그래서 내 돈으로는 얼마일까</h2>
+<p>시차가 있다는 건 <strong>아직 오지 않았을 뿐, 오고 있다</strong>는 뜻이기도 합니다. 미리 계산해두면 대비가 됩니다.</p>
+<h3>계산 방법</h3>
+<pre><code>대출잔액 × 금리 상승폭 = 연간 늘어나는 이자</code></pre>
+<p>기준금리 인상분 0.50%포인트가 그대로 대출금리에 전달된다고 가정하면 이렇습니다.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>대출잔액</th><th>금리 +0.25%p</th><th>금리 +0.50%p</th><th>+0.50%p의 월 환산</th></tr></thead>
+<tbody>
+<tr><td>1억원</td><td>연 25만원</td><td>연 50만원</td><td>약 4만 2천원</td></tr>
+<tr><td><strong>3억원</strong></td><td>연 75만원</td><td><strong>연 150만원</strong></td><td><strong>약 12만 5천원</strong></td></tr>
+<tr><td>5억원</td><td>연 125만원</td><td>연 250만원</td><td>약 20만 8천원</td></tr>
+</tbody></table></div>
+<p>3억원을 빌렸다면 <strong>연 150만원, 월 12만 5천원</strong> 정도입니다. 매달 고정지출이 그만큼 늘어난다고 보면 됩니다.</p>
+<blockquote>
+<p><strong>이 계산에 대해 솔직하게 말씀드리면</strong></p>
+<p>이건 <strong>이자만 놓고 본 단순 계산</strong>입니다.</p>
+<p>원리금균등 방식이라면 매달 원금도 함께 갚아 잔액이 줄어들기 때문에, 실제 월 상환액 변화는 위 숫자와 다릅니다. 또 기준금리 인상분이 대출금리에 100% 그대로 전달된다는 보장도 없습니다.</p>
+<p><strong>정확한 금액이 아니라 '체감 규모'를 잡는 용도로 봐주세요.</strong></p>
+</blockquote>
+<h3>실제로는 이미 오르는 중입니다</h3>
+<p>코픽스는 이미 4개월 연속 오르고 있습니다. 5월분 2.90%에서 7월분 3.18%로 <strong>두 달 사이 0.28%포인트</strong> 올랐습니다.</p>
+<p>3억원 기준으로 <strong>연 84만원</strong>, 5억원 기준으로 <strong>연 140만원</strong>입니다.</p>
+<p>은행들도 이미 반영했습니다. 국민은행은 8월 19일부터 변동형 주택담보대출 금리를 연 4.25~5.65%에서 <strong>연 4.38~5.78%</strong>로 올렸습니다.</p>
+<p>즉 8월 27일 기준금리 인상은 <strong>아직 오지 않은 다음 파도</strong>입니다.</p>
+<hr>
+<h2>4. 여기서 헷갈리는 게 하나 있습니다 — 고정금리가 더 비쌉니다</h2>
+<p>보통 "금리 오를 것 같으면 고정금리로 갈아타라"고 합니다.</p>
+<p>그런데 지금 숫자를 보면 얘기가 그렇게 단순하지 않습니다.</p>
+<p>한국은행이 8월 26일 발표한 <strong>「2026년 7월 금융기관 가중평균금리」</strong>에 따르면, 신규 주택담보대출 금리는 이렇습니다.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>구분</th><th>2026년 7월 금리(연)</th><th>전월 대비</th></tr></thead>
+<tbody>
+<tr><td>주택담보대출 전체</td><td>4.48%</td><td>+0.12%p</td></tr>
+<tr><td><strong>고정형</strong></td><td><strong>4.76%</strong></td><td>+0.23%p</td></tr>
+<tr><td><strong>변동형</strong></td><td><strong>4.35%</strong></td><td>+0.08%p</td></tr>
+</tbody></table></div>
+<figure><img src="../../../04_이미지/인포그래픽/2026-09-05_고정vs변동.png" alt="2026년 7월 기준 고정금리 4.76%와 변동금리 4.35%를 비교한 인포그래픽" loading="lazy"><figcaption>지금은 고정금리가 변동금리보다 0.41%포인트 비쌉니다. 3억원 기준 연 123만원 차이입니다.</figcaption></figure>
+<p><strong>고정형이 변동형보다 0.41%포인트 비쌉니다.</strong></p>
+<p>3억원 기준으로 <strong>연 123만원, 월 약 10만원</strong> 차이입니다. 지금 당장 나가는 돈만 보면 변동형이 확실히 유리합니다.</p>
+<h3>그래서 사람들이 변동형으로 몰렸습니다</h3>
+<p>같은 자료에서, 7월 신규 주택담보대출 중 <strong>고정금리 비중은 31.9%</strong>였습니다. 전월보다 5.8%포인트 줄었고, <strong>2014년 2월 이후 가장 낮은 수준</strong>입니다.</p>
+<p>쉽게 말해 <strong>7월에 집을 담보로 대출받은 사람 10명 중 약 7명이 변동금리를 골랐습니다.</strong></p>
+<p>한국은행 연구에서도 같은 방향이 확인됩니다. 고정형과 변동형의 금리차가 벌어질수록 변동금리를 고르는 비중이 늘어난다는 분석입니다. 지금이 딱 그 상황입니다.</p>
+<h3>이게 왜 신경 쓰이는 상황인가</h3>
+<p>당장 싼 쪽을 고르는 건 자연스러운 선택입니다. 문제는 <strong>지금이 금리를 내리는 시기가 아니라 올리는 시기</strong>라는 점입니다.</p>
+<p>두 가지를 나눠서 봐야 합니다.</p>
+<div class="table-wrap"><table>
+<thead><tr><th></th><th>지금</th><th>앞으로</th></tr></thead>
+<tbody>
+<tr><td><strong>변동형</strong></td><td>월 약 10만원 저렴 (3억 기준)</td><td>기준금리 오르면 <strong>따라 오름</strong></td></tr>
+<tr><td><strong>고정형</strong></td><td>월 약 10만원 비쌈</td><td>기준금리 올라도 <strong>그대로</strong></td></tr>
+</tbody></table></div>
+<p>변동형의 0.41%포인트 이득은 <strong>기준금리가 0.5%포인트만 더 올라도 사라집니다.</strong> 그 이후로는 손해 쪽으로 넘어갑니다.</p>
+<blockquote>
+<p><strong>다만 오해하지 마세요.</strong></p>
+<p>"그러니까 고정금리로 갈아타라"는 뜻이 아닙니다.</p>
+<p>갈아탈 때는 중도상환수수료, 남은 대출기간, 앞으로 금리가 어떻게 될지에 대한 판단이 모두 들어갑니다. 3년 안에 집을 팔거나 대출을 갚을 계획이라면 변동형이 더 나을 수도 있습니다.</p>
+<p>여기서 말씀드리는 건 하나입니다. <strong>"지금 싸다"는 이유만으로 골랐다면, 그 판단의 근거가 얼마나 얇은지는 알고 계셔야 합니다.</strong></p>
+</blockquote>
+<hr>
+<h2>5. 그럼 예금은 좋아지나요</h2>
+<p>조금은요. 다만 기대만큼은 아닙니다.</p>
+<p>같은 한국은행 자료에서 2026년 7월 예금은행 <strong>저축성수신금리는 연 3.21%</strong>입니다. 전월보다 0.13%포인트 올랐습니다.</p>
+<p>같은 기간 가계대출금리는 <strong>연 4.64%</strong>였습니다. 빌릴 때와 맡길 때의 차이가 <strong>1.43%포인트</strong>입니다.</p>
+<p>여기서 한 가지 더 봐야 합니다. <strong>세금과 물가입니다.</strong></p>
+<p>예금 3.21%에서 이자소득세(15.4%)를 떼면 실제로 손에 남는 건 대략 <strong>연 2.7%</strong> 수준입니다.</p>
+<p>이걸 물가와 비교하면 이렇습니다.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>비교 대상</th><th>값</th><th>기준 시점</th></tr></thead>
+<tbody>
+<tr><td>예금금리 (세전)</td><td>3.21%</td><td>2026년 7월</td></tr>
+<tr><td>예금금리 (세후, 단순 계산)</td><td>약 2.7%</td><td>2026년 7월</td></tr>
+<tr><td>물가 상승률</td><td>3.1%</td><td>2026년 8월</td></tr>
+</tbody></table></div>
+<p><em>예금금리는 7월, 물가는 8월 기준입니다. 예금금리 8월 통계는 아직 발표 전이라 한 달 차이가 납니다.</em></p>
+<p><strong>세후 2.7%는 물가 상승률 3.1%에 미치지 못합니다.</strong></p>
+<p>다만 앞에서 본 것처럼 8월 물가에는 통신요금 착시가 섞여 있습니다. 그걸 감안하면 실제 격차는 이보다 좁을 수 있습니다.</p>
+<p>어느 쪽으로 보든 분명한 건 하나입니다. <strong>지금 예금은 물가를 넉넉히 이기는 자리가 아닙니다.</strong></p>
+<blockquote>
+<p>금리가 올랐다는 뉴스를 "예금 이자가 넉넉해졌다"는 뜻으로 읽기에는 이릅니다.</p>
+<p>세금을 떼고 물가를 감안하면 <strong>숫자는 늘어도 살 수 있는 물건의 양은 크게 늘지 않는 구간</strong>이기 때문입니다.</p>
+</blockquote>
+<hr>
+<h2>6. 그래서 오늘 뭘 확인하면 되나요</h2>
+<p>금리 방향을 맞히려 하는 대신, 지금 확인할 수 있는 것부터 보겠습니다.</p>
+<h3>대출이 있다면 — 계약서에서 이 네 가지</h3>
+<ul class="checklist">
+<li><strong>금리 방식</strong> — 변동형인가, 고정형인가, 혼합형인가</li>
+<li><strong>기준지표</strong> — 코픽스 연동인가 (신규취급액 / 잔액 / 신잔액 중 어느 기준인가)</li>
+<li><strong>금리변동주기</strong> — 6개월인가 12개월인가</li>
+<li><strong>다음 갱신일</strong> — 이 날짜가 <strong>내 이자가 오르는 날</strong>입니다</li>
+</ul>
+<p>특히 마지막 항목이 중요합니다. 갱신일을 알면 그 무렵 코픽스가 얼마일지 보고 <strong>미리 금액을 계산해볼 수 있습니다.</strong></p>
+<h3>앞으로 볼 날짜</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>날짜</th><th>무슨 일</th></tr></thead>
+<tbody>
+<tr><td>2026년 9월 15일</td><td>8월분 코픽스 공시 (전국은행연합회)</td></tr>
+<tr><td>2026년 9월 30일</td><td>한국은행 8월 가중평균금리 발표 — 예금·대출금리 갱신</td></tr>
+<tr><td>2026년 10월 15일</td><td>9월분 코픽스 공시 — <strong>8월 인상분 온전히 반영</strong></td></tr>
+<tr><td>2026년 10월 22일</td><td>한국은행 금융통화위원회 — 다음 기준금리 결정</td></tr>
+</tbody></table></div>
+<h3>앞으로 더 오를까요</h3>
+<p>금융통화위원회는 8월 27일 결정에서 앞으로의 통화정책을 <strong>물가와 경기 흐름, 금융안정 상황을 점검하면서 결정하겠다</strong>고 밝혔습니다. 추가 인상 가능성을 닫지 않은 표현입니다.</p>
+<p><strong>다만 이건 "오른다"는 뜻이 아니라 "아직 정해지지 않았다"는 뜻입니다.</strong> 다음 결정은 10월 22일입니다.</p>
+<p>방향을 맞히는 것보다, <strong>오르는 경우와 그대로인 경우 각각 내 상환액이 얼마가 되는지 미리 계산해두는 쪽</strong>이 현실적입니다.</p>
+<hr>
+<h2>한눈에 정리</h2>
+<ul>
+<li><strong>기준금리는 연 3.00%</strong>입니다 (2026년 8월 27일 인상, 6주 사이 두 번 연속 +0.50%p).</li>
+<li><strong>8월 27일 인상은 아직 대부분의 대출자 이자에 반영되지 않았습니다.</strong> 코픽스 공시(월 1회) → 내 대출 갱신주기(6~12개월)를 거치기 때문입니다.</li>
+<li>8월 인상분이 코픽스에 온전히 담기는 건 <strong>10월 15일 공시분</strong>부터입니다.</li>
+<li>3억원을 빌렸다면 <strong>0.50%p는 연 150만원, 월 12만 5천원</strong> 수준입니다 (이자 단순 계산).</li>
+<li>지금은 <strong>고정금리(4.76%)가 변동금리(4.35%)보다 비쌉니다.</strong> 그래서 신규 대출자 약 70%가 변동형을 골랐지만, 이 이득은 <strong>기준금리가 0.5%p만 더 올라도 사라집니다.</strong></li>
+<li>예금금리(3.21%)는 올랐지만 <strong>세후 약 2.7%로 물가 상승률(3.1%)에 못 미칩니다.</strong></li>
+<li>8월 물가 3.1%에는 작년 통신요금 할인의 착시가 섞여 있습니다. 휴대전화료가 <strong>26.7%</strong> 오른 것으로 잡혔습니다.</li>
+<li><strong>오늘 할 일: 대출 계약서에서 금리변동주기와 다음 갱신일을 확인하세요.</strong></li>
+</ul>
+<hr>
+<h2>[출처]</h2>
+<ol>
+<li>한국은행, 「한국은행 기준금리」(금융통화위원회 통화정책방향 결정, 2026-08-27 적용)<br><a href="https://www.bok.or.kr/portal/main/main.do" target="_blank" rel="noopener">https://www.bok.or.kr/portal/main/main.do</a></li>
+</ol>
+<ol start="2">
+<li>한국은행, 「2026년 통화정책방향 결정회의 일정」<br><a href="https://www.bok.or.kr/portal/singl/crncyPolicyDrcMtg/listYear.do?menuNo=200755&amp;mtgSe=A" target="_blank" rel="noopener">https://www.bok.or.kr/portal/singl/crncyPolicyDrcMtg/listYear.do?menuNo=200755&amp;mtgSe=A</a></li>
+</ol>
+<ol start="3">
+<li>한국은행, 「2026년 7월 금융기관 가중평균금리」, 2026-08-26 발표<br><a href="https://www.bok.or.kr/portal/singl/newsData/list.do?menuNo=201263" target="_blank" rel="noopener">https://www.bok.or.kr/portal/singl/newsData/list.do?menuNo=201263</a></li>
+</ol>
+<p>※ 본문의 대출·예금금리 수치는 한국은행 경제통계시스템(ECOS) 원자료에서 직접 확인했습니다. 통계표 121Y006(예금은행 대출금리·신규취급액), 121Y002(예금은행 수신금리·신규취급액), 121Y010(고정 및 변동금리대출 비중·신규취급액), 722Y001(한국은행 기준금리). 조회일 2026-09-06. <a href="https://ecos.bok.or.kr" target="_blank" rel="noopener">https://ecos.bok.or.kr</a></p>
+<ol start="4">
+<li>전국은행연합회 소비자포털, 「COFIX 공시」(2026년 7월분, 2026-08-18 공시)<br><a href="https://portal.kfb.or.kr/fingoods/cofix.php" target="_blank" rel="noopener">https://portal.kfb.or.kr/fingoods/cofix.php</a></li>
+</ol>
+<ol start="5">
+<li>전국은행연합회 소비자포털, 「COFIX 공시일자」<br><a href="https://portal.kfb.or.kr/compare/cofix_date.php" target="_blank" rel="noopener">https://portal.kfb.or.kr/compare/cofix_date.php</a></li>
+</ol>
+<ol start="6">
+<li>국가데이터처 경제통계국, 「2026년 8월 소비자물가동향」, 2026-09-02 발표<br><a href="https://eiec.kdi.re.kr/policy/materialView.do?num=286216" target="_blank" rel="noopener">https://eiec.kdi.re.kr/policy/materialView.do?num=286216</a><br>(국가데이터처 보도자료 목록: <a href="https://mods.go.kr/board.es?mid=a10301040100&amp;bid=a103010401" target="_blank" rel="noopener">https://mods.go.kr/board.es?mid=a10301040100&amp;bid=a103010401</a> )</li>
+</ol>
+<p>※ 총지수 상승률과 휴대전화료 상승률은 한국은행 경제통계시스템(ECOS) 소비자물가지수 원자료(통계표 901Y009, 총지수 및 휴대전화료 H03102)에서 직접 계산해 확인했습니다. 2025년 8월 → 2026년 8월: 총지수 116.45 → 120.05(+3.09%), 휴대전화료 80.52 → 102.05(+26.7%).</p>
+<ol start="7">
+<li>한국경제, 「코픽스 넉 달째 상승…변동형 주담대 금리 연 6% 코앞」, 2026-08-18<br><a href="https://www.hankyung.com/article/202608187767i" target="_blank" rel="noopener">https://www.hankyung.com/article/202608187767i</a></li>
+</ol>
+<ol start="8">
+<li>최영준(한국은행 거시경제연구실), 「주택담보대출 차입자의 금리 선택 분석」,<br>BOK 경제연구 제2026-2호, 2026-01-26<br><a href="https://www.bok.or.kr/portal/bbs/P0002455/view.do?menuNo=500535&amp;nttId=10096001" target="_blank" rel="noopener">https://www.bok.or.kr/portal/bbs/P0002455/view.do?menuNo=500535&amp;nttId=10096001</a></li>
+</ol>
+<ol start="9">
+<li>한국은행, 「통계종류별 공표일정」(금융기관 가중평균금리 공표일 확인)<br><a href="https://www.bok.or.kr/portal/stats/statsPublictSchdul/listKnd.do?menuNo=200776" target="_blank" rel="noopener">https://www.bok.or.kr/portal/stats/statsPublictSchdul/listKnd.do?menuNo=200776</a></li>
+</ol>
+<hr>
+<h2>[주의사항]</h2>
+<p>이 글은 2026년 9월 5일 기준으로 공개된 자료를 정리한 것입니다.</p>
+<p>본문의 이자 계산은 대출잔액에 금리차를 곱한 <strong>단순 계산</strong>이며, 실제 상환액은 상환방식(원리금균등·원금균등), 남은 기간, 가산금리, 우대금리, 중도상환수수료 등에 따라 달라집니다.</p>
+<p>본문은 특정 금융상품의 가입이나 갈아타기를 권유하지 않습니다. <strong>실제 대출 조건은 거래 은행과 본인의 대출 계약서에서 확인하시기 바랍니다.</strong></p>
+<hr>
+<hr>
+</article>
+</body>
+</html>
