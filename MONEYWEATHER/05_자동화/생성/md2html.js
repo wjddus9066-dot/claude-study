@@ -537,8 +537,9 @@ let body = convert(md);
  * "after"가 비어 있으면 글 맨 앞(대표 이미지)에 넣는다.
  */
 const imgSpec = path.join(path.dirname(src), 'images.json');
+let specs = [];
 if (fs.existsSync(imgSpec)) {
-  const specs = JSON.parse(fs.readFileSync(imgSpec, 'utf8'));
+  specs = JSON.parse(fs.readFileSync(imgSpec, 'utf8'));
   let placed = 0;
   for (const s of specs) {
     const fig =
@@ -563,11 +564,75 @@ if (fs.existsSync(imgSpec)) {
   console.log(`이미지 ${placed}/${specs.length}개 삽입`);
 }
 
+// ---------------------------------------------------------------- 깃허브 미리보기
+
+/**
+ * 미리보기.md — 깃허브에서 이미지까지 같이 보기 위한 파일
+ *
+ * 깃허브는 HTML을 화면으로 그려주지 않는다. article.html을 눌러도 코드만 보인다.
+ * 마크다운은 그려주므로, 이미지를 끼워 넣은 마크다운을 따로 하나 만든다.
+ *
+ * draft.md에서 만들어내므로 원고와 어긋날 일이 없다.
+ */
+function previewMd(rawMd, specs) {
+  let t = rawMd.replace(/\r\n/g, '\n').replace(/<!--[\s\S]*?-->/g, '');
+
+  // 내부용 메타 블록은 뺀다 (발행본에 안 들어가는 내용)
+  t = t.replace(/^>\s*상태:[\s\S]*?(?=\n\s*\n)/m, '').replace(/^\n+/, '');
+
+  // 본문 마커를 깃허브가 알아보는 형태로
+  t = t.replace(/^\[안내\]\s*$/m, '> [!NOTE]');
+  t = t.replace(/^\[FOOTER\]\s*$/m, '---');
+  t = t.replace(/^\[출처\]\s*(.+)$/gm, '<sub>출처 · $1</sub>');
+
+  // [!NOTE] 다음 문단들을 인용문으로 만든다
+  const lines = t.split('\n');
+  let inNote = false;
+  for (let k = 0; k < lines.length; k++) {
+    if (lines[k].trim() === '> [!NOTE]') { inNote = true; continue; }
+    if (!inNote) continue;
+    if (/^\[\/안내\]/.test(lines[k])) { lines[k] = ''; inNote = false; continue; }
+    if (lines[k].trim() === '') { lines[k] = '>'; continue; }
+    lines[k] = '> ' + lines[k];
+  }
+  t = lines.join('\n').replace(/\n>\n(?=\n)/g, '\n');
+
+  // 이미지 삽입 — 표 행처럼 마크다운과 모양이 다른 위치도 찾을 수 있게
+  // 글자만 남겨서 비교한다
+  const norm = (s) =>
+    s.replace(/<[^>]+>/g, '').replace(/[\s*|#>`_~]/g, '');
+
+  const out = t.split('\n');
+  let placed = 0;
+  for (const s of specs) {
+    const pic = `\n![${(s.alt || '').replace(/[[\]]/g, '')}](${s.src})` +
+                (s.caption ? `\n\n<sub>${s.caption}</sub>` : '') + '\n';
+    if (!s.after) { out.unshift(pic); placed++; continue; }
+
+    const want = norm(s.after);
+    // 앵커가 여러 줄이면 마지막 줄로 찾는다
+    const tail = want.split('\n').filter(Boolean).pop() || want;
+    const at = out.findIndex((l) => l.trim() && norm(l) && tail.endsWith(norm(l)) && norm(l).length > 5);
+    if (at === -1) {
+      console.warn(`  [미리보기] 삽입 위치를 찾지 못했습니다: "${(s.alt || s.src).slice(0, 30)}..."`);
+      continue;
+    }
+    out.splice(at + 1, 0, pic);
+    placed++;
+  }
+  console.log(`미리보기.md 이미지 ${placed}/${specs.length}개 삽입`);
+
+  return '<!-- 이 파일은 md2html.js가 draft.md에서 자동으로 만듭니다. 직접 고치지 마세요. -->\n' +
+         '<!-- 깃허브에서 이미지까지 같이 보기 위한 파일입니다. 발행본은 article-tistory.html 입니다. -->\n\n' +
+         out.join('\n').replace(/\n{3,}/g, '\n\n');
+}
+
 const dir = outDir || path.dirname(src);
 fs.mkdirSync(dir, { recursive: true });
 
 const full = path.join(dir, 'article.html');
 const frag = path.join(dir, 'article-tistory.html');
+const prev = path.join(dir, '미리보기.md');
 
 fs.writeFileSync(full, page(title, body), 'utf8');
 fs.writeFileSync(
@@ -579,8 +644,11 @@ fs.writeFileSync(
   'utf8'
 );
 
+fs.writeFileSync(prev, previewMd(md, specs), 'utf8');
+
 console.log('제목: ' + title);
 console.log('생성: ' + full);
 console.log('생성: ' + frag);
+console.log('생성: ' + prev);
 
 checkConsistency(src, md.split('\n').slice(6).join('\n').split('## [출처]')[0], []);
