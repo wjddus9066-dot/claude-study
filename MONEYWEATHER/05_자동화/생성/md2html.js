@@ -179,6 +179,121 @@ function convert(md) {
   return out.join('\n');
 }
 
+// ---------------------------------------------------------------- 정합성 검사
+
+/**
+ * 본문과 이미지가 어긋나지 않는지 검사한다.
+ *
+ * 실제로 두 번 놓쳤던 실패 유형을 잡기 위한 것이다.
+ *   1) 본문에서 금지 표현을 걷어냈는데 이미지 소스에는 그대로 남음
+ *   2) 본문에서 뺀 숫자·주장이 이미지에만 살아남아 서로 다른 말을 함
+ *
+ * 금지 표현 목록은 00_브랜드/글쓰기톤.md §5.1의 코드블록에서 읽는다.
+ * 목록을 고칠 때 이 파일을 건드릴 필요가 없도록 한 것이다.
+ */
+
+function findProjectRoot(start) {
+  let d = path.resolve(start);
+  for (let i = 0; i < 8; i++) {
+    if (fs.existsSync(path.join(d, 'CLAUDE.md'))) return d;
+    const up = path.dirname(d);
+    if (up === d) break;
+    d = up;
+  }
+  return null;
+}
+
+function loadBannedPhrases(root) {
+  if (!root) return [];
+  const p = path.join(root, '00_브랜드', '글쓰기톤.md');
+  if (!fs.existsSync(p)) return [];
+  const md = fs.readFileSync(p, 'utf8');
+
+  // §5.1 아래 첫 ```text 블록
+  const sec = md.split('### 5.1')[1];
+  if (!sec) return [];
+  const block = sec.match(/```text\n([\s\S]*?)```/);
+  if (!block) return [];
+
+  return block[1]
+    .split(/\s{2,}|\n/)
+    .map((s) => s.trim())
+    .filter((s) => s.length > 2);
+}
+
+/** 이미지 HTML에서 눈에 보이는 텍스트만 뽑는다. 출처 표기줄(.src)은 제외. */
+function visibleText(html) {
+  return html
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<div class="src"[\s\S]*?<\/div>/gi, '') // 출처는 정확해야 하므로 검사 제외
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ');
+}
+
+/** 의미 있는 숫자만: %, 만원, 억원 등이 붙은 것 */
+function meaningfulNumbers(text) {
+  const out = new Set();
+  const re = /([0-9]+(?:\.[0-9]+)?)\s*(%포인트|%p|%|만원|억원|배)/g;
+  let m;
+  while ((m = re.exec(text))) out.add(m[1] + m[2]);
+  return out;
+}
+
+function checkConsistency(srcPath, bodyMd, imageSpecs) {
+  const root = findProjectRoot(path.dirname(srcPath));
+  const banned = loadBannedPhrases(root);
+  const problems = [];
+  const notes = [];
+
+  // 1) 본문 금지 표현
+  for (const b of banned) {
+    if (bodyMd.includes(b)) problems.push(`본문에 금지 표현: "${b}"`);
+  }
+
+  // 2) 이미지 소스 검사
+  //    글 폴더 이름의 날짜 접두어로 같은 날짜의 이미지 소스를 찾는다.
+  const stamp = (path.basename(path.dirname(srcPath)).match(/^\d{4}-\d{2}-\d{2}/) || [])[0];
+  const srcDir = root ? path.join(root, '04_이미지', '_소스') : null;
+
+  if (stamp && srcDir && fs.existsSync(srcDir)) {
+    const files = fs
+      .readdirSync(srcDir)
+      .filter((f) => f.startsWith(stamp) && f.endsWith('.html'));
+
+    const bodyNums = meaningfulNumbers(bodyMd);
+
+    for (const f of files) {
+      const text = visibleText(fs.readFileSync(path.join(srcDir, f), 'utf8'));
+
+      for (const b of banned) {
+        if (text.includes(b)) problems.push(`${f} 에 금지 표현: "${b}"`);
+      }
+
+      const orphans = [...meaningfulNumbers(text)].filter((n) => !bodyNums.has(n));
+      if (orphans.length) {
+        notes.push(`${f} — 본문에 없는 숫자: ${orphans.join(', ')}`);
+      }
+    }
+    if (!files.length) notes.push(`04_이미지/_소스 에 ${stamp} 로 시작하는 파일이 없습니다.`);
+  }
+
+  // 3) 리포트
+  if (problems.length) {
+    console.log('\n[정합성 경고]');
+    problems.forEach((p) => console.log('  X ' + p));
+  }
+  if (notes.length) {
+    console.log('\n[확인 필요] 이미지에만 있는 숫자입니다. 본문과 다른 말을 하고 있지 않은지 보세요.');
+    notes.forEach((n) => console.log('  · ' + n));
+    console.log('  (그래프 축 눈금처럼 정상인 경우도 있습니다)');
+  }
+  if (!problems.length && !notes.length) {
+    console.log('정합성 검사: 이상 없음');
+  }
+}
+
 // ---------------------------------------------------------------- 템플릿
 
 function page(title, bodyHtml) {
@@ -317,3 +432,5 @@ fs.writeFileSync(
 console.log('제목: ' + title);
 console.log('생성: ' + full);
 console.log('생성: ' + frag);
+
+checkConsistency(src, md.split('\n').slice(6).join('\n').split('## [출처]')[0], []);
