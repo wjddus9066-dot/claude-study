@@ -148,6 +148,24 @@ function convert(md) {
       continue;
     }
 
+    // [안내] ... [/안내] — 글 맨 앞의 작은 안내 박스
+    // 본문보다 눈에 띄면 안 된다. 독자가 주의사항부터 읽게 만들지 않기 위한 것.
+    if (/^\[안내\]\s*$/.test(line)) {
+      i++;
+      const buf = [];
+      while (i < lines.length && !/^\[\/안내\]\s*$/.test(lines[i])) buf.push(lines[i++]);
+      i++;
+      out.push('<aside class="pre-note">');
+      buf
+        .join('\n')
+        .split(/\n\s*\n/)
+        .map((p) => p.trim())
+        .filter(Boolean)
+        .forEach((p) => out.push(`<p>${inline(p.replace(/\n/g, ' '))}</p>`));
+      out.push('</aside>');
+      continue;
+    }
+
     // [FOOTER] — 이 줄 아래는 본문이 아니라 꼬리말이다.
     // 출처·주의사항처럼 독자가 굳이 읽지 않아도 되는 내용을 작게 처리한다.
     // 본문의 마지막 문장이 진짜 마지막 문장으로 남게 하기 위한 장치다.
@@ -374,6 +392,15 @@ function page(title, bodyHtml) {
   figure img{width:100%; height:auto; border:1px solid var(--line); border-radius:10px; display:block}
   figcaption{margin-top:10px; font-size:.86rem; color:var(--muted); text-align:center}
   .meta{color:var(--muted); font-size:.9rem; margin:-16px 0 34px}
+  /* 글 맨 앞 안내 박스 — 본문보다 눈에 띄면 안 된다 */
+  .pre-note{
+    background:#f3f6f9; border:1px solid var(--line); border-radius:10px;
+    padding:15px 19px; margin:0 0 36px;
+    font-size:.83rem; line-height:1.72; color:var(--muted);
+  }
+  .pre-note strong{display:block; color:var(--ink); font-weight:700; margin-bottom:5px}
+  .pre-note p{margin:0 0 7px}
+  .pre-note p:last-child{margin:0}
   /* 꼬리말 — 출처·주의사항. 본문 엔딩을 살리기 위해 작게 */
   .article-footer{
     margin-top:64px; padding-top:26px;
