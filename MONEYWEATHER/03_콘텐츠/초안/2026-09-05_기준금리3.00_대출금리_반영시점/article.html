@@ -53,6 +53,14 @@
   figure img{width:100%; height:auto; border:1px solid var(--line); border-radius:10px; display:block}
   figcaption{margin-top:10px; font-size:.86rem; color:var(--muted); text-align:center}
   .meta{color:var(--muted); font-size:.9rem; margin:-16px 0 34px}
+  /* 인라인 출처 — 수치·표 바로 아래 붙는 한 줄 */
+  .src-note{
+    margin:-8px 0 22px; padding-left:12px;
+    border-left:3px solid var(--line);
+    color:var(--muted); font-size:.83rem; line-height:1.6;
+  }
+  .src-note a{color:var(--muted)}
+  .table-wrap + .src-note, figure + .src-note{margin-top:-12px}
   @media (max-width:640px){ body{font-size:16px} .wrap{padding:36px 16px 72px} h1{font-size:1.62rem} }
 </style>
 </head>
@@ -77,6 +85,7 @@
 <tr><td>7월 16일</td><td>2.75%</td></tr>
 <tr><td><strong>8월 27일</strong></td><td><strong>3.00%</strong></td></tr>
 </tbody></table></div>
+<p class="src-note">한국은행 기준금리 · 2026년 8월 27일 적용</p>
 <p>7월에 한 번 올리고, 8월에 또 올린 겁니다. <strong>6주 사이에 두 번이에요.</strong></p>
 <h3>왜 두 번이나 올렸을까</h3>
 <p>찾아보니까 물가가 중요한 이유 중 하나였습니다.</p>
@@ -88,6 +97,7 @@
 <p>올해와 비교하니까 휴대전화료가 <strong>26.7%</strong> 오른 것으로 잡혔어요.</p>
 <p>요금이 실제로 그만큼 오른 게 아니라, 비교 대상이던 작년 숫자가 낮았던 거죠.</p>
 <p>물가가 오르는 중인 건 맞습니다. 다만 3.1%를 체감물가로 그대로 읽으면 조금 부풀려 보게 됩니다.</p>
+<p class="src-note">물가 3.1%·휴대전화료 26.7% — 국가데이터처 「2026년 8월 소비자물가동향」(2026-09-02 발표). 상승률은 한국은행 경제통계시스템의 소비자물가지수 원자료에서 직접 계산했습니다.</p>
 <hr>
 <h2>그런데 왜 내 대출이자는 그대로일까</h2>
 <p>여기서부터 조금 헷갈렸습니다.</p>
@@ -113,7 +123,9 @@
 <p>4월에 2.89%였던 게 7월에는 3.18%가 됐습니다.</p>
 <figure><img src="../../../04_이미지/차트/2026-09-05_코픽스추이.png" alt="2026년 4월부터 7월까지 코픽스가 넉 달 연속 오른 추이 차트" loading="lazy"><figcaption>8월 인상과는 별개로, 코픽스는 이미 넉 달째 오르고 있었습니다.</figcaption></figure>
 <p>3억원을 빌렸다면 이것만으로도 1년에 80만원 넘게 늘어난 셈이에요.</p>
+<p class="src-note">전국은행연합회 COFIX 공시 · 2026년 4월분 2.89% → 7월분 3.18%</p>
 <p>은행들도 이미 금리를 올렸고요. 국민은행은 8월 19일부터 변동금리 주택담보대출 금리를 인상했습니다.</p>
+<p class="src-note">한국경제 「코픽스 넉 달째 상승」 2026-08-18</p>
 <p>그러니까 제 이자가 안 오른 게 아니라, <strong>제 대출은 아직 순서가 안 온 거였습니다.</strong></p>
 <h3>그런데 8월 인상은 여기 없어요</h3>
 <p>그런데 위 그래프에서 가장 최근 숫자인 7월 기준 3.18%는 <strong>8월 18일에 발표된 것</strong>입니다.</p>
@@ -128,6 +140,7 @@
 <tr><td><strong>9월 15일</strong></td><td>8월</td><td><strong>거의 안 담김</strong> (한 달 중 닷새치뿐)</td></tr>
 <tr><td><strong>10월 15일</strong></td><td>9월</td><td><strong>전부 담김</strong></td></tr>
 </tbody></table></div>
+<p class="src-note">전국은행연합회 COFIX 공시일자</p>
 <p>9월 15일에 8월 기준 코픽스가 나옵니다. 그런데 인상은 8월 27일이었어요. 8월 한 달 중 닷새만 오른 상태였던 거죠.</p>
 <p>8월 인상이 제대로 담기는 건 10월 15일에 나오는 숫자부터입니다.</p>
 <h3>그런데 아직 한 번 더 기다려야 해요</h3>
@@ -165,12 +178,14 @@
 <tr><td><strong>변동금리</strong></td><td><strong>4.35%</strong></td></tr>
 </tbody></table></div>
 <figure><img src="../../../04_이미지/인포그래픽/2026-09-05_고정vs변동.png" alt="2026년 7월 기준 고정금리 4.76%와 변동금리 4.35%를 비교한 그림" loading="lazy"><figcaption>지금은 고정금리 쪽이 더 비쌉니다. 3억원 기준으로 한 달에 10만원쯤 차이예요.</figcaption></figure>
+<p class="src-note">한국은행 「2026년 7월 금융기관 가중평균금리」(2026-08-26 발표) · 수치는 한국은행 경제통계시스템 원자료로 대조했습니다.</p>
 <p>고정금리가 더 비쌌어요.</p>
 <p>3억원을 빌린다면 한 달에 10만원쯤 차이가 납니다. 당장 나가는 돈만 보면 변동금리가 훨씬 유리하죠.</p>
 <h3>그래서 다들 변동금리를 골랐어요</h3>
 <p>7월에 새로 대출받은 사람 중 고정금리를 고른 사람은 <strong>10명 중 3명</strong>뿐이었습니다.</p>
 <p>2014년 이후로 가장 적었어요.</p>
 <p>한국은행 연구에서도 같은 흐름이 나옵니다. 고정과 변동의 금리 차이가 벌어질수록 변동금리를 고르는 사람이 늘어난다는 분석이었어요.</p>
+<p class="src-note">고정금리 비중 — 한국은행 경제통계시스템(2026년 7월) / 연구 — 최영준, 「주택담보대출 차입자의 금리 선택 분석」, 한국은행 경제연구 제2026-2호(2026-01-26)</p>
 <p>당장 싼 쪽을 고르는 건 자연스러운 선택이에요.</p>
 <h3>그럼 변동금리가 답일까요</h3>
 <p>여기서부터는 저도 결론을 못 내렸습니다.</p>
@@ -201,6 +216,7 @@
 <tr><td>예금 이자 (세금 떼고 나면)</td><td>약 2.7%</td></tr>
 <tr><td>그동안 오른 물가</td><td>3.1%</td></tr>
 </tbody></table></div>
+<p class="src-note">예금금리 — 한국은행 경제통계시스템(2026년 7월) / 물가 — 국가데이터처(2026년 8월)</p>
 <p>받는 이자보다 물가가 더 많이 오른 셈이었어요.</p>
 <p>앞에서 본 통신요금 착시를 감안하면 차이가 이보다 작긴 할 겁니다.</p>
 <p>그래도 통장 숫자는 늘어나는데, 그 돈으로 살 수 있는 물건은 별로 안 늘어나는 상황인 거죠.</p>
@@ -225,6 +241,7 @@
 <tr><td><strong>10월 15일</strong></td><td>9월 기준 코픽스 발표 — <strong>8월 인상이 여기 담깁니다</strong></td></tr>
 <tr><td><strong>10월 22일</strong></td><td>한국은행이 기준금리를 또 정하는 날</td></tr>
 </tbody></table></div>
+<p class="src-note">전국은행연합회 COFIX 공시일자 · 한국은행 금융통화위원회 2026년 일정</p>
 <h3>더 오를까요?</h3>
 <p>한국은행은 앞으로 물가와 경기를 보면서 정하겠다고 했습니다. 더 올릴 가능성을 닫지는 않은 표현이에요.</p>
 <p>다만 이건 "오른다"가 아니라 <strong>아직 안 정해졌다</strong>는 뜻입니다.</p>
@@ -242,38 +259,45 @@
 <li><strong>오늘 할 일: 내 대출금리가 언제 바뀌는지 날짜만 확인해보세요</strong></li>
 </ul>
 <hr>
-<h2>[출처]</h2>
-<ol>
-<li>한국은행, 「한국은행 기준금리」(금융통화위원회 통화정책방향 결정, 2026-08-27 적용)<br><a href="https://www.bok.or.kr/portal/main/main.do" target="_blank" rel="noopener">https://www.bok.or.kr/portal/main/main.do</a></li>
-</ol>
-<ol start="2">
-<li>한국은행, 「2026년 통화정책방향 결정회의 일정」<br><a href="https://www.bok.or.kr/portal/singl/crncyPolicyDrcMtg/listYear.do?menuNo=200755&amp;mtgSe=A" target="_blank" rel="noopener">https://www.bok.or.kr/portal/singl/crncyPolicyDrcMtg/listYear.do?menuNo=200755&amp;mtgSe=A</a></li>
-</ol>
-<ol start="3">
-<li>한국은행, 「2026년 7월 금융기관 가중평균금리」, 2026-08-26 발표<br><a href="https://www.bok.or.kr/portal/singl/newsData/list.do?menuNo=201263" target="_blank" rel="noopener">https://www.bok.or.kr/portal/singl/newsData/list.do?menuNo=201263</a></li>
-</ol>
-<p>※ 본문의 대출·예금금리 수치는 한국은행 경제통계시스템(ECOS) 원자료에서 직접 확인했습니다. 통계표 121Y006(예금은행 대출금리·신규취급액), 121Y002(예금은행 수신금리·신규취급액), 121Y010(고정 및 변동금리대출 비중·신규취급액), 722Y001(한국은행 기준금리). 조회일 2026-09-06. <a href="https://ecos.bok.or.kr" target="_blank" rel="noopener">https://ecos.bok.or.kr</a></p>
-<ol start="4">
-<li>전국은행연합회 소비자포털, 「COFIX 공시」(신규취급액 기준)<br><a href="https://portal.kfb.or.kr/fingoods/cofix.php" target="_blank" rel="noopener">https://portal.kfb.or.kr/fingoods/cofix.php</a></li>
-</ol>
-<p>※ 본문의 코픽스 4개월 추이는 공시 원문에서 직접 확인했습니다. 2026년 4월분 2.89%(5/15 공시), 5월분 2.90%(6/15), 6월분 3.05%(7/15), 7월분 3.18%(8/18). 3월분은 2.81%로 전월보다 낮았고, 4월분부터 넉 달 연속 올랐습니다.</p>
-<ol start="5">
-<li>전국은행연합회 소비자포털, 「COFIX 공시일자」<br><a href="https://portal.kfb.or.kr/compare/cofix_date.php" target="_blank" rel="noopener">https://portal.kfb.or.kr/compare/cofix_date.php</a></li>
-</ol>
-<ol start="6">
-<li>국가데이터처 경제통계국, 「2026년 8월 소비자물가동향」, 2026-09-02 발표<br><a href="https://eiec.kdi.re.kr/policy/materialView.do?num=286216" target="_blank" rel="noopener">https://eiec.kdi.re.kr/policy/materialView.do?num=286216</a><br>(국가데이터처 보도자료 목록: <a href="https://mods.go.kr/board.es?mid=a10301040100&amp;bid=a103010401" target="_blank" rel="noopener">https://mods.go.kr/board.es?mid=a10301040100&amp;bid=a103010401</a> )</li>
-</ol>
-<p>※ 총지수 상승률과 휴대전화료 상승률은 한국은행 경제통계시스템(ECOS) 소비자물가지수 원자료(통계표 901Y009, 총지수 및 휴대전화료 H03102)에서 직접 계산해 확인했습니다. 2025년 8월 → 2026년 8월: 총지수 116.45 → 120.05(+3.09%), 휴대전화료 80.52 → 102.05(+26.7%).</p>
-<ol start="7">
-<li>한국경제, 「코픽스 넉 달째 상승…변동형 주담대 금리 연 6% 코앞」, 2026-08-18<br><a href="https://www.hankyung.com/article/202608187767i" target="_blank" rel="noopener">https://www.hankyung.com/article/202608187767i</a></li>
-</ol>
-<ol start="8">
-<li>최영준(한국은행 거시경제연구실), 「주택담보대출 차입자의 금리 선택 분석」,<br>BOK 경제연구 제2026-2호, 2026-01-26<br><a href="https://www.bok.or.kr/portal/bbs/P0002455/view.do?menuNo=500535&amp;nttId=10096001" target="_blank" rel="noopener">https://www.bok.or.kr/portal/bbs/P0002455/view.do?menuNo=500535&amp;nttId=10096001</a></li>
-</ol>
-<ol start="9">
-<li>한국은행, 「통계종류별 공표일정」(금융기관 가중평균금리 공표일 확인)<br><a href="https://www.bok.or.kr/portal/stats/statsPublictSchdul/listKnd.do?menuNo=200776" target="_blank" rel="noopener">https://www.bok.or.kr/portal/stats/statsPublictSchdul/listKnd.do?menuNo=200776</a></li>
-</ol>
+<h2>[자료 원문 링크]</h2>
+<p>본문에 표시한 출처의 원문 주소입니다.</p>
+<p><strong>한국은행</strong></p>
+<ul>
+<li>기준금리 현황 — <a href="https://www.bok.or.kr/portal/main/main.do" target="_blank" rel="noopener">https://www.bok.or.kr/portal/main/main.do</a></li>
+<li>금융통화위원회 2026년 일정 — <a href="https://www.bok.or.kr/portal/singl/crncyPolicyDrcMtg/listYear.do?menuNo=200755&amp;mtgSe=A" target="_blank" rel="noopener">https://www.bok.or.kr/portal/singl/crncyPolicyDrcMtg/listYear.do?menuNo=200755&amp;mtgSe=A</a></li>
+<li>「2026년 7월 금융기관 가중평균금리」(2026-08-26 발표) — <a href="https://www.bok.or.kr/portal/singl/newsData/list.do?menuNo=201263" target="_blank" rel="noopener">https://www.bok.or.kr/portal/singl/newsData/list.do?menuNo=201263</a></li>
+<li>경제통계시스템(ECOS) — <a href="https://ecos.bok.or.kr" target="_blank" rel="noopener">https://ecos.bok.or.kr</a></li>
+<li>최영준, 「주택담보대출 차입자의 금리 선택 분석」(경제연구 제2026-2호) — <a href="https://www.bok.or.kr/portal/bbs/P0002455/view.do?menuNo=500535&amp;nttId=10096001" target="_blank" rel="noopener">https://www.bok.or.kr/portal/bbs/P0002455/view.do?menuNo=500535&amp;nttId=10096001</a></li>
+<li>통계 공표일정 — <a href="https://www.bok.or.kr/portal/stats/statsPublictSchdul/listKnd.do?menuNo=200776" target="_blank" rel="noopener">https://www.bok.or.kr/portal/stats/statsPublictSchdul/listKnd.do?menuNo=200776</a></li>
+</ul>
+<p><strong>전국은행연합회 소비자포털</strong></p>
+<ul>
+<li>COFIX 공시 — <a href="https://portal.kfb.or.kr/fingoods/cofix.php" target="_blank" rel="noopener">https://portal.kfb.or.kr/fingoods/cofix.php</a></li>
+<li>COFIX 공시일자 — <a href="https://portal.kfb.or.kr/compare/cofix_date.php" target="_blank" rel="noopener">https://portal.kfb.or.kr/compare/cofix_date.php</a></li>
+</ul>
+<p><strong>국가데이터처</strong></p>
+<ul>
+<li>「2026년 8월 소비자물가동향」(2026-09-02 발표) — <a href="https://eiec.kdi.re.kr/policy/materialView.do?num=286216" target="_blank" rel="noopener">https://eiec.kdi.re.kr/policy/materialView.do?num=286216</a></li>
+<li>보도자료 목록 — <a href="https://mods.go.kr/board.es?mid=a10301040100&amp;bid=a103010401" target="_blank" rel="noopener">https://mods.go.kr/board.es?mid=a10301040100&amp;bid=a103010401</a></li>
+</ul>
+<p><strong>언론</strong></p>
+<ul>
+<li>한국경제, 「코픽스 넉 달째 상승…변동형 주담대 금리 연 6% 코앞」(2026-08-18) — <a href="https://www.hankyung.com/article/202608187767i" target="_blank" rel="noopener">https://www.hankyung.com/article/202608187767i</a></li>
+</ul>
 <hr>
+<h3>수치를 어디서 확인했는지 (검증 기록)</h3>
+<ul>
+<li><strong>대출·예금금리</strong>: 한국은행 경제통계시스템 원자료에서 직접 대조했습니다.</li>
+</ul>
+<p>통계표 121Y006(대출금리), 121Y002(수신금리), 121Y010(고정·변동 비중), 722Y001(기준금리). 조회일 2026-09-06.</p>
+<ul>
+<li><strong>코픽스</strong>: 전국은행연합회 공시 원문 확인.</li>
+</ul>
+<p>2026년 4월분 2.89%(5/15 공시) → 5월분 2.90%(6/15) → 6월분 3.05%(7/15) → 7월분 3.18%(8/18). 3월분은 2.81%로 전월보다 낮았고, 4월분부터 넉 달 연속 올랐습니다.</p>
+<ul>
+<li><strong>물가·휴대전화료</strong>: 한국은행 경제통계시스템의 소비자물가지수(통계표 901Y009)에서 직접 계산했습니다.</li>
+</ul>
+<p>2025년 8월 → 2026년 8월 총지수 116.45 → 120.05(+3.09%), 휴대전화료 80.52 → 102.05(+26.7%).</p>
 <h2>[주의사항]</h2>
 <p>이 글은 2026년 9월 6일 기준으로 공개된 자료를 정리한 것입니다.</p>
 <p>본문의 이자 계산은 대출잔액에 금리차를 곱한 <strong>단순 계산</strong>이며, 실제 상환액은 상환방식(원리금균등·원금균등), 남은 기간, 가산금리, 우대금리, 중도상환수수료 등에 따라 달라집니다.</p>

@@ -147,6 +147,15 @@ function convert(md) {
       continue;
     }
 
+    // 인라인 출처: 본문 중 수치·표 바로 아래에 붙이는 한 줄
+    //   [출처] 한국은행 · 2026-08-27 적용
+    const srcNote = line.match(/^\[출처\]\s*(.+)$/);
+    if (srcNote) {
+      out.push(`<p class="src-note">${inline(srcNote[1])}</p>`);
+      i++;
+      continue;
+    }
+
     if (/^\s*\|/.test(line)) { flushTable(); continue; }
     if (/^\s*>/.test(line)) { flushQuote(); continue; }
     if (/^\s*[-*]\s+/.test(line)) { flushList(); continue; }
@@ -352,6 +361,14 @@ function page(title, bodyHtml) {
   figure img{width:100%; height:auto; border:1px solid var(--line); border-radius:10px; display:block}
   figcaption{margin-top:10px; font-size:.86rem; color:var(--muted); text-align:center}
   .meta{color:var(--muted); font-size:.9rem; margin:-16px 0 34px}
+  /* 인라인 출처 — 수치·표 바로 아래 붙는 한 줄 */
+  .src-note{
+    margin:-8px 0 22px; padding-left:12px;
+    border-left:3px solid var(--line);
+    color:var(--muted); font-size:.83rem; line-height:1.6;
+  }
+  .src-note a{color:var(--muted)}
+  .table-wrap + .src-note, figure + .src-note{margin-top:-12px}
   @media (max-width:640px){ body{font-size:16px} .wrap{padding:36px 16px 72px} h1{font-size:1.62rem} }
 </style>
 </head>
