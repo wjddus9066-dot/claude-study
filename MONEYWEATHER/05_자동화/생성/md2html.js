@@ -195,6 +195,8 @@ function convert(md) {
     const h = line.match(/^(#{1,4})\s+(.*)$/);
     if (h) {
       const lv = h[1].length;
+      // h2는 자기 윗선을 갖고 있다. 바로 앞의 --- 까지 그리면 줄이 두 개로 겹친다.
+      if (lv === 2 && out[out.length - 1] === '<hr>') out.pop();
       out.push(`<h${lv}>${inline(h[2])}</h${lv}>`);
       i++;
       continue;
@@ -334,9 +336,180 @@ function checkConsistency(srcPath, bodyMd, imageSpecs) {
   }
 }
 
+// ---------------------------------------------------------------- 브랜드 색
+
+/**
+ * 팔레트는 여기 한 곳에만 있다. (00_브랜드/색상.md)
+ *
+ * 로고 이미지에서 픽셀을 직접 세어 뽑은 색이다.
+ * 색을 바꾸려면 이 객체만 고치면 읽기용 HTML과 티스토리용 HTML에 함께 반영된다.
+ * HTML 쪽에 색을 직접 적지 않는다.
+ */
+const C = {
+  ivory: '#FEF8F3',   // 페이지 바탕 — 로고 배경색
+  cream: '#FAF2E8',   // 박스 바탕
+  creamD: '#F6EDE2',  // 표 머리줄, 코드 블록
+  line: '#EADFD2',    // 경계선
+  navy: '#1A3360',    // 본문 글자 — 로고 글자색
+  navyD: '#0C2657',   // 가장 강한 강조 — 로고 외곽선
+  muted: '#5E6E8F',   // 출처·꼬리말 (대비 4.86, 본문 최소선)
+  pink: '#F492A6',    // 장식 전용 — 글자색으로 쓰지 않는다 (대비 2.10)
+  pinkBg: '#FCE9ED',
+  rose: '#B94A65',    // 링크 (대비 4.71)
+  roseD: '#C0546E',   // 소제목 (큰 글씨 전용, 대비 4.21)
+  gold: '#F7CE5A',    // 인용문 왼쪽 선 — 글자색으로 쓰지 않는다
+  goldBg: '#FDF6E6',
+};
+
+const FONT = "'Malgun Gothic','맑은 고딕',-apple-system,'Segoe UI',sans-serif";
+const MONO = "Consolas,'D2Coding','Malgun Gothic','맑은 고딕',monospace";
+
+/**
+ * 요소별 스타일 — 웹 <style>과 티스토리 인라인이 같은 정의를 쓴다.
+ *
+ * 두 곳에 따로 적으면 반드시 어긋난다. 그래서 한 벌만 둔다.
+ * 키가 「컨테이너 태그」 형태면 그 안에 있을 때만 덧붙는다.
+ */
+const STYLE = {
+  h1: `font-size:1.95rem; line-height:1.34; letter-spacing:-1px; font-weight:800; color:${C.navyD}; margin:0 0 28px;`,
+  h2: `font-size:1.45rem; line-height:1.4; letter-spacing:-.5px; font-weight:800; color:${C.navyD}; margin:56px 0 18px; padding-top:20px; border-top:2px solid ${C.line};`,
+  h3: `font-size:1.16rem; line-height:1.45; font-weight:700; color:${C.roseD}; margin:34px 0 12px;`,
+  h4: `font-size:1.02rem; font-weight:700; color:${C.navy}; margin:24px 0 10px;`,
+  p: `margin:0 0 18px;`,
+  strong: `font-weight:700; color:${C.navyD};`,
+  em: `font-style:normal; background:linear-gradient(transparent 62%, ${C.pinkBg} 62%);`,
+  a: `color:${C.rose}; text-decoration:underline; text-underline-offset:2px;`,
+  hr: `border:0; border-top:1px solid ${C.line}; margin:40px 0;`,
+
+  blockquote: `margin:26px 0; padding:20px 24px; background:${C.goldBg}; border-left:5px solid ${C.gold}; border-radius:0 8px 8px 0;`,
+  'blockquote p': `margin:0 0 12px;`,
+
+  '.table-wrap': `overflow-x:auto; margin:24px 0;`,
+  table: `border-collapse:collapse; width:100%; font-size:.95rem; background:${C.ivory};`,
+  th: `border:1px solid ${C.line}; padding:11px 13px; text-align:left; vertical-align:top; background:${C.creamD}; font-weight:700; white-space:nowrap; color:${C.navyD};`,
+  td: `border:1px solid ${C.line}; padding:11px 13px; text-align:left; vertical-align:top;`,
+
+  pre: `background:${C.creamD}; border:1px solid ${C.line}; border-radius:8px; padding:16px 18px; overflow-x:auto; margin:24px 0; line-height:1.65;`,
+  code: `font-family:${MONO}; font-size:.9rem;`,
+
+  ul: `margin:0 0 20px; padding-left:24px;`,
+  ol: `margin:0 0 20px; padding-left:24px;`,
+  li: `margin-bottom:8px;`,
+
+  figure: `margin:32px 0;`,
+  'figure img': `width:100%; height:auto; border:1px solid ${C.line}; border-radius:10px; display:block;`,
+  figcaption: `margin-top:10px; font-size:.86rem; color:${C.muted}; text-align:center;`,
+
+  // 글 맨 앞 안내 박스 — 본문보다 눈에 띄면 안 된다.
+  // 독자가 주의사항부터 읽게 만들지 않기 위한 것.
+  '.pre-note': `background:${C.cream}; border:1px solid ${C.line}; border-radius:10px; padding:15px 19px; margin:0 0 36px; font-size:.83rem; line-height:1.72; color:${C.muted};`,
+  '.pre-note p': `margin:0 0 7px;`,
+  '.pre-note strong': `display:block; color:${C.navy}; font-weight:700; margin-bottom:5px;`,
+
+  // 꼬리말 — 본문 엔딩을 살리기 위해 작게
+  '.article-footer': `margin-top:64px; padding-top:26px; border-top:1px solid ${C.line}; font-size:.82rem; line-height:1.7; color:${C.muted};`,
+  '.article-footer p': `margin:0 0 12px;`,
+  '.article-footer strong': `display:block; color:${C.navy}; font-weight:700; margin-top:20px;`,
+
+  // 인라인 출처 — 수치·표 바로 아래 붙는 한 줄
+  '.src-note': `margin:-8px 0 22px; padding-left:12px; border-left:3px solid ${C.pink}; color:${C.muted}; font-size:.83rem; line-height:1.6;`,
+  '.src-note a': `color:${C.muted};`,
+  '.src-note strong': `color:${C.muted}; font-weight:700;`,
+};
+
+// 본문을 감싸는 바탕. 티스토리에서는 이게 없으면 스킨 배경이 그대로 비친다.
+const SHELL = `background:${C.ivory}; color:${C.navy}; font-family:${FONT}; line-height:1.75; font-size:17px; letter-spacing:-.01em;`;
+
+// ---------------------------------------------------------------- 인라인 스타일
+
+const TAG_RE = /<(h[1-4]|p|a|strong|em|code|pre|ul|ol|li|table|th|td|figure|img|figcaption|blockquote|hr|aside|div)((?:\s[^>]*?)?)(\/?)>/g;
+
+/** 같은 속성이 두 번 들어가지 않게 정리한다. 뒤에 온 값이 이긴다. */
+function tidy(css) {
+  const seen = new Map();
+  for (const d of css.split(';')) {
+    const at = d.indexOf(':');
+    if (at < 0) continue;
+    const prop = d.slice(0, at).trim();
+    if (prop) seen.set(prop, d.slice(at + 1).trim());
+  }
+  return [...seen].map(([k, v]) => `${k}:${v}`).join('; ');
+}
+
+/**
+ * 티스토리는 <style> 블록을 붙여넣을 수 없다. 그래서 태그마다 style=""을 직접 박는다.
+ *
+ * 우리가 만든 HTML만 처리하면 되므로 CSS 엔진이 필요하지 않다.
+ * 블록 요소가 한 줄에 하나씩 나오는 구조라, 줄 단위로 컨테이너만 추적하면 충분하다.
+ */
+function inlineStyles(html) {
+  const ctx = [];               // 현재 열려 있는 컨테이너
+  const out = [];
+
+  for (const raw of html.split('\n')) {
+    // 이 줄에서 닫히는 컨테이너를 먼저 걷어낸다
+    if (/^<\/(aside|div|blockquote)>/.test(raw)) ctx.pop();
+
+    // 한 줄 안에서 끝나는 컨테이너 (figure, src-note)
+    let lineCtx = null;
+    if (/^<figure/.test(raw)) lineCtx = 'figure';
+    else if (/class="src-note"/.test(raw)) lineCtx = '.src-note';
+
+    const here = lineCtx || ctx[ctx.length - 1] || null;
+
+    out.push(
+      raw.replace(TAG_RE, (m, tag, attrs, selfClose) => {
+        const cls = (attrs.match(/class="([^"]*)"/) || [, ''])[1];
+
+        // class가 붙은 요소는 그 클래스의 디자인을 그대로 쓴다
+        let css = '';
+        for (const c of cls.split(/\s+/).filter(Boolean)) {
+          if (STYLE['.' + c]) css += STYLE['.' + c];
+        }
+        if (!css) {
+          if (STYLE[tag]) css += STYLE[tag];
+          if (here && STYLE[`${here} ${tag}`]) css += STYLE[`${here} ${tag}`];
+        }
+        if (!css) return m;
+
+        return `<${tag}${attrs} style="${tidy(css)}"${selfClose}>`;
+      })
+    );
+
+    // 이 줄에서 열리는 컨테이너
+    const open = raw.match(/^<(?:aside|div) class="(pre-note|article-footer)"/);
+    if (open) ctx.push('.' + open[1]);
+    else if (/^<blockquote/.test(raw)) ctx.push('blockquote');
+    else if (/^<div class="table-wrap"/.test(raw)) ctx.push(null);
+  }
+
+  return `<div style="${SHELL} padding:2px 0;">\n${out.join('\n')}\n</div>`;
+}
+
 // ---------------------------------------------------------------- 템플릿
 
 function page(title, bodyHtml) {
+  // 인라인으로 못 넣는 것만 여기 남긴다 (가상요소, 미디어쿼리)
+  const extraCss = `
+  ul.checklist{list-style:none; padding-left:4px}
+  ul.checklist li{padding-left:28px; position:relative}
+  ul.checklist li::before{
+    content:''; position:absolute; left:0; top:.42em;
+    width:15px; height:15px; border:2px solid ${C.pink}; border-radius:4px;
+  }
+  .table-wrap + .src-note, figure + .src-note{margin-top:-12px}
+  a:hover{color:${C.navyD}}
+  @media (max-width:640px){
+    body{font-size:16px}
+    .wrap{padding:36px 16px 72px}
+    h1{font-size:1.6rem}
+    h2{font-size:1.28rem}
+  }`;
+
+  const rules = Object.entries(STYLE)
+    .map(([sel, decl]) => `  ${sel}{${decl.replace(/\s+/g, ' ').trim()}}`)
+    .join('\n');
+
   return `<!doctype html>
 <html lang="ko">
 <head>
@@ -344,84 +517,11 @@ function page(title, bodyHtml) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)}</title>
 <style>
-  :root{
-    --ink:#1d2b3a; --muted:#5d7185; --line:#dde5ed; --bg:#fbfcfd;
-    --accent:#2c5f8f; --mark:#e0a52c; --markbg:#fff7e6; --panel:#fff;
-  }
   *{box-sizing:border-box}
-  body{
-    margin:0; background:var(--bg); color:var(--ink);
-    font-family:'Malgun Gothic','맑은 고딕',-apple-system,'Segoe UI',sans-serif;
-    line-height:1.75; font-size:17px;
-  }
+  body{margin:0; ${SHELL}}
   .wrap{max-width:760px; margin:0 auto; padding:56px 20px 96px}
-  h1{font-size:2.05rem; line-height:1.32; letter-spacing:-1px; margin:0 0 28px}
-  h2{font-size:1.5rem; letter-spacing:-.5px; margin:56px 0 18px; padding-top:20px; border-top:2px solid var(--line)}
-  h3{font-size:1.18rem; margin:34px 0 12px; color:var(--accent)}
-  h4{font-size:1.02rem; margin:24px 0 10px}
-  p{margin:0 0 18px}
-  strong{font-weight:700}
-  a{color:var(--accent)}
-  hr{border:0; border-top:1px solid var(--line); margin:40px 0}
-  blockquote{
-    margin:26px 0; padding:20px 24px;
-    background:var(--markbg); border-left:5px solid var(--mark); border-radius:0 8px 8px 0;
-  }
-  blockquote p{margin:0 0 12px} blockquote p:last-child{margin:0}
-  .table-wrap{overflow-x:auto; margin:24px 0}
-  table{border-collapse:collapse; width:100%; font-size:.95rem; background:var(--panel)}
-  th,td{border:1px solid var(--line); padding:11px 13px; text-align:left; vertical-align:top}
-  th{background:#f1f5f9; font-weight:700; white-space:nowrap}
-  pre{
-    background:#f4f6f8; border:1px solid var(--line); border-radius:8px;
-    padding:16px 18px; overflow-x:auto; margin:24px 0;
-  }
-  /* ①②③ 같은 기호가 깨지지 않도록 한글 폰트를 폴백에 둔다 */
-  code{font-family:Consolas,'D2Coding','Malgun Gothic','맑은 고딕',monospace; font-size:.9rem}
-  pre code{line-height:1.65}
-  p code,li code,td code{background:#eef2f6; padding:2px 6px; border-radius:4px}
-  ul,ol{margin:0 0 20px; padding-left:24px}
-  li{margin-bottom:8px}
-  ul.checklist{list-style:none; padding-left:4px}
-  ul.checklist li{padding-left:28px; position:relative}
-  ul.checklist li::before{
-    content:''; position:absolute; left:0; top:.42em;
-    width:15px; height:15px; border:2px solid var(--accent); border-radius:4px;
-  }
-  figure{margin:32px 0}
-  figure img{width:100%; height:auto; border:1px solid var(--line); border-radius:10px; display:block}
-  figcaption{margin-top:10px; font-size:.86rem; color:var(--muted); text-align:center}
-  .meta{color:var(--muted); font-size:.9rem; margin:-16px 0 34px}
-  /* 글 맨 앞 안내 박스 — 본문보다 눈에 띄면 안 된다 */
-  .pre-note{
-    background:#f3f6f9; border:1px solid var(--line); border-radius:10px;
-    padding:15px 19px; margin:0 0 36px;
-    font-size:.83rem; line-height:1.72; color:var(--muted);
-  }
-  .pre-note strong{display:block; color:var(--ink); font-weight:700; margin-bottom:5px}
-  .pre-note p{margin:0 0 7px}
-  .pre-note p:last-child{margin:0}
-  /* 꼬리말 — 출처·주의사항. 본문 엔딩을 살리기 위해 작게 */
-  .article-footer{
-    margin-top:64px; padding-top:26px;
-    border-top:1px solid var(--line);
-    font-size:.82rem; line-height:1.7; color:var(--muted);
-  }
-  .article-footer p{margin:0 0 12px}
-  .article-footer strong{display:block; color:var(--ink); font-weight:700; margin-top:20px}
-  .article-footer p:first-child strong{margin-top:0}
-  /* 꼬리말 안의 구분선 아래는 한 단계 더 작게 — 면책 문구 영역 */
-  .article-footer hr{border:0; border-top:1px solid var(--line); margin:22px 0 18px}
-  .article-footer hr ~ p{font-size:.93em; color:#8a97a5}
-  /* 인라인 출처 — 수치·표 바로 아래 붙는 한 줄 */
-  .src-note{
-    margin:-8px 0 22px; padding-left:12px;
-    border-left:3px solid var(--line);
-    color:var(--muted); font-size:.83rem; line-height:1.6;
-  }
-  .src-note a{color:var(--muted)}
-  .table-wrap + .src-note, figure + .src-note{margin-top:-12px}
-  @media (max-width:640px){ body{font-size:16px} .wrap{padding:36px 16px 72px} h1{font-size:1.62rem} }
+${rules}
+${extraCss}
 </style>
 </head>
 <body>
@@ -493,7 +593,8 @@ fs.writeFileSync(full, page(title, body), 'utf8');
 fs.writeFileSync(
   frag,
   '<!-- Tistory HTML 모드에 이 내용을 붙여넣으세요. 이미지는 에디터에서 별도 업로드합니다. -->\n' +
-    body +
+    '<!-- 색은 태그마다 style="" 로 박혀 있습니다. 스킨 설정을 타지 않습니다. -->\n' +
+    inlineStyles(body) +
     '\n',
   'utf8'
 );
