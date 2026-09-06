@@ -1,24 +1,26 @@
 <!doctype html>
 <meta charset="utf-8">
+<!-- @출력 04_이미지/차트/2026-09-05_코픽스추이.png -->
+<!-- @크기 1600x900 -->
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
-    width:1600px; height:900px; overflow:hidden; background:#FEF8F3;
-    font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif; color:#1A3360;
+    width:1600px; height:900px; overflow:hidden; background:var(--ivory);
+    font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif; color:var(--navy);
     padding:60px 90px 0;
   }
   h2 { font-size:46px; font-weight:800; letter-spacing:-1.5px; }
-  .sub { font-size:27px; color:#5E6E8F; margin-top:12px; }
+  .sub { font-size:27px; color:var(--muted); margin-top:12px; }
   svg { display:block; margin-top:12px; }
-  .src { margin-top:6px; font-size:21px; color:#8494B0; line-height:1.6; }
-  .src b { color:#5E6E8F; }
+  .src { margin-top:6px; font-size:21px; color:var(--muted-l); line-height:1.6; }
+  .src b { color:var(--muted); }
 </style>
 
 <h2>코픽스는 이미 넉 달째 오르는 중이었어요</h2>
 <div class="sub">은행이 돈 구해오는 데 든 비용 · 단위 연 % · 어느 달 기준인지로 표시</div>
 
 <svg width="1420" height="610" viewBox="0 0 1420 610">
-  <g stroke="#EFE4D7" stroke-width="1">
+  <g stroke-width="1" style="stroke:var(--grid)">
     <line x1="120" y1="500" x2="1360" y2="500"/>
     <line x1="120" y1="416" x2="1360" y2="416"/>
     <line x1="120" y1="332" x2="1360" y2="332"/>
@@ -26,7 +28,7 @@
     <line x1="120" y1="164" x2="1360" y2="164"/>
     <line x1="120" y1="80"  x2="1360" y2="80"/>
   </g>
-  <g font-size="24" fill="#8494B0" text-anchor="end" font-family="'Malgun Gothic',sans-serif">
+  <g font-size="24" text-anchor="end" font-family="'Malgun Gothic',sans-serif" style="fill:var(--muted-l)">
     <text x="104" y="508">2.80</text>
     <text x="104" y="424">2.90</text>
     <text x="104" y="340">3.00</text>
@@ -34,39 +36,39 @@
     <text x="104" y="172">3.20</text>
     <text x="104" y="88">3.30</text>
   </g>
-  <line x1="120" y1="500" x2="1360" y2="500" stroke="#D9CBBB" stroke-width="2"/>
+  <line x1="120" y1="500" x2="1360" y2="500" stroke-width="2" style="stroke:var(--line-d)"/>
 
   <!-- 4월 2.89(424) / 5월 2.90(416) / 6월 3.05(290) / 7월 3.18(181) -->
-  <polyline points="300,424 650,416 1000,290 1300,181" fill="none" stroke="#1A3360" stroke-width="6"
-            stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="300,424 650,416 1000,290 1300,181" fill="none" stroke-width="6"
+            stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--navy)"/>
 
-  <circle cx="300" cy="424" r="12" fill="#FEF8F3" stroke="#1A3360" stroke-width="6"/>
-  <circle cx="650" cy="416" r="12" fill="#FEF8F3" stroke="#1A3360" stroke-width="6"/>
-  <circle cx="1000" cy="290" r="12" fill="#FEF8F3" stroke="#1A3360" stroke-width="6"/>
-  <circle cx="1300" cy="181" r="15" fill="#F492A6" stroke="#1A3360" stroke-width="6"/>
+  <circle cx="300" cy="424" r="12" stroke-width="6" style="fill:var(--ivory);stroke:var(--navy)"/>
+  <circle cx="650" cy="416" r="12" stroke-width="6" style="fill:var(--ivory);stroke:var(--navy)"/>
+  <circle cx="1000" cy="290" r="12" stroke-width="6" style="fill:var(--ivory);stroke:var(--navy)"/>
+  <circle cx="1300" cy="181" r="15" stroke-width="6" style="fill:var(--pink);stroke:var(--navy)"/>
 
-  <g font-size="33" font-weight="700" fill="#1A3360" text-anchor="middle" font-family="'Malgun Gothic',sans-serif">
+  <g font-size="33" font-weight="700" text-anchor="middle" font-family="'Malgun Gothic',sans-serif" style="fill:var(--navy)">
     <text x="300" y="392">2.89</text>
     <text x="650" y="384">2.90</text>
     <text x="1000" y="256">3.05</text>
     <text x="1300" y="147">3.18</text>
   </g>
 
-  <g font-size="27" fill="#5E6E8F" text-anchor="middle" font-family="'Malgun Gothic',sans-serif">
+  <g font-size="27" text-anchor="middle" font-family="'Malgun Gothic',sans-serif" style="fill:var(--muted)">
     <text x="300" y="548">4월</text>
     <text x="650" y="548">5월</text>
     <text x="1000" y="548">6월</text>
     <text x="1300" y="548">7월</text>
   </g>
 
-  <text x="1300" y="588" font-size="22" fill="#A6B2C9" text-anchor="middle" font-family="'Malgun Gothic',sans-serif">가장 최근 숫자</text>
+  <text x="1300" y="588" font-size="22" text-anchor="middle" font-family="'Malgun Gothic',sans-serif" style="fill:var(--faint)">가장 최근 숫자</text>
 
   <!-- 상승폭 표시 -->
-  <line x1="230" y1="424" x2="230" y2="181" stroke="#B94A65" stroke-width="4"/>
-  <line x1="218" y1="424" x2="242" y2="424" stroke="#B94A65" stroke-width="4"/>
-  <line x1="218" y1="181" x2="242" y2="181" stroke="#B94A65" stroke-width="4"/>
-  <text x="254" y="295" font-size="28" font-weight="700" fill="#B94A65" text-anchor="start" font-family="'Malgun Gothic',sans-serif">넉 달 동안</text>
-  <text x="254" y="330" font-size="28" font-weight="700" fill="#B94A65" text-anchor="start" font-family="'Malgun Gothic',sans-serif">계속 오름</text>
+  <line x1="230" y1="424" x2="230" y2="181" stroke-width="4" style="stroke:var(--rose)"/>
+  <line x1="218" y1="424" x2="242" y2="424" stroke-width="4" style="stroke:var(--rose)"/>
+  <line x1="218" y1="181" x2="242" y2="181" stroke-width="4" style="stroke:var(--rose)"/>
+  <text x="254" y="295" font-size="28" font-weight="700" text-anchor="start" font-family="'Malgun Gothic',sans-serif" style="fill:var(--rose)">넉 달 동안</text>
+  <text x="254" y="330" font-size="28" font-weight="700" text-anchor="start" font-family="'Malgun Gothic',sans-serif" style="fill:var(--rose)">계속 오름</text>
 </svg>
 
 <div class="src">

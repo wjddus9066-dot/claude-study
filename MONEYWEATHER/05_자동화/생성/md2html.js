@@ -339,30 +339,10 @@ function checkConsistency(srcPath, bodyMd, imageSpecs) {
 // ---------------------------------------------------------------- 브랜드 색
 
 /**
- * 팔레트는 여기 한 곳에만 있다. (00_브랜드/색상.md)
- *
- * 로고 이미지에서 픽셀을 직접 세어 뽑은 색이다.
- * 색을 바꾸려면 이 객체만 고치면 읽기용 HTML과 티스토리용 HTML에 함께 반영된다.
- * HTML 쪽에 색을 직접 적지 않는다.
+ * 색은 05_자동화/팔레트.js 한 곳에만 있다. (설명: 00_브랜드/색상.md)
+ * 글과 그림이 같은 파일을 본다. HTML 쪽에 색을 직접 적지 않는다.
  */
-const C = {
-  ivory: '#FEF8F3',   // 페이지 바탕 — 로고 배경색
-  cream: '#FAF2E8',   // 박스 바탕
-  creamD: '#F6EDE2',  // 표 머리줄, 코드 블록
-  line: '#EADFD2',    // 경계선
-  navy: '#1A3360',    // 본문 글자 — 로고 글자색
-  navyD: '#0C2657',   // 가장 강한 강조 — 로고 외곽선
-  muted: '#5E6E8F',   // 출처·꼬리말 (대비 4.86, 본문 최소선)
-  pink: '#F492A6',    // 장식 전용 — 글자색으로 쓰지 않는다 (대비 2.10)
-  pinkBg: '#FCE9ED',
-  rose: '#B94A65',    // 링크 (대비 4.71)
-  roseD: '#C0546E',   // 소제목 (큰 글씨 전용, 대비 4.21)
-  gold: '#F7CE5A',    // 인용문 왼쪽 선 — 글자색으로 쓰지 않는다
-  goldBg: '#FDF6E6',
-};
-
-const FONT = "'Malgun Gothic','맑은 고딕',-apple-system,'Segoe UI',sans-serif";
-const MONO = "Consolas,'D2Coding','Malgun Gothic','맑은 고딕',monospace";
+const { C, FONT, MONO } = require('../팔레트.js');
 
 /**
  * 요소별 스타일 — 웹 <style>과 티스토리 인라인이 같은 정의를 쓴다.
