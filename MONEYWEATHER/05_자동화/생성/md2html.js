@@ -52,6 +52,7 @@ function convert(md) {
   const out = [];
   let i = 0;
   let metaSkipped = false;
+  let footerOpen = false;
 
   const flushTable = () => {
     const rows = [];
@@ -147,6 +148,16 @@ function convert(md) {
       continue;
     }
 
+    // [FOOTER] — 이 줄 아래는 본문이 아니라 꼬리말이다.
+    // 출처·주의사항처럼 독자가 굳이 읽지 않아도 되는 내용을 작게 처리한다.
+    // 본문의 마지막 문장이 진짜 마지막 문장으로 남게 하기 위한 장치다.
+    if (/^\[FOOTER\]\s*$/.test(line)) {
+      out.push('<div class="article-footer">');
+      footerOpen = true;
+      i++;
+      continue;
+    }
+
     // 인라인 출처: 본문 중 수치·표 바로 아래에 붙이는 한 줄
     //   [출처] 한국은행 · 2026-08-27 적용
     const srcNote = line.match(/^\[출처\]\s*(.+)$/);
@@ -184,6 +195,8 @@ function convert(md) {
     }
     if (buf.length) out.push(`<p>${buf.map((b) => inline(b.trim())).join(' ')}</p>`);
   }
+
+  if (footerOpen) out.push('</div>');
 
   return out.join('\n');
 }
@@ -361,6 +374,16 @@ function page(title, bodyHtml) {
   figure img{width:100%; height:auto; border:1px solid var(--line); border-radius:10px; display:block}
   figcaption{margin-top:10px; font-size:.86rem; color:var(--muted); text-align:center}
   .meta{color:var(--muted); font-size:.9rem; margin:-16px 0 34px}
+  /* 꼬리말 — 출처·주의사항. 본문 엔딩을 살리기 위해 작게 */
+  .article-footer{
+    margin-top:64px; padding-top:26px;
+    border-top:1px solid var(--line);
+    font-size:.82rem; line-height:1.7; color:var(--muted);
+  }
+  .article-footer p{margin:0 0 12px}
+  .article-footer strong{display:block; color:var(--ink); font-weight:700; margin-top:20px}
+  .article-footer p:first-child strong{margin-top:0}
+  .article-footer hr{display:none}
   /* 인라인 출처 — 수치·표 바로 아래 붙는 한 줄 */
   .src-note{
     margin:-8px 0 22px; padding-left:12px;

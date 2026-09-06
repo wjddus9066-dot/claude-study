@@ -53,6 +53,16 @@
   figure img{width:100%; height:auto; border:1px solid var(--line); border-radius:10px; display:block}
   figcaption{margin-top:10px; font-size:.86rem; color:var(--muted); text-align:center}
   .meta{color:var(--muted); font-size:.9rem; margin:-16px 0 34px}
+  /* 꼬리말 — 출처·주의사항. 본문 엔딩을 살리기 위해 작게 */
+  .article-footer{
+    margin-top:64px; padding-top:26px;
+    border-top:1px solid var(--line);
+    font-size:.82rem; line-height:1.7; color:var(--muted);
+  }
+  .article-footer p{margin:0 0 12px}
+  .article-footer strong{display:block; color:var(--ink); font-weight:700; margin-top:20px}
+  .article-footer p:first-child strong{margin-top:0}
+  .article-footer hr{display:none}
   /* 인라인 출처 — 수치·표 바로 아래 붙는 한 줄 */
   .src-note{
     margin:-8px 0 22px; padding-left:12px;
@@ -134,15 +144,16 @@
 <p>그래서 뉴스에서 "기준금리가 올랐다"는 소식을 봤다고 해서 내 대출금리도 그날 바로 움직이는 게 아니었습니다.</p>
 <h3>그럼 언제쯤 들어갈까</h3>
 <div class="table-wrap"><table>
-<thead><tr><th>발표일</th><th>어느 달 기준</th><th>8월 인상이 담겼나</th></tr></thead>
+<thead><tr><th>발표일</th><th>어느 달 기준</th><th>그 달에 인상이 적용됐던 기간</th></tr></thead>
 <tbody>
-<tr><td>8월 18일</td><td>7월</td><td>안 담김 (인상 전이라)</td></tr>
-<tr><td><strong>9월 15일</strong></td><td>8월</td><td><strong>거의 안 담김</strong> (한 달 중 닷새치뿐)</td></tr>
-<tr><td><strong>10월 15일</strong></td><td>9월</td><td><strong>전부 담김</strong></td></tr>
+<tr><td>8월 18일</td><td>7월</td><td>없음 (인상 전이라)</td></tr>
+<tr><td><strong>9월 15일</strong></td><td>8월</td><td><strong>닷새뿐</strong> (8월 27~31일)</td></tr>
+<tr><td><strong>10월 15일</strong></td><td>9월</td><td><strong>한 달 전체</strong></td></tr>
 </tbody></table></div>
 <p class="src-note">전국은행연합회 COFIX 공시일자 · <a href="https://portal.kfb.or.kr/compare/cofix_date.php" target="_blank" rel="noopener">일정 보기</a></p>
 <p>9월 15일에 8월 기준 코픽스가 나옵니다. 그런데 인상은 8월 27일이었어요. 8월 한 달 중 닷새만 오른 상태였던 거죠.</p>
-<p>8월 인상이 제대로 담기는 건 10월 15일에 나오는 숫자부터입니다.</p>
+<p><strong>8월 인상이 한 달 내내 적용된 상태로 반영될 수 있는 건 9월 기준 코픽스입니다.</strong> 그 숫자가 10월 15일에 발표되는 거고요.</p>
+<p>다만 코픽스가 기준금리를 그대로 따라가는 건 아닙니다. 은행이 실제로 돈을 구해온 비용이라서 더 오를 수도, 덜 오를 수도 있어요.</p>
 <h3>그런데 아직 한 번 더 기다려야 해요</h3>
 <p>10월에 그 숫자가 올라도, 제 대출금리가 그날 바로 바뀌는 건 아닙니다.</p>
 <p>대출마다 <strong>금리가 바뀌는 날이 정해져 있거든요.</strong> 보통 6개월이나 12개월에 한 번씩 돌아옵니다.</p>
@@ -231,7 +242,7 @@
 <p>예를 들어 제 대출이 6개월마다 바뀌고, 다음 변경일이 11월 20일이라고 해볼게요.</p>
 <pre><code>8월 27일   기준금리 인상
     ↓
-10월 15일  코픽스에 들어감
+10월 15일  9월 기준 코픽스 발표
     ↓
 11월 20일  내 대출금리 변경   ← 이때부터 이자가 오릅니다</code></pre>
 <p>그래서 지금 제 통장에 아무 변화가 없었던 겁니다. 아직 11월이 안 왔으니까요.</p>
@@ -242,15 +253,13 @@
 <p>그 날짜를 알아두면 다음에 "기준금리가 올랐다"는 뉴스를 봤을 때,</p>
 <p><strong>"그래서 내 이자는 언제부터 바뀌는데?"</strong></p>
 <p>라는 질문에 스스로 답할 수 있게 됩니다.</p>
-<hr>
-<h3>참고한 자료</h3>
-<p>금리는 한국은행과 전국은행연합회, 물가는 국가데이터처 자료를 확인했습니다. 각 숫자 아래에 원문 링크를 달아두었어요.</p>
-<p>2026년 9월 6일 기준입니다.</p>
-<hr>
-<h3>이 글을 볼 때 참고해주세요</h3>
-<p>이 글은 2026년 9월 6일 기준으로 공개된 자료를 정리한 것입니다.</p>
-<p>본문의 이자 계산은 빌린 돈에 금리차를 곱한 <strong>대략적인 계산</strong>이며, 실제 상환액은 갚는 방식과 남은 기간, 은행별 조건에 따라 달라집니다.</p>
-<p>특정 금융상품의 가입이나 갈아타기를 권유하는 글이 아닙니다. <strong>실제 대출 조건은 거래 은행과 본인의 대출 계약서에서 확인하시기 바랍니다.</strong></p>
+<div class="article-footer">
+<p><strong>참고한 자료</strong></p>
+<p>한국은행 · 전국은행연합회 · 국가데이터처 2026년 9월 6일 기준</p>
+<p><strong>이 글을 볼 때 참고해주세요</strong></p>
+<p>본문의 이자 계산은 빌린 돈에 금리차를 곱한 대략적인 계산입니다. 실제로 나가는 돈은 갚는 방식과 남은 기간, 은행별 조건에 따라 달라집니다.</p>
+<p>특정 금융상품의 가입이나 갈아타기를 권유하는 글이 아닙니다. 실제 대출 조건은 거래 은행과 본인의 대출 계약서에서 확인해주세요.</p>
+</div>
 </article>
 </body>
 </html>
