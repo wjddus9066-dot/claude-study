@@ -364,19 +364,19 @@ const STYLE = {
   blockquote: `margin:26px 0; padding:20px 24px; background:${C.goldBg}; border-left:5px solid ${C.gold}; border-radius:0 8px 8px 0;`,
   'blockquote p': `margin:0 0 12px;`,
 
-  '.table-wrap': `overflow-x:auto; margin:24px 0;`,
-  table: `border-collapse:collapse; width:100%; font-size:.95rem; background:${C.ivory};`,
-  th: `border:1px solid ${C.line}; padding:11px 13px; text-align:left; vertical-align:top; background:${C.creamD}; font-weight:700; white-space:nowrap; color:${C.navyD};`,
+  '.table-wrap': `overflow-x:auto; max-width:100%; margin:24px 0;`,
+  table: `border-collapse:collapse; width:100%; max-width:100%; font-size:.95rem; background:${C.ivory};`,
+  th: `border:1px solid ${C.line}; padding:11px 13px; text-align:left; vertical-align:top; background:${C.creamD}; font-weight:700; color:${C.navyD}; word-break:keep-all;`,
   td: `border:1px solid ${C.line}; padding:11px 13px; text-align:left; vertical-align:top;`,
 
-  pre: `background:${C.creamD}; border:1px solid ${C.line}; border-radius:8px; padding:16px 18px; overflow-x:auto; margin:24px 0; line-height:1.65;`,
+  pre: `background:${C.creamD}; border:1px solid ${C.line}; border-radius:8px; padding:16px 18px; overflow-x:auto; max-width:100%; margin:24px 0; line-height:1.65; font-size:.86rem;`,
   code: `font-family:${MONO}; font-size:.9rem;`,
 
   ul: `margin:0 0 20px; padding-left:24px;`,
   ol: `margin:0 0 20px; padding-left:24px;`,
   li: `margin-bottom:8px;`,
 
-  figure: `margin:32px 0;`,
+  figure: `margin:32px 0; max-width:100%;`,
   'figure img': `width:100%; height:auto; border:1px solid ${C.line}; border-radius:10px; display:block;`,
   figcaption: `margin-top:10px; font-size:.86rem; color:${C.muted}; text-align:center;`,
 
@@ -398,7 +398,7 @@ const STYLE = {
 };
 
 // 본문을 감싸는 바탕. 티스토리에서는 이게 없으면 스킨 배경이 그대로 비친다.
-const SHELL = `background:${C.ivory}; color:${C.navy}; font-family:${FONT}; line-height:1.75; font-size:17px; letter-spacing:-.01em;`;
+const SHELL = `background:${C.ivory}; color:${C.navy}; font-family:${FONT}; line-height:1.75; font-size:17px; letter-spacing:-.01em; max-width:100%; overflow-wrap:break-word; word-break:keep-all;`;
 
 // ---------------------------------------------------------------- 인라인 스타일
 
@@ -463,7 +463,8 @@ function inlineStyles(html) {
     else if (/^<div class="table-wrap"/.test(raw)) ctx.push(null);
   }
 
-  return `<div style="${SHELL} padding:2px 0;">\n${out.join('\n')}\n</div>`;
+  // 좌우 여백을 조금 준다. 없으면 글자가 배경 끝에 붙는다.
+  return `<div style="${SHELL} padding:10px 18px;">\n${out.join('\n')}\n</div>`;
 }
 
 // ---------------------------------------------------------------- 템플릿
