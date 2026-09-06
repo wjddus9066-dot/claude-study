@@ -1,0 +1,88 @@
+<!doctype html>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1600px; height:900px; overflow:hidden; background:#fbfcfd;
+    font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif; color:#1d2b3a;
+    padding:64px 90px 0;
+  }
+  h2 { font-size:46px; font-weight:800; letter-spacing:-1.5px; }
+  .sub { font-size:28px; color:#5d7185; margin-top:12px; }
+  svg { display:block; margin-top:10px; }
+  .src { margin-top:8px; font-size:22px; color:#8a9aab; line-height:1.6; }
+  .src b { color:#5d7185; }
+</style>
+
+<h2>신규취급액기준 코픽스(COFIX) 추이</h2>
+<div class="sub">단위: 연 % · 대상월 기준 · 2026년 5월분 ~ 7월분</div>
+
+<svg width="1420" height="600" viewBox="0 0 1420 600">
+  <!-- gridlines + y labels : y = 500 - (v-2.80)/0.50*420 -->
+  <g stroke="#e3e9ef" stroke-width="1">
+    <line x1="120" y1="500" x2="1360" y2="500"/>
+    <line x1="120" y1="416" x2="1360" y2="416"/>
+    <line x1="120" y1="332" x2="1360" y2="332"/>
+    <line x1="120" y1="248" x2="1360" y2="248"/>
+    <line x1="120" y1="164" x2="1360" y2="164"/>
+    <line x1="120" y1="80"  x2="1360" y2="80"/>
+  </g>
+  <g font-size="24" fill="#8a9aab" text-anchor="end" font-family="'Malgun Gothic',sans-serif">
+    <text x="104" y="508">2.80</text>
+    <text x="104" y="424">2.90</text>
+    <text x="104" y="340">3.00</text>
+    <text x="104" y="256">3.10</text>
+    <text x="104" y="172">3.20</text>
+    <text x="104" y="88">3.30</text>
+  </g>
+
+  <!-- axis -->
+  <line x1="120" y1="500" x2="1360" y2="500" stroke="#b9c6d3" stroke-width="2"/>
+
+  <!-- line : 2.90->416 , 3.05->290 , 3.18->181 -->
+  <polyline points="360,416 740,290 1120,181" fill="none" stroke="#2c5f8f" stroke-width="6"
+            stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- points -->
+  <g>
+    <circle cx="360" cy="416" r="13" fill="#fff" stroke="#2c5f8f" stroke-width="6"/>
+    <circle cx="740" cy="290" r="13" fill="#fff" stroke="#2c5f8f" stroke-width="6"/>
+    <circle cx="1120" cy="181" r="15" fill="#2c5f8f" stroke="#2c5f8f" stroke-width="6"/>
+  </g>
+
+  <!-- value labels -->
+  <g font-size="34" font-weight="700" fill="#1d2b3a" text-anchor="middle" font-family="'Malgun Gothic',sans-serif">
+    <text x="360" y="382">2.90</text>
+    <text x="740" y="256">3.05</text>
+    <text x="1120" y="147">3.18</text>
+  </g>
+
+  <!-- x labels -->
+  <g font-size="26" fill="#5d7185" text-anchor="middle" font-family="'Malgun Gothic',sans-serif">
+    <text x="360" y="546">2026년 5월분</text>
+    <text x="740" y="546">2026년 6월분</text>
+    <text x="1120" y="546">2026년 7월분</text>
+  </g>
+  <g font-size="21" fill="#9fb0c0" text-anchor="middle" font-family="'Malgun Gothic',sans-serif">
+    <text x="360" y="574">6/15 공시</text>
+    <text x="740" y="574">7/15 공시</text>
+    <text x="1120" y="574">8/18 공시</text>
+  </g>
+
+  <!-- future marker -->
+  <line x1="1120" y1="181" x2="1330" y2="181" stroke="#c3ccd6" stroke-width="5" stroke-dasharray="12 12"/>
+  <text x="1360" y="240" font-size="24" fill="#8a9aab" text-anchor="end" font-family="'Malgun Gothic',sans-serif">8월분은</text>
+  <text x="1360" y="272" font-size="24" fill="#8a9aab" text-anchor="end" font-family="'Malgun Gothic',sans-serif">9/15 공시 예정</text>
+
+  <!-- delta callout -->
+  <rect x="392" y="404" width="0" height="0"/>
+  <line x1="300" y1="416" x2="300" y2="181" stroke="#e0a52c" stroke-width="4"/>
+  <line x1="288" y1="416" x2="312" y2="416" stroke="#e0a52c" stroke-width="4"/>
+  <line x1="288" y1="181" x2="312" y2="181" stroke="#e0a52c" stroke-width="4"/>
+  <text x="278" y="305" font-size="30" font-weight="700" fill="#b5811d" text-anchor="end" font-family="'Malgun Gothic',sans-serif">+0.28%p</text>
+</svg>
+
+<div class="src">
+  <b>세로축은 0이 아니라 2.80%부터 시작합니다.</b> 변화폭을 보기 위한 범위 설정이며, 실제 금리 수준은 3% 안팎입니다.<br>
+  자료: 전국은행연합회 소비자포털 COFIX 공시 · 조회일 2026-09-06 | 오늘의 재테크온도
+</div>

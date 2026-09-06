@@ -1,0 +1,76 @@
+<!doctype html>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1600px; height:900px; overflow:hidden; background:#fbfcfd;
+    font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif; color:#1d2b3a;
+    padding:70px 90px 0;
+  }
+  h2 { font-size:47px; font-weight:800; letter-spacing:-1.5px; }
+  .sub { font-size:29px; color:#5d7185; margin-top:14px; }
+
+  .row { display:flex; align-items:stretch; gap:0; margin-top:52px; }
+  .box {
+    flex:1; background:#fff; border:2px solid #dde5ed; border-radius:18px;
+    padding:28px 28px 26px; position:relative;
+  }
+  .box.hi { border-color:#2c5f8f; background:#f2f7fc; }
+  .n {
+    width:52px; height:52px; border-radius:50%; background:#2c5f8f; color:#fff;
+    font-size:28px; font-weight:800; display:flex; align-items:center; justify-content:center;
+    margin-bottom:20px;
+  }
+  .t { font-size:37px; font-weight:800; line-height:1.3; letter-spacing:-1px; }
+  .d { font-size:26px; color:#5d7185; margin-top:16px; line-height:1.5; }
+  .when { font-size:25px; font-weight:700; color:#2c5f8f; margin-top:20px;
+          background:#e4eef7; display:inline-block; padding:8px 16px; border-radius:8px; }
+
+  .gap { width:132px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .gap .arw { font-size:46px; color:#9fb3c6; line-height:1; }
+  .gap .lab { font-size:21px; color:#8a9aab; margin-top:12px; text-align:center; line-height:1.35; }
+
+  .note {
+    margin-top:42px; background:#fff7e6; border-left:6px solid #e0a52c;
+    padding:22px 28px; font-size:27px; line-height:1.55; color:#4a3a17;
+  }
+  .note b { color:#1d2b3a; }
+  .src { margin-top:26px; font-size:22px; color:#8a9aab; }
+</style>
+
+<h2>기준금리 인상이 내 대출이자에 도착하는 3단계</h2>
+<div class="sub">2026년 8월 27일 인상분 기준 · 변동금리 주택담보대출의 경우</div>
+
+<div class="row">
+  <div class="box hi">
+    <div class="n">1</div>
+    <div class="t">한국은행<br>기준금리 인상</div>
+    <div class="d">2.75% → 3.00%</div>
+    <div class="when">2026. 8. 27.</div>
+  </div>
+
+  <div class="gap"><div class="arw">→</div><div class="lab">은행<br>조달비용에<br>반영</div></div>
+
+  <div class="box">
+    <div class="n">2</div>
+    <div class="t">코픽스(COFIX)<br>공시</div>
+    <div class="d">은행의 평균 조달비용 지수<br>한 달에 한 번만 발표</div>
+    <div class="when">매월 15일</div>
+  </div>
+
+  <div class="gap"><div class="arw">→</div><div class="lab">내 계약의<br>금리변동<br>주기만큼</div></div>
+
+  <div class="box">
+    <div class="n">3</div>
+    <div class="t">내 대출금리<br>변경</div>
+    <div class="d">계약서에 적힌 갱신일에<br>그 시점 코픽스로 재계산</div>
+    <div class="when">보통 6개월 또는 12개월</div>
+  </div>
+</div>
+
+<div class="note">
+  8월 27일 인상분이 코픽스에 <b>온전히 담기는 건 9월분(10월 15일 공시)부터</b>입니다.<br>
+  그 뒤 돌아오는 내 갱신일에 적용되므로, 뉴스와 내 통장 사이에는 몇 달의 시차가 생깁니다.
+</div>
+
+<div class="src">자료: 한국은행, 전국은행연합회 COFIX 공시 | 기준일 2026-09-06 | 오늘의 재테크온도</div>

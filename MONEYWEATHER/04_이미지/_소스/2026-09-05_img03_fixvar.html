@@ -1,0 +1,86 @@
+<!doctype html>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1600px; height:900px; overflow:hidden; background:#fbfcfd;
+    font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif; color:#1d2b3a;
+    padding:46px 90px 0;
+  }
+  h2 { font-size:46px; font-weight:800; letter-spacing:-1.5px; }
+  .sub { font-size:26px; color:#5d7185; margin-top:10px; }
+  .wrap { display:flex; gap:48px; margin-top:18px; align-items:flex-start; }
+  .right { flex:1; padding-top:16px; }
+  .kv { background:#fff; border:2px solid #dde5ed; border-radius:16px; padding:18px 26px; margin-bottom:10px; }
+  .kv .k { font-size:23px; color:#5d7185; }
+  .kv .v { font-size:40px; font-weight:800; margin-top:8px; letter-spacing:-1px; }
+  .kv.accent { border-color:#e0a52c; background:#fff7e6; }
+  .kv.accent .v { color:#b5811d; }
+  .kv .note { font-size:22px; color:#5d7185; margin-top:10px; line-height:1.45; }
+  .src { margin-top:14px; font-size:22px; color:#8a9aab; line-height:1.6; }
+  .src b { color:#5d7185; }
+</style>
+
+<h2>지금은 고정금리가 변동금리보다 비쌉니다</h2>
+<div class="sub">예금은행 신규취급 주택담보대출 금리 · 2026년 7월 기준 · 단위 연 %</div>
+
+<div class="wrap">
+  <svg width="640" height="512" viewBox="0 0 700 560">
+    <!-- baseline 0 at y=480, 5.0% at y=100 -->
+    <g stroke="#e3e9ef" stroke-width="1">
+      <line x1="90" y1="480" x2="660" y2="480"/>
+      <line x1="90" y1="404" x2="660" y2="404"/>
+      <line x1="90" y1="328" x2="660" y2="328"/>
+      <line x1="90" y1="252" x2="660" y2="252"/>
+      <line x1="90" y1="176" x2="660" y2="176"/>
+      <line x1="90" y1="100" x2="660" y2="100"/>
+    </g>
+    <g font-size="23" fill="#8a9aab" text-anchor="end" font-family="'Malgun Gothic',sans-serif">
+      <text x="76" y="488">0</text>
+      <text x="76" y="412">1</text>
+      <text x="76" y="336">2</text>
+      <text x="76" y="260">3</text>
+      <text x="76" y="184">4</text>
+      <text x="76" y="108">5</text>
+    </g>
+    <line x1="90" y1="480" x2="660" y2="480" stroke="#b9c6d3" stroke-width="2"/>
+
+    <!-- 고정형 4.76 -> h=362, y=118 -->
+    <rect x="180" y="118" width="150" height="362" rx="6" fill="#2c5f8f"/>
+    <text x="255" y="98" font-size="40" font-weight="800" fill="#1d2b3a" text-anchor="middle" font-family="'Malgun Gothic',sans-serif">4.76</text>
+    <text x="255" y="522" font-size="30" font-weight="700" fill="#1d2b3a" text-anchor="middle" font-family="'Malgun Gothic',sans-serif">고정형</text>
+
+    <!-- 변동형 4.35 -> h=331, y=149 -->
+    <rect x="430" y="149" width="150" height="331" rx="6" fill="#7fa8cc"/>
+    <text x="505" y="129" font-size="40" font-weight="800" fill="#1d2b3a" text-anchor="middle" font-family="'Malgun Gothic',sans-serif">4.35</text>
+    <text x="505" y="522" font-size="30" font-weight="700" fill="#1d2b3a" text-anchor="middle" font-family="'Malgun Gothic',sans-serif">변동형</text>
+
+    <!-- gap bracket between tops -->
+    <line x1="628" y1="118" x2="628" y2="149" stroke="#e0a52c" stroke-width="4"/>
+    <line x1="616" y1="118" x2="640" y2="118" stroke="#e0a52c" stroke-width="4"/>
+    <line x1="616" y1="149" x2="640" y2="149" stroke="#e0a52c" stroke-width="4"/>
+    <text x="628" y="92" font-size="27" font-weight="700" fill="#b5811d" text-anchor="middle" font-family="'Malgun Gothic',sans-serif">0.41%p</text>
+  </svg>
+
+  <div class="right">
+    <div class="kv accent">
+      <div class="k">고정형 − 변동형</div>
+      <div class="v">0.41%포인트</div>
+      <div class="note">대출 3억원 기준 <b>연 123만원</b>, 월 약 10만원 차이<br>(이자만 놓고 본 단순 계산)</div>
+    </div>
+    <div class="kv">
+      <div class="k">7월 신규 주택담보대출 중 고정금리 비중</div>
+      <div class="v">31.9%</div>
+      <div class="note">전월 대비 −5.8%p · 2014년 2월 이후 최저<br>→ 10명 중 약 7명이 변동금리를 선택</div>
+    </div>
+    <div class="kv">
+      <div class="k">변동형의 이 이득이 사라지는 조건</div>
+      <div class="v">기준금리 +0.5%p</div>
+      <div class="note">기준금리가 0.5%포인트만 더 오르면<br>지금의 0.41%p 이점은 상쇄됩니다.</div>
+    </div>
+  </div>
+</div>
+
+<div class="src">
+  <b>세로축은 0부터 시작합니다.</b> 자료: 한국은행 「2026년 7월 금융기관 가중평균금리」(2026-08-26 발표) · 조회일 2026-09-06 | 오늘의 재테크온도
+</div>
