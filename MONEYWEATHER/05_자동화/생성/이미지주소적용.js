@@ -1,4 +1,17 @@
 #!/usr/bin/env node
+/* ============================================================
+ *
+ *   이 파일에는 아무것도 붙여넣지 않습니다.
+ *
+ *   티스토리에서 복사한 [##_Image|...] 는
+ *   아래 명령의 따옴표 안에 넣습니다.
+ *
+ *     node 05_자동화/생성/이미지주소적용.js "글폴더" --붙여넣기 '여기'
+ *                                                            ~~~~
+ *   어느 폴더인지 모르겠으면 --붙여넣기 없이 한 번 돌리세요.
+ *   올릴 순서와 넣을 명령을 그대로 찍어줍니다.
+ *
+ * ============================================================ */
 /**
  * 이미지주소적용.js — 티스토리에 올린 이미지를 발행용 HTML에 넣는다 (moneyweather)
  *
@@ -74,8 +87,16 @@ if (!needReplace.length) {
 if (!items.length) {
   console.log(`이미지 ${needReplace.length}장을 이 순서로 티스토리에 올리세요.\n`);
   needReplace.forEach((s, i) => console.log(`  ${i + 1}. ${path.resolve(dir, s)}`));
-  console.log('\n올린 뒤 HTML 모드에서 [##_Image|...] 부분을 복사해서 이렇게 넘기세요.');
-  console.log(`  node 05_자동화/생성/이미지주소적용.js "${dir}" --붙여넣기 '복사한내용'`);
+  console.log('');
+  console.log('올린 뒤 HTML 모드로 바꿔서 [##_Image|...] 를 통째로 복사하세요.');
+  console.log('');
+  console.log('  ┌─ 복사한 건 JS 파일이 아니라 여기에 넣습니다 ──────────');
+  console.log('  │');
+  console.log(`  │   node 05_자동화/생성/이미지주소적용.js "${dir}" --붙여넣기 '★'`);
+  console.log('  │');
+  console.log('  │   ★ 자리에 복사한 내용을 붙여넣습니다');
+  console.log('  │');
+  console.log("  └─ 작은따옴표 ' ' 로 감쌉니다. 큰따옴표는 안 됩니다 ─────");
   process.exit(0);
 }
 
