@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 이미지렌더.js — 04_이미지/_소스/*.html 을 PNG로 찍어낸다 (moneyweather)
+ * 이미지렌더.js — 04_이미지/<글폴더>/_소스/*.html 을 PNG로 찍어낸다 (moneyweather)
  *
  * 이미지 소스는 색을 직접 적지 않고 var(--navy) 처럼 쓴다.
  * 이 스크립트가 렌더링 직전에 05_자동화/팔레트.js 의 색을 주입한다.
@@ -8,10 +8,16 @@
  *
  * 사용법
  *   node 05_자동화/생성/이미지렌더.js            전부 다시 만든다
- *   node 05_자동화/생성/이미지렌더.js chart01     이름에 chart01 이 들어간 것만
+ *   node 05_자동화/생성/이미지렌더.js 2026-09-07  경로에 그 글자가 들어간 것만
+ *
+ * 그림은 글 단위 폴더에 모여 있다. 티스토리에 올릴 때 폴더 하나만 열면 된다.
+ *   04_이미지/2026-09-07_ISA_직장인_실제혜택/01_썸네일.png
+ *   04_이미지/2026-09-07_ISA_직장인_실제혜택/_소스/01_썸네일.html
+ *
+ * 번호는 글에 나오는 순서이자 티스토리에 올리는 순서다.
  *
  * 소스 파일 맨 위에 출력 위치를 적어둔다.
- *   <!-- @출력 04_이미지/차트/파일명.png -->
+ *   <!-- @출력 04_이미지/2026-09-07_ISA_직장인_실제혜택/01_썸네일.png -->
  *   <!-- @크기 1600x900 -->            (없으면 1600x900)
  *
  * 알아둘 것
@@ -31,7 +37,23 @@ const { cssVars } = require('../팔레트.js');
 // ---------------------------------------------------------------- 준비
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const SRC_DIR = path.join(ROOT, '04_이미지', '_소스');
+const IMG_DIR = path.join(ROOT, '04_이미지');
+
+// 04_이미지/<글폴더>/_소스/*.html 을 전부 찾는다.
+// ROOT 기준 상대경로로 돌려준다 — 화면에 찍을 때도, 걸러낼 때도 이게 편하다.
+function findSources() {
+  if (!fs.existsSync(IMG_DIR)) return [];
+  const out = [];
+  for (const post of fs.readdirSync(IMG_DIR, { withFileTypes: true })) {
+    if (!post.isDirectory()) continue;
+    const dir = path.join(IMG_DIR, post.name, '_소스');
+    if (!fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir).sort()) {
+      if (f.endsWith('.html')) out.push(path.relative(ROOT, path.join(dir, f)).split(path.sep).join('/'));
+    }
+  }
+  return out.sort();
+}
 
 function findChrome() {
   const cands = [
@@ -52,8 +74,9 @@ function findChrome() {
 
 // ---------------------------------------------------------------- 렌더
 
-function render(chrome, tmp, srcPath) {
-  const name = path.basename(srcPath);
+function render(chrome, tmp, rel) {
+  const srcPath = path.join(ROOT, rel);
+  const name = rel;
   const raw = fs.readFileSync(srcPath, 'utf8');
 
   const out = (raw.match(/<!--\s*@출력\s+(.+?)\s*-->/) || [])[1];
@@ -106,10 +129,7 @@ const filter = process.argv[2] || '';
 const chrome = findChrome();
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'mw-img-'));
 
-const files = fs.readdirSync(SRC_DIR)
-  .filter((f) => f.endsWith('.html'))
-  .filter((f) => !filter || f.includes(filter))
-  .sort();
+const files = findSources().filter((f) => !filter || f.includes(filter));
 
 if (!files.length) {
   console.log(filter ? `"${filter}" 에 해당하는 소스가 없습니다.` : '소스가 없습니다.');
@@ -119,7 +139,7 @@ if (!files.length) {
 console.log(`이미지 ${files.length}개를 다시 만듭니다 (팔레트 주입)`);
 let ok = 0;
 for (const f of files) {
-  if (render(chrome, tmp, path.join(SRC_DIR, f))) ok++;
+  if (render(chrome, tmp, f)) ok++;
 }
 fs.rmSync(tmp, { recursive: true, force: true });
 console.log(`\n완료: ${ok}/${files.length}`);

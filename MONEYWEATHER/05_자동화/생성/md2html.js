@@ -295,14 +295,13 @@ function checkConsistency(srcPath, bodyMd, imageSpecs) {
   }
 
   // 2) 이미지 소스 검사
-  //    글 폴더 이름의 날짜 접두어로 같은 날짜의 이미지 소스를 찾는다.
-  const stamp = (path.basename(path.dirname(srcPath)).match(/^\d{4}-\d{2}-\d{2}/) || [])[0];
-  const srcDir = root ? path.join(root, '04_이미지', '_소스') : null;
+  //    그림은 글과 같은 이름의 폴더에 들어 있다.
+  //    03_콘텐츠/초안/2026-09-07_ISA_.../  ->  04_이미지/2026-09-07_ISA_.../_소스/
+  const post = path.basename(path.dirname(srcPath));
+  const srcDir = root ? path.join(root, '04_이미지', post, '_소스') : null;
 
-  if (stamp && srcDir && fs.existsSync(srcDir)) {
-    const files = fs
-      .readdirSync(srcDir)
-      .filter((f) => f.startsWith(stamp) && f.endsWith('.html'));
+  if (srcDir && fs.existsSync(srcDir)) {
+    const files = fs.readdirSync(srcDir).filter((f) => f.endsWith('.html'));
 
     const bodyNums = meaningfulNumbers(bodyMd);
 
@@ -318,7 +317,9 @@ function checkConsistency(srcPath, bodyMd, imageSpecs) {
         notes.push(`${f} — 본문에 없는 숫자: ${orphans.join(', ')}`);
       }
     }
-    if (!files.length) notes.push(`04_이미지/_소스 에 ${stamp} 로 시작하는 파일이 없습니다.`);
+    if (!files.length) notes.push(`04_이미지/${post}/_소스 가 비어 있습니다.`);
+  } else if (root) {
+    notes.push(`04_이미지/${post}/_소스 폴더가 없습니다. 그림 소스는 글과 같은 이름의 폴더에 둡니다.`);
   }
 
   // 3) 리포트
