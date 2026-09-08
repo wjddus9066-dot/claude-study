@@ -240,6 +240,30 @@ function 검사(draftPath) {
     }
   }
 
+  // ── 8b. 숫자가 촘촘한 문단 (글쓰기톤 §2.5 — 30자당 1개를 넘지 않는다)
+  //    「100만원 벌면 15만 4천원 빠지고 84만 6천원 들어옵니다」처럼
+  //    독자가 빼면 나오는 값까지 다 적어놓은 문단을 잡는다.
+  //    숫자 하나짜리 짧은 문장은 세지 않는다. 그건 숫자가 곧 내용이다.
+  const proseParas = body
+    .replace(/```[a-z]*\n[\s\S]*?```/g, '\n')
+    .split('\n')
+    .filter((l) => !l.trim().startsWith('|') && !l.trim().startsWith('[출처]') &&
+                   !l.trim().startsWith('>') && !l.trim().startsWith('#'))
+    .join('\n')
+    .split(/\n\s*\n/)
+    .map((s) => s.trim().replace(/\*\*/g, ''))
+    .filter(Boolean);
+
+  for (const p of proseParas) {
+    const chars = p.replace(/\s/g, '').length;
+    const nums = (p.match(/[0-9][0-9,.]*/g) || []).length;
+    if (nums >= 4 && chars / nums < 20) {
+      add(YELLOW, '숫자 밀도',
+        '한 문단에 숫자가 ' + nums + '개입니다 (' + Math.round(chars / nums) +
+        '자당 1개): ' + p.slice(0, 46));
+    }
+  }
+
   // ── 8. 표가 붙어 있음 (글쓰기톤 §2.5 — 표가 연달아 나오면 눈이 미끄러진다)
   const blocks = body.split(/\n\s*\n/);
   let prev = -9;
