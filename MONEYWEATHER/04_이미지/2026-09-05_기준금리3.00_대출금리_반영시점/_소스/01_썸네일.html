@@ -7,7 +7,10 @@
 
   세 가지를 지킨다.
     1. 제목을 그대로 옮겨 적지 않는다 (제목이 옆에 글자로 이미 보인다)
-    2. 답을 다 주지 않는다 — 답이 「있다」는 것만 보여주고 열게 만든다
+    2. 답을 다 주지 않는다
+       「두 번의 기다림이 있다」까지만 말하고 그게 뭔지는 말하지 않는다.
+       이름을 대는 순간 본문 [정답] 박스와 같은 내용이 되어 열 이유가 사라진다.
+       (실제로 한 번 그렇게 만들었다가 되돌렸다)
     3. 가정을 단정으로 말하지 않는다
        (11월 20일은 본문에서 「예를 들어」로 든 가정이다. 여기 쓰지 않는다)
     4. 로고(온도계)를 넣지 않는다 — 그건 파비콘이다.
@@ -38,19 +41,15 @@
   /* 목록에서 이것만 읽혀도 성립해야 한다 */
   .hook { margin-top:72px; font-size:146px; font-weight:800;
           letter-spacing:-7px; line-height:1.12; color:var(--navy-d); }
+  /* 답이 아니라 약속. 구체적인 답이 안에 있다는 것만 알린다 */
+  .promise { margin-top:56px; font-size:54px; font-weight:700;
+             line-height:1.38; color:var(--muted); letter-spacing:-1.5px; }
+
   .hook em {
     font-style:normal;
     background:linear-gradient(transparent 60%, var(--pink-bg) 60%);
   }
 
-  .chips { margin-top:70px; display:flex; gap:34px; }
-  .chip {
-    flex:1; background:var(--cream); border:3px solid var(--line);
-    border-radius:20px; padding:30px 36px;
-  }
-  .chip .n { font-size:38px; font-weight:800; color:var(--pink); }
-  .chip .t { margin-top:12px; font-size:56px; font-weight:800;
-             letter-spacing:-1.5px; line-height:1.28; }
 
 </style>
 <div class="card">
@@ -61,15 +60,7 @@
 
   <div class="hook">사이에<br><em>두 번의 기다림</em></div>
 
-  <div class="chips">
-    <div class="chip">
-      <div class="n">첫 번째</div>
-      <div class="t">코픽스는<br>한 달에 한 번</div>
-    </div>
-    <div class="chip">
-      <div class="n">두 번째</div>
-      <div class="t">내 대출의<br>금리 바뀌는 날</div>
-    </div>
-  </div>
+  <div class="promise">내 이자가 언제 오르는지<br>날짜로 세어봤습니다</div>
+
 
 </div>
