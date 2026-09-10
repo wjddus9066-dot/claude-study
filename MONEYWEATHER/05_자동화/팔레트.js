@@ -51,4 +51,32 @@ function cssVars() {
   return `:root{\n${vars.join('\n')}\n    --font:${FONT};\n  }`;
 }
 
-module.exports = { C, FONT, MONO, cssVars };
+
+/**
+ * 그림에 쓸 글꼴.
+ *
+ * 라이선스를 확인한 것만 넣는다. (MAINSKIN/글꼴.md)
+ * 학교안심 알림장 — OFL. 상업 이용·임베딩·재배포까지 자유롭다.
+ *
+ * 이미지렌더.js 가 임시폴더에서 그리기 때문에 상대경로로는 글꼴을 못 찾는다.
+ * 그래서 렌더링 직전에 절대경로로 바꿔 넣어준다. 색을 주입하는 것과 같은 방식이다.
+ */
+const FONTS = [
+  { name: '알림장',   file: 'MAINSKIN/Font/학교안심 알림장/Hakgyoansim Allimjang TTF B.ttf', weight: 700 },
+  { name: '알림장',   file: 'MAINSKIN/Font/학교안심 알림장/Hakgyoansim Allimjang TTF R.ttf', weight: 400 },
+];
+
+function fontFaces(root) {
+  const path = require('path');
+  const fs = require('fs');
+  return FONTS.filter((f) => fs.existsSync(path.join(root, f.file)))
+    .map((f) => {
+      const abs = path.join(root, f.file).split(path.sep).join('/');
+      const url = 'file:///' + encodeURI(abs);
+      return `@font-face{font-family:'${f.name}';font-weight:${f.weight};` +
+             `src:url('${url}') format('truetype');}`;
+    })
+    .join('\n');
+}
+
+module.exports = { C, FONT, MONO, FONTS, cssVars, fontFaces };

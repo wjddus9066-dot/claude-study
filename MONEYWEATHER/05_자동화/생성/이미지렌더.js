@@ -32,7 +32,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const { execFileSync } = require('child_process');
-const { cssVars } = require('../팔레트.js');
+const { cssVars, fontFaces } = require('../팔레트.js');
 
 // ---------------------------------------------------------------- 준비
 
@@ -87,7 +87,12 @@ function render(chrome, tmp, rel) {
   const size = (raw.match(/<!--\s*@크기\s+(\d+)x(\d+)\s*-->/) || [, 1600, 900]).slice(1);
 
   // 팔레트를 <style>로 주입한다. 소스에는 색이 없다.
-  const html = raw.replace(/<meta charset="utf-8">/i, `<meta charset="utf-8">\n<style>${cssVars()}</style>`);
+  // 색과 글꼴을 함께 주입한다.
+  // 임시폴더에서 그리기 때문에 소스에 상대경로로 적으면 글꼴을 못 찾는다.
+  const html = raw.replace(
+    /<meta charset="utf-8">/i,
+    `<meta charset="utf-8">\n<style>\n${fontFaces(ROOT)}\n${cssVars()}\n</style>`
+  );
   if (html === raw) {
     console.log(`  [건너뜀] ${name} — <meta charset="utf-8"> 를 찾지 못해 색을 넣을 수 없습니다`);
     return null;
