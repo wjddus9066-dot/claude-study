@@ -112,18 +112,16 @@
         style="stroke:var(--rose)" stroke-width="9" stroke-linecap="round"
         stroke-dasharray="2 26"/>
 
-  <!-- 날개 — 그날이 오면 이 돈이 빠져나간다 -->
-  <g stroke-width="8" stroke-linejoin="round" style="stroke:var(--navy-d);fill:var(--ivory)">
-    <g transform="translate(268 524) rotate(-14)">
-      <ellipse cx="-38" cy="-20" rx="36" ry="13"/>
-      <ellipse cx="-34" cy="2"   rx="44" ry="14"/>
-      <ellipse cx="-26" cy="23"  rx="34" ry="12"/>
-    </g>
-    <g transform="translate(392 524) rotate(14) scale(-1 1)">
-      <ellipse cx="-38" cy="-20" rx="36" ry="13"/>
-      <ellipse cx="-34" cy="2"   rx="44" ry="14"/>
-      <ellipse cx="-26" cy="23"  rx="34" ry="12"/>
-    </g>
+  <!-- 양옆의 작은 동그라미 — 금리가 오르내린다는 표시.
+       빈 동그라미로 두면 아무 뜻이 없어서 + − 를 넣는다. -->
+  <g stroke-width="8" style="stroke:var(--navy-d);fill:var(--ivory)">
+    <circle cx="214" cy="566" r="34"/>
+    <circle cx="448" cy="552" r="38"/>
+  </g>
+  <g stroke-width="8" stroke-linecap="round" style="stroke:var(--navy-d)">
+    <line x1="198" y1="566" x2="230" y2="566"/>
+    <line x1="430" y1="552" x2="466" y2="552"/>
+    <line x1="448" y1="534" x2="448" y2="570"/>
   </g>
   <!-- 날개 위에 올라탄 동전 -->
   <g stroke-width="9" style="stroke:var(--navy-d)">
