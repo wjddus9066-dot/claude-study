@@ -10,6 +10,10 @@
     2. 답을 다 주지 않는다 — 답이 「있다」는 것만 보여주고 열게 만든다
     3. 가정을 단정으로 말하지 않는다
        (11월 20일은 본문에서 「예를 들어」로 든 가정이다. 여기 쓰지 않는다)
+    4. 로고(온도계)를 넣지 않는다 — 그건 파비콘이다.
+       MAINSKIN/images/icon-master.png 가 브라우저 탭과 검색 결과에서
+       글 옆에 이미 붙는다. 썸네일에 또 넣으면 같은 마크가 두 번 나오고
+       그림의 1/4을 잡아먹는다. 브랜드는 색과 블로그 이름이 이미 나른다.
 
   글자 크기 기준: 목록 폭 320px = 원본의 1/5.
   원본 100px 이상이라야 목록에서 20px로 읽힌다.
@@ -27,29 +31,27 @@
           display:flex; flex-direction:column; position:relative; }
 
   .top { display:flex; justify-content:space-between; align-items:flex-start; }
-  .rate { font-size:40px; font-weight:800; color:var(--navy-d); letter-spacing:-1px; }
+  .rate { font-size:46px; font-weight:800; color:var(--navy-d); letter-spacing:-1px; }
   .rate span { color:var(--rose); }
-  .brand { font-size:30px; color:var(--muted); letter-spacing:.5px; }
+  .brand { font-size:38px; color:var(--muted); letter-spacing:.5px; }
 
   /* 목록에서 이것만 읽혀도 성립해야 한다 */
-  .hook { margin-top:64px; font-size:132px; font-weight:800;
-          letter-spacing:-6px; line-height:1.12; color:var(--navy-d); }
+  .hook { margin-top:72px; font-size:146px; font-weight:800;
+          letter-spacing:-7px; line-height:1.12; color:var(--navy-d); }
   .hook em {
     font-style:normal;
     background:linear-gradient(transparent 60%, var(--pink-bg) 60%);
   }
 
-  .chips { margin-top:62px; display:flex; gap:28px; max-width:1000px; }
+  .chips { margin-top:70px; display:flex; gap:34px; }
   .chip {
     flex:1; background:var(--cream); border:3px solid var(--line);
-    border-radius:18px; padding:26px 30px;
+    border-radius:20px; padding:30px 36px;
   }
-  .chip .n { font-size:34px; font-weight:800; color:var(--pink); }
-  .chip .t { margin-top:10px; font-size:44px; font-weight:800;
+  .chip .n { font-size:38px; font-weight:800; color:var(--pink); }
+  .chip .t { margin-top:12px; font-size:56px; font-weight:800;
              letter-spacing:-1.5px; line-height:1.28; }
 
-  /* 로고의 온도계 — 작게 줄여도 형태로 알아본다 */
-  .thermo { position:absolute; right:104px; bottom:96px; }
 </style>
 <div class="card">
   <div class="top">
@@ -70,23 +72,4 @@
     </div>
   </div>
 
-  <svg class="thermo" width="196" height="366" viewBox="0 0 230 430" fill="none">
-    <g stroke-width="11" stroke-linecap="round" style="stroke:var(--navy)">
-      <line x1="150" y1="96"  x2="205" y2="96"/>
-      <line x1="150" y1="152" x2="205" y2="152"/>
-      <line x1="150" y1="208" x2="205" y2="208"/>
-      <line x1="150" y1="264" x2="205" y2="264"/>
-    </g>
-    <path d="M52 96a34 34 0 0 1 68 0v168a34 34 0 0 1-68 0z" stroke-width="13" style="stroke:var(--navy-d)"/>
-    <rect x="72" y="150" width="28" height="180" rx="14" style="fill:var(--pink)"/>
-    <circle cx="86" cy="336" r="66" stroke-width="13" style="fill:var(--ivory);stroke:var(--navy-d)"/>
-    <circle cx="86" cy="336" r="44" style="fill:var(--pink)"/>
-    <text x="86" y="356" font-size="52" font-weight="800"
-          text-anchor="middle" font-family="'Malgun Gothic',sans-serif" style="fill:var(--ivory)">₩</text>
-    <g stroke-width="11" stroke-linecap="round" style="stroke:var(--gold)">
-      <line x1="168" y1="34" x2="188" y2="14"/>
-      <line x1="176" y1="60" x2="204" y2="60"/>
-    </g>
-    <line x1="140" y1="26" x2="140" y2="0" stroke-width="11" stroke-linecap="round" style="stroke:var(--pink)"/>
-  </svg>
 </div>
