@@ -57,15 +57,49 @@
 const fs = require('fs');
 const path = require('path');
 
+/**
+ * 글폴더 후보를 찾아 화면에 뿌린다.
+ *
+ * 폴더 이름을 잘못 넣었을 때 「없습니다」로 끝내지 않기 위한 것이다.
+ * 실제로 문서의 <글폴더> 표기를 그대로 따라 하다 엉뚱한 폴더를 만든 일이 있었다.
+ */
+function 글폴더목록() {
+  const base = path.join('03_콘텐츠', '초안');
+  if (!fs.existsSync(base)) return [];
+  return fs.readdirSync(base, { withFileTypes: true })
+    .filter((d) => d.isDirectory() && fs.existsSync(path.join(base, d.name, 'draft.md')))
+    .map((d) => path.join(base, d.name).split(path.sep).join('/'));
+}
+
+function 길안내(머리말) {
+  console.error(머리말 + '\n');
+  const list = 글폴더목록();
+  if (!list.length) {
+    console.error('03_콘텐츠/초안/ 아래에 글폴더가 없습니다.');
+    return;
+  }
+  console.error('아래 중 하나를 그대로 복사해서 쓰세요. 꺾쇠(< >)는 빼고 넣습니다.\n');
+  list.forEach((d) => console.error(`  node 05_자동화/생성/이미지주소적용.js "${d}"`));
+}
+
 const argv = process.argv.slice(2);
 if (!argv.length) {
-  console.error('사용법: node 이미지주소적용.js <초안폴더> --붙여넣기 \'복사한내용\'');
+  길안내('어느 글인지 알려주세요.');
   process.exit(1);
 }
 
-const dir = argv[0];
+// 문서의 자리표시자를 그대로 붙여넣은 경우를 먼저 잡는다
+const dir = argv[0].replace(/^["']|["']$/g, '');
+if (/^<.*>$/.test(dir) || dir === '글폴더' || dir === '초안폴더') {
+  길안내(`"${dir}" 는 자리표시자입니다. 실제 폴더 경로를 넣어야 합니다.`);
+  process.exit(1);
+}
 if (!fs.existsSync(dir)) {
-  console.error('폴더를 찾을 수 없습니다: ' + dir);
+  길안내('폴더를 찾을 수 없습니다: ' + dir);
+  process.exit(1);
+}
+if (!fs.existsSync(path.join(dir, 'draft.md'))) {
+  길안내(`"${dir}" 안에 draft.md 가 없습니다. 글폴더가 아닌 것 같습니다.`);
   process.exit(1);
 }
 

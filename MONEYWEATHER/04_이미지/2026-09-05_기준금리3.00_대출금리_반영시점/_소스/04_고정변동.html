@@ -1,0 +1,90 @@
+<!doctype html>
+<meta charset="utf-8">
+<!-- @출력 04_이미지/2026-09-05_기준금리3.00_대출금리_반영시점/04_고정변동.png -->
+<!-- @크기 1600x900 -->
+<!--
+  고정금리 vs 변동금리 — 글자로만 설명하던 핵심 개념.
+
+  이 글을 이해하려면 「내 대출이 어느 쪽인가」를 먼저 알아야 한다.
+  두 줄 설명으로는 머릿속에 그림이 안 그려져서 옆에 나란히 놓았다.
+
+  숫자는 개념 설명용 예시다. 본문의 실제 금리와 섞이지 않도록
+  본문에 나오지 않는 값(3.5/3.9/4.3)을 쓰고 「예시」라고 못박았다.
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1600px; height:900px; overflow:hidden; background:var(--ivory);
+    font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif; color:var(--navy);
+    padding:62px 90px 0;
+  }
+  h2 { font-size:50px; font-weight:800; letter-spacing:-1.5px; }
+  .sub { font-size:27px; color:var(--muted); margin-top:12px; }
+
+  .row { display:flex; gap:46px; margin-top:52px; }
+  .col {
+    flex:1; background:var(--cream); border:2px solid var(--line);
+    border-radius:18px; padding:32px 34px 30px;
+  }
+  .col.hi { border-color:var(--pink); background:var(--pink-bg); }
+
+  .name { font-size:38px; font-weight:800; letter-spacing:-1px; }
+  .desc { font-size:25px; color:var(--muted); margin-top:12px; line-height:1.5; min-height:76px; }
+
+  /* 시간에 따라 붙는 가격표 */
+  .tags { display:flex; gap:14px; margin-top:26px; }
+  .tag { flex:1; text-align:center; }
+  .tag .m { font-size:21px; color:var(--muted); }
+  .tag .v {
+    margin-top:9px; font-size:33px; font-weight:800; color:var(--navy-d);
+    background:var(--ivory); border:2px solid var(--line);
+    border-radius:10px; padding:12px 0;
+  }
+  .col.hi .tag .v { border-color:var(--pink); }
+  .tag.up .v { color:var(--rose); }
+
+  .verdict { margin-top:26px; font-size:26px; font-weight:700; line-height:1.5; }
+  .verdict.same { color:var(--muted); }
+  .verdict.move { color:var(--rose); }
+
+  .note {
+    margin-top:40px; background:var(--gold-bg); border-left:6px solid var(--gold);
+    padding:22px 30px; font-size:27px; line-height:1.55;
+  }
+  .note b { font-weight:800; }
+  .src { margin-top:20px; font-size:21px; color:var(--muted-l); }
+</style>
+
+<h2>내 대출은 어느 쪽인가요?</h2>
+<div class="sub">기준금리가 올라서 영향을 받는 건 둘 중 한쪽뿐입니다 · 아래 숫자는 개념 설명용 예시</div>
+
+<div class="row">
+  <div class="col">
+    <div class="name">고정금리</div>
+    <div class="desc">처음 정한 금리가<br>끝까지 그대로 갑니다</div>
+    <div class="tags">
+      <div class="tag"><div class="m">지금</div><div class="v">3.5%</div></div>
+      <div class="tag"><div class="m">6개월 뒤</div><div class="v">3.5%</div></div>
+      <div class="tag"><div class="m">1년 뒤</div><div class="v">3.5%</div></div>
+    </div>
+    <div class="verdict same">기준금리가 올라도 그대로</div>
+  </div>
+
+  <div class="col hi">
+    <div class="name">변동금리</div>
+    <div class="desc">정해진 날이 오면<br>금리를 다시 계산합니다</div>
+    <div class="tags">
+      <div class="tag"><div class="m">지금</div><div class="v">3.5%</div></div>
+      <div class="tag up"><div class="m">6개월 뒤</div><div class="v">3.9%</div></div>
+      <div class="tag up"><div class="m">1년 뒤</div><div class="v">4.3%</div></div>
+    </div>
+    <div class="verdict move">이쪽이 기준금리를 따라 움직입니다</div>
+  </div>
+</div>
+
+<div class="note">
+  내 대출이 어느 쪽인지는 <b>대출 약정서나 은행 앱</b>에 적혀 있습니다.<br>
+  고정금리라면 이번 인상과 상관없습니다.
+</div>
+
+<div class="src">오늘의 재테크온도</div>

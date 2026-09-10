@@ -1,0 +1,91 @@
+<!doctype html>
+<meta charset="utf-8">
+<!-- @출력 04_이미지/2026-09-05_기준금리3.00_대출금리_반영시점/05_닷새만.png -->
+<!-- @크기 1600x900 -->
+<!--
+  「왜 8월 인상이 9월 발표 코픽스에 닷새만 들어가나」
+
+  이 글에서 가장 이해하기 어려운 대목이다. 표로 설명하면
+  「닷새뿐」이라는 글자는 읽히는데 왜 그런지는 안 그려진다.
+  8월 한 달을 달력 띠로 깔아놓으면 한 번에 보인다.
+
+  숫자·날짜는 전부 본문에서 검증한 것이다.
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1600px; height:900px; overflow:hidden; background:var(--ivory);
+    font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif; color:var(--navy);
+    padding:62px 90px 0;
+  }
+  h2 { font-size:48px; font-weight:800; letter-spacing:-1.5px; }
+  .sub { font-size:27px; color:var(--muted); margin-top:12px; }
+
+  .band { margin-top:56px; }
+  .label { font-size:26px; color:var(--muted); margin-bottom:14px; }
+  .label b { color:var(--navy-d); font-weight:800; }
+
+  /* 8월 한 달을 31칸으로 */
+  .days { display:flex; gap:4px; }
+  .d { flex:1; height:78px; border-radius:5px; background:var(--line);
+       display:flex; align-items:flex-end; justify-content:center;
+       font-size:17px; color:var(--muted-l); padding-bottom:7px; }
+  .d.after { background:var(--pink); color:var(--ivory); font-weight:800; }
+
+  .mark { position:relative; height:62px; margin-top:10px; }
+  .mark .pin {
+    position:absolute; left:83.2%; transform:translateX(-50%);
+    text-align:center; font-size:24px; font-weight:800; color:var(--rose);
+    line-height:1.35;
+  }
+  .mark .pin span { display:block; font-size:21px; font-weight:400; color:var(--muted); }
+
+  .counts { display:flex; gap:22px; margin-top:34px; }
+  .cnt { flex:1; border-radius:14px; padding:24px 26px; }
+  .cnt.grey { background:var(--cream); border:2px solid var(--line); }
+  .cnt.pink { background:var(--pink-bg); border:2px solid var(--pink); }
+  .cnt .big { font-size:44px; font-weight:800; color:var(--navy-d); }
+  .cnt .txt { font-size:24px; color:var(--muted); margin-top:10px; line-height:1.45; }
+
+  .note {
+    margin-top:38px; background:var(--gold-bg); border-left:6px solid var(--gold);
+    padding:22px 30px; font-size:27px; line-height:1.55;
+  }
+  .note b { font-weight:800; }
+  .src { margin-top:18px; font-size:21px; color:var(--muted-l); }
+</style>
+
+<h2>8월 인상이 9월 발표에 「닷새만」 들어가는 이유</h2>
+<div class="sub">코픽스는 그 달 전체를 평균 내서 계산합니다 · 아래는 2026년 8월</div>
+
+<div class="band">
+  <div class="label">2026년 8월 &nbsp;·&nbsp; 기준금리 인상은 <b>8월 27일</b></div>
+  <div class="days">
+    <div class="d">1</div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d">5</div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d">10</div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d">15</div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d">20</div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d">25</div>
+    <div class="d"></div>
+    <div class="d after">27</div><div class="d after"></div><div class="d after"></div><div class="d after"></div><div class="d after">31</div>
+  </div>
+  <div class="mark"><div class="pin">↑<span>여기서 올랐습니다</span></div></div>
+</div>
+
+<div class="counts">
+  <div class="cnt grey">
+    <div class="big">26일</div>
+    <div class="txt">인상 전 금리로 돈을 구해온 기간</div>
+  </div>
+  <div class="cnt pink">
+    <div class="big">5일</div>
+    <div class="txt">오른 금리가 적용된 기간</div>
+  </div>
+</div>
+
+<div class="note">
+  그래서 9월 15일에 나오는 8월분 코픽스에는 <b>인상분이 조금밖에 못 들어갑니다.</b><br>
+  한 달 내내 적용된 건 <b>9월분</b>이고, 그 숫자는 10월 15일에 발표됩니다.
+</div>
+
+<div class="src">자료: 전국은행연합회 COFIX 공시 | 2026-09-06 기준 | 오늘의 재테크온도</div>
