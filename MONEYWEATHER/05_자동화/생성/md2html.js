@@ -456,7 +456,7 @@ const STYLE = {
 
   // 한 문장 정답 — 글에서 가장 먼저 눈에 들어와야 하는 한 덩어리
   // 본문보다 크고 진하게. 스크롤하기 전에 답을 주는 자리다.
-  '.answer-box': `background:${C.pinkBg}; border-left:5px solid ${C.pink}; border-radius:0 10px 10px 0; padding:20px 24px; margin:28px 0 34px;`,
+  '.answer-box': `background:${C.cream}; border-left:6px solid ${C.pink}; border-radius:0 10px 10px 0; padding:22px 26px; margin:28px 0 34px;`,
   '.answer-box p': `margin:0 0 10px; font-size:1.02rem; line-height:1.72; color:${C.navyD};`,
   '.answer-box p:last-child': `margin:0;`,
   '.answer-box strong': `color:${C.navyD};`,
@@ -480,7 +480,7 @@ const STYLE = {
 };
 
 // 본문을 감싸는 바탕. 티스토리에서는 이게 없으면 스킨 배경이 그대로 비친다.
-const SHELL = `background:${C.ivory}; color:${C.navy}; font-family:${FONT}; line-height:1.75; font-size:17px; letter-spacing:-.01em; max-width:100%; overflow-wrap:break-word; word-break:keep-all;`;
+const SHELL = `color:${C.navy}; font-family:${FONT}; line-height:1.75; font-size:17px; letter-spacing:-.01em; max-width:100%; overflow-wrap:break-word; word-break:keep-all;`;
 
 // ---------------------------------------------------------------- 인라인 스타일
 
