@@ -3,11 +3,16 @@
 <!-- @출력 04_이미지/2026-09-05_기준금리3.00_대출금리_반영시점/01_썸네일.png -->
 <!-- @크기 1600x900 -->
 <!--
-  썸네일 — 목록에서 이 그림 하나만 보고 클릭할지 정한다.
+  썸네일 — 목록에서 320px 폭으로 보인다. 그 크기에서 읽히는 것만 넣는다.
 
-  제목을 그대로 옮겨 적지 않는다. 제목은 옆에 글자로 이미 보인다.
-  대신 제목이 던진 질문의 「답의 모양」을 보여준다.
-  여기서는 8월 27일에 오른 것이 11월에야 도착한다는 시차 그 자체.
+  세 가지를 지킨다.
+    1. 제목을 그대로 옮겨 적지 않는다 (제목이 옆에 글자로 이미 보인다)
+    2. 답을 다 주지 않는다 — 답이 「있다」는 것만 보여주고 열게 만든다
+    3. 가정을 단정으로 말하지 않는다
+       (11월 20일은 본문에서 「예를 들어」로 든 가정이다. 여기 쓰지 않는다)
+
+  글자 크기 기준: 목록 폭 320px = 원본의 1/5.
+  원본 100px 이상이라야 목록에서 20px로 읽힌다.
 
   색 정의는 00_브랜드/색상.md
 -->
@@ -18,68 +23,70 @@
     font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif;
     background:var(--ivory); color:var(--navy);
   }
-  .card { width:1600px; height:900px; padding:74px 104px 0; display:flex; flex-direction:column;
-          position:relative; }
+  .card { width:1600px; height:900px; padding:66px 96px 0;
+          display:flex; flex-direction:column; position:relative; }
 
-  .top { display:flex; justify-content:space-between; align-items:center; }
-  .kicker { font-size:30px; letter-spacing:.5px; color:var(--muted); font-weight:700; }
-  .brand { font-size:26px; color:var(--muted); letter-spacing:1px; }
+  .top { display:flex; justify-content:space-between; align-items:flex-start; }
+  .rate { font-size:40px; font-weight:800; color:var(--navy-d); letter-spacing:-1px; }
+  .rate span { color:var(--rose); }
+  .brand { font-size:30px; color:var(--muted); letter-spacing:.5px; }
 
-  /* 한 줄짜리 후킹 문구 — 제목을 반복하지 않고 질문만 남긴다 */
-  .hook { margin-top:52px; font-size:68px; font-weight:800; letter-spacing:-2.5px; line-height:1.3; }
+  /* 목록에서 이것만 읽혀도 성립해야 한다 */
+  .hook { margin-top:64px; font-size:132px; font-weight:800;
+          letter-spacing:-6px; line-height:1.12; color:var(--navy-d); }
   .hook em {
     font-style:normal;
-    background:linear-gradient(transparent 62%, var(--pink-bg) 62%);
+    background:linear-gradient(transparent 60%, var(--pink-bg) 60%);
   }
 
-  /* 시차를 눈으로 보여주는 세 칸 — 점을 잇는 선을 점 뒤에 깐다 */
-  .track { margin-top:76px; display:flex; position:relative; }
-  .rail { position:absolute; left:16.6%; right:16.6%; top:14px;
-          height:4px; background:var(--line-d); }
-  .stop { flex:1; text-align:center; position:relative; }
-  .dot { width:32px; height:32px; border-radius:50%; margin:0 auto;
-         background:var(--line-d); position:relative;
-         box-shadow:0 0 0 10px var(--ivory); }
-  .stop.on .dot { background:var(--pink); }
-  .stop.last .dot { background:var(--navy-d); }
-  .stop .when { margin-top:26px; font-size:38px; font-weight:800; color:var(--navy-d); }
-  .stop .what { margin-top:12px; font-size:27px; color:var(--muted); line-height:1.4; }
+  .chips { margin-top:62px; display:flex; gap:28px; max-width:1000px; }
+  .chip {
+    flex:1; background:var(--cream); border:3px solid var(--line);
+    border-radius:18px; padding:26px 30px;
+  }
+  .chip .n { font-size:34px; font-weight:800; color:var(--pink); }
+  .chip .t { margin-top:10px; font-size:44px; font-weight:800;
+             letter-spacing:-1.5px; line-height:1.28; }
 
-  .wait { margin-top:74px; font-size:34px; color:var(--muted); }
-  .wait b { color:var(--rose); font-weight:800; }
-
-  .foot { margin-top:auto; margin-left:-104px; margin-right:-104px;
-          background:var(--cream); border-top:1px solid var(--line);
-          padding:24px 104px; font-size:24px; color:var(--muted); }
+  /* 로고의 온도계 — 작게 줄여도 형태로 알아본다 */
+  .thermo { position:absolute; right:104px; bottom:96px; }
 </style>
 <div class="card">
   <div class="top">
-    <div class="kicker">2026년 8월 · 한국은행 기준금리 3.00%</div>
+    <div class="rate">기준금리 <span>3.00%</span> · 8월 27일 인상</div>
     <div class="brand">오늘의 재테크온도</div>
   </div>
 
-  <div class="hook">금리는 8월에 올랐는데<br><em>내 이자는 11월에 오릅니다</em></div>
+  <div class="hook">사이에<br><em>두 번의 기다림</em></div>
 
-  <div class="track">
-    <div class="rail"></div>
-    <div class="stop on">
-      <div class="dot"></div>
-      <div class="when">8월 27일</div>
-      <div class="what">기준금리 인상</div>
+  <div class="chips">
+    <div class="chip">
+      <div class="n">첫 번째</div>
+      <div class="t">코픽스는<br>한 달에 한 번</div>
     </div>
-    <div class="stop">
-      <div class="dot"></div>
-      <div class="when">10월 15일</div>
-      <div class="what">코픽스 발표</div>
-    </div>
-    <div class="stop last">
-      <div class="dot"></div>
-      <div class="when">11월</div>
-      <div class="what">내 이자 변경</div>
+    <div class="chip">
+      <div class="n">두 번째</div>
+      <div class="t">내 대출의<br>금리 바뀌는 날</div>
     </div>
   </div>
 
-  <div class="wait">사이에 <b>두 번의 기다림</b>이 있습니다</div>
-
-  <div class="foot">변동금리 대출 기준 · 대출 조건에 따라 시점은 달라집니다</div>
+  <svg class="thermo" width="196" height="366" viewBox="0 0 230 430" fill="none">
+    <g stroke-width="11" stroke-linecap="round" style="stroke:var(--navy)">
+      <line x1="150" y1="96"  x2="205" y2="96"/>
+      <line x1="150" y1="152" x2="205" y2="152"/>
+      <line x1="150" y1="208" x2="205" y2="208"/>
+      <line x1="150" y1="264" x2="205" y2="264"/>
+    </g>
+    <path d="M52 96a34 34 0 0 1 68 0v168a34 34 0 0 1-68 0z" stroke-width="13" style="stroke:var(--navy-d)"/>
+    <rect x="72" y="150" width="28" height="180" rx="14" style="fill:var(--pink)"/>
+    <circle cx="86" cy="336" r="66" stroke-width="13" style="fill:var(--ivory);stroke:var(--navy-d)"/>
+    <circle cx="86" cy="336" r="44" style="fill:var(--pink)"/>
+    <text x="86" y="356" font-size="52" font-weight="800"
+          text-anchor="middle" font-family="'Malgun Gothic',sans-serif" style="fill:var(--ivory)">₩</text>
+    <g stroke-width="11" stroke-linecap="round" style="stroke:var(--gold)">
+      <line x1="168" y1="34" x2="188" y2="14"/>
+      <line x1="176" y1="60" x2="204" y2="60"/>
+    </g>
+    <line x1="140" y1="26" x2="140" y2="0" stroke-width="11" stroke-linecap="round" style="stroke:var(--pink)"/>
+  </svg>
 </div>
