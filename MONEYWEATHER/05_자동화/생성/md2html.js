@@ -208,7 +208,20 @@ function convert(md) {
       [buf, i] = readBlock(lines, i + 1, '정답');
       out.push('<aside class="answer-box">');
       buf.join('\n').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean)
-         .forEach((p) => out.push(`<p>${inline(p.replace(/\n/g, ' '))}</p>`));
+         .forEach((p) => {
+           // 「- 」로 시작하는 덩어리는 목록으로 낸다.
+           // 이유가 둘 이상일 때 「첫째·둘째」로 갈라놔야 AI가 골라 인용하기 좋다. (AEO)
+           if (/^-\s+/.test(p)) {
+             out.push('<ul class="answer-list">');
+             p.split('\n').forEach((li) => {
+               const t = li.replace(/^\s*-\s+/, '').trim();
+               if (t) out.push(`<li>${inline(t)}</li>`);
+             });
+             out.push('</ul>');
+             return;
+           }
+           out.push(`<p>${inline(p.replace(/\n/g, ' '))}</p>`);
+         });
       out.push('</aside>');
       continue;
     }
@@ -485,6 +498,8 @@ const STYLE = {
   '.answer-box': `background:${C.cream}; border-left:6px solid ${C.pink}; border-radius:0 10px 10px 0; padding:22px 26px; margin:28px 0 34px;`,
   '.answer-box p': `margin:0 0 10px; font-size:1.02rem; line-height:1.72; color:${C.navyD};`,
   '.answer-box p:last-child': `margin:0;`,
+  '.answer-box ul': `margin:2px 0 12px; padding-left:22px;`,
+  '.answer-box li': `margin-bottom:9px; font-size:1.02rem; line-height:1.72; color:${C.navyD};`,
   '.answer-box strong': `color:${C.navyD};`,
 
   // 오늘 할 것 — 읽고 끝나지 않게 만드는 상자
