@@ -205,6 +205,61 @@ if (!macros.length) {
   console.log('       HTML 모드의 [##_Image|...] 를 그대로 복사해 넘기는 쪽이 안전합니다.\n');
 }
 
+/**
+ * 순서가 아니라 파일명으로 맞춘다.
+ *
+ * 매크로 안에는 올릴 때의 파일명이 들어 있다.
+ *   [##_Image|kage@.../img.png?...|CDM|1.3|{..."filename":"02_전달경로.png"}_##]
+ *
+ * 순서로만 맞추면 「본문에 나오는 순서」와 「파일명 번호」가 어긋났을 때
+ * 그림이 조용히 엉뚱한 자리에 붙는다. 실제로 그런 일이 있었다.
+ * 이름으로 맞추면 올린 순서가 어떻든 상관없어진다.
+ */
+const 파일명 = (m) => (m.match(/"filename":"([^"]+)"/) || [])[1];
+
+// 앞의 번호를 뗀 이름. 「02_전달경로.png」와 「03_전달경로.png」를 같은 것으로 본다.
+//
+// 그림을 새로 끼워 넣으면 번호를 다시 매기게 되는데, 그때마다 티스토리에
+// 다시 올리게 하면 낭비다. 그림 내용이 같으면 예전 주소가 그대로 유효하다.
+const 번호뗀이름 = (n) => String(n || '').replace(/^\d+_/, '');
+
+if (macros.length) {
+  const 있는이름 = new Map(macros.map((m) => [파일명(m), m]).filter(([k]) => k));
+  const 필요한이름 = needReplace.map((s) => path.basename(s));
+
+  // 정확한 이름으로 못 찾으면 번호를 떼고 한 번 더 본다
+  for (const n of 필요한이름) {
+    if (있는이름.has(n)) continue;
+    const 짝 = [...있는이름.entries()].find(([k]) => 번호뗀이름(k) === 번호뗀이름(n));
+    if (짝) 있는이름.set(n, 짝[1]);
+  }
+
+  const 빠진것 = 필요한이름.filter((n) => !있는이름.has(n));
+
+  if (!빠진것.length) {
+    // 전부 이름으로 찾았다. 본문 순서대로 다시 세운다.
+    const 이름순 = 필요한이름.map((n) => 있는이름.get(n));
+    const 순서바뀜 = 이름순.some((m, i) => m !== items[i]);
+    items.length = 0;
+    items.push(...이름순);
+    console.log('파일명으로 맞췄습니다. 올린 순서는 상관없습니다.');
+    if (순서바뀜) {
+      console.log('(올린 순서와 본문 순서가 달라서 다시 세웠습니다)');
+    }
+    console.log('');
+  } else if (빠진것.length) {
+    console.error('본문에 있는 그림이 붙여넣기.txt 에 없습니다.\n');
+    빠진것.forEach((n) => console.error(`  없음: ${n}`));
+    console.error('\n올린 것:');
+    [...있는이름.keys()].forEach((n) => console.error(`  ${n}`));
+    console.error('\n빠진 그림을 티스토리에 올리고 매크로를 다시 복사해주세요.');
+    process.exit(1);
+  } else {
+    console.log('[주의] 매크로에 파일명이 없어 순서대로 맞춥니다.');
+    console.log('       올린 순서가 본문 순서와 같은지 아래 대조표를 꼭 확인하세요.\n');
+  }
+}
+
 // 갈아끼운다.
 // 매크로는 그 자체가 이미지 블록이라 <figure> 를 통째로 바꾼다.
 // 캡션은 살려야 하므로 <figcaption> 은 style 을 그대로 둔 채 <p> 로 바꾼다.
@@ -232,9 +287,12 @@ fs.writeFileSync(out, html, 'utf8');
 
 console.log(`이미지 ${n}장을 넣었습니다.\n`);
 needReplace.forEach((s, i) => {
+  const 글 = path.basename(s);
   const tag = macros.length ? (items[i].match(/"filename":"([^"]+)"/) || [, '매크로'])[1] : items[i];
-  console.log(`  ${i + 1}. ${path.basename(s)}`);
-  console.log(`     → ${tag}`);
+  // 번호만 다른 경우를 따로 표시한다. 그냥 두면 어긋난 것처럼 보인다.
+  const 번호만다름 = macros.length && tag !== 글 && 번호뗀이름(tag) === 번호뗀이름(글);
+  console.log(`  ${i + 1}. ${글}`);
+  console.log(`     → ${tag}${번호만다름 ? '   (같은 그림, 올릴 때 번호만 달랐음)' : ''}`);
 });
 console.log(`\n생성: ${out}`);
 console.log('이 파일을 통째로 복사해서 티스토리 HTML 모드에 붙여넣으세요.');
