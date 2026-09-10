@@ -112,18 +112,26 @@
         style="stroke:var(--rose)" stroke-width="9" stroke-linecap="round"
         stroke-dasharray="2 26"/>
 
-  <!-- 그제야 떨어지는 동전 -->
+  <!-- 날개 — 그날이 오면 이 돈이 빠져나간다 -->
+  <g stroke-width="8" stroke-linejoin="round" style="stroke:var(--navy-d);fill:var(--ivory)">
+    <g transform="translate(268 524) rotate(-14)">
+      <ellipse cx="-38" cy="-20" rx="36" ry="13"/>
+      <ellipse cx="-34" cy="2"   rx="44" ry="14"/>
+      <ellipse cx="-26" cy="23"  rx="34" ry="12"/>
+    </g>
+    <g transform="translate(392 524) rotate(14) scale(-1 1)">
+      <ellipse cx="-38" cy="-20" rx="36" ry="13"/>
+      <ellipse cx="-34" cy="2"   rx="44" ry="14"/>
+      <ellipse cx="-26" cy="23"  rx="34" ry="12"/>
+    </g>
+  </g>
+  <!-- 날개 위에 올라탄 동전 -->
   <g stroke-width="9" style="stroke:var(--navy-d)">
     <ellipse cx="330" cy="536" rx="62" ry="58" style="fill:var(--gold)"/>
   </g>
   <text x="330" y="558" font-size="60" font-weight="700" text-anchor="middle"
         font-family="'알림장',sans-serif" style="fill:var(--navy-d)">₩</text>
 
-  <!-- 작은 동전 둘 — 뒤따라온다 -->
-  <g stroke-width="8" style="stroke:var(--navy-d)">
-    <ellipse cx="446" cy="556" rx="38" ry="35" style="fill:var(--gold-bg)"/>
-    <ellipse cx="222" cy="566" rx="30" ry="28" style="fill:var(--gold-bg)"/>
-  </g>
 </svg>
 
 <div class="brand">☀ 오늘의 재테크온도</div>
