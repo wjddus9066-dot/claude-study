@@ -42,6 +42,40 @@ function inline(s) {
     .replace(/(^|[\s(])(https?:\/\/[^\s<)]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
 }
 
+// ---------------------------------------------------------------- 마커 블록
+
+/**
+ * [마커] ... [/마커] 사이를 읽어온다.
+ *
+ * 닫는 마커를 못 찾으면 조용히 넘어가지 않고 멈춘다.
+ *
+ * 실제로 「[/문답]---」처럼 닫는 마커에 다른 글자가 붙은 적이 있다.
+ * 파서가 그 줄을 닫는 마커로 못 알아봐서 그 뒤 본문 전체가 FAQ 안으로 빨려 들어갔고,
+ * 발행본에 [체크] [안내] [FOOTER] 같은 마커 글자가 그대로 실려 나갔다.
+ * 소제목도 <h2>가 아니라 글자 「## 」로 나갔다.
+ *
+ * 조용히 잘못되는 것이 제일 위험하다. 그래서 멈춘다.
+ */
+function readBlock(lines, i, name) {
+  const closing = new RegExp('^\\[\\/' + name + '\\]\\s*$');
+  const looksClosing = new RegExp('^\\[\\/' + name + '\\]');
+  const buf = [];
+  while (i < lines.length && !closing.test(lines[i])) {
+    if (looksClosing.test(lines[i])) {
+      console.error(`\n[오류] [/${name}] 뒤에 다른 글자가 붙어 있습니다.`);
+      console.error(`       ${i + 1}번째 줄: ${lines[i]}`);
+      console.error('       닫는 마커는 그 줄에 혼자 있어야 합니다.');
+      process.exit(1);
+    }
+    buf.push(lines[i++]);
+  }
+  if (i >= lines.length) {
+    console.error(`\n[오류] [${name}] 를 열고 [/${name}] 로 닫지 않았습니다.`);
+    process.exit(1);
+  }
+  return [buf, i + 1];
+}
+
 // ---------------------------------------------------------------- 변환
 
 function convert(md) {
@@ -151,10 +185,8 @@ function convert(md) {
     // [안내] ... [/안내] — 글 맨 앞의 작은 안내 박스
     // 본문보다 눈에 띄면 안 된다. 독자가 주의사항부터 읽게 만들지 않기 위한 것.
     if (/^\[안내\]\s*$/.test(line)) {
-      i++;
-      const buf = [];
-      while (i < lines.length && !/^\[\/안내\]\s*$/.test(lines[i])) buf.push(lines[i++]);
-      i++;
+      let buf;
+      [buf, i] = readBlock(lines, i + 1, '안내');
       out.push('<aside class="pre-note">');
       buf
         .join('\n')
@@ -172,10 +204,8 @@ function convert(md) {
     // AI는 이 문단만 잘라가도 말이 되는 답을 얻는다. (AEO)
     // 그래서 이 박스 안에서는 "위에서 말했듯이" 같은 앞뒤 의존 표현을 쓰지 않는다.
     if (/^\[정답\]\s*$/.test(line)) {
-      i++;
-      const buf = [];
-      while (i < lines.length && !/^\[\/정답\]\s*$/.test(lines[i])) buf.push(lines[i++]);
-      i++;
+      let buf;
+      [buf, i] = readBlock(lines, i + 1, '정답');
       out.push('<aside class="answer-box">');
       buf.join('\n').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean)
          .forEach((p) => out.push(`<p>${inline(p.replace(/\n/g, ' '))}</p>`));
@@ -188,13 +218,11 @@ function convert(md) {
     // 읽고 끝나는 글과 확인하게 만드는 글의 차이다.
     // 한 줄에 하나씩, 순서대로 따라 할 수 있게 쓴다.
     if (/^\[체크\]\s*$/.test(line)) {
-      i++;
-      const items = [];
-      while (i < lines.length && !/^\[\/체크\]\s*$/.test(lines[i])) {
-        const t = lines[i++].replace(/^\s*[-*]\s+/, '').trim();
-        if (t) items.push(t);
-      }
-      i++;
+      let 체크buf;
+      [체크buf, i] = readBlock(lines, i + 1, '체크');
+      const items = 체크buf
+        .map((l) => l.replace(/^\s*[-*]\s+/, '').trim())
+        .filter(Boolean);
       // 여는 줄과 닫는 줄을 한 태그씩 따로 둔다.
       // 인라인 스타일러가 줄 단위로 컨테이너를 세기 때문이다.
       out.push('<div class="do-box">');
@@ -210,10 +238,8 @@ function convert(md) {
     // 「Q. 」로 시작하는 줄이 질문, 그다음 줄들이 답이다.
     // 질문 하나와 답 하나가 짝으로 떨어져 있어야 AI가 골라 인용할 수 있다. (AEO)
     if (/^\[문답\]\s*$/.test(line)) {
-      i++;
-      const buf = [];
-      while (i < lines.length && !/^\[\/문답\]\s*$/.test(lines[i])) buf.push(lines[i++]);
-      i++;
+      let buf;
+      [buf, i] = readBlock(lines, i + 1, '문답');
       out.push('<div class="qa-box">');
       buf.join('\n').split(/\n\s*\n/).map((b) => b.trim()).filter(Boolean).forEach((b) => {
         const [first, ...rest] = b.split('\n');
@@ -728,10 +754,14 @@ const full = path.join(dir, 'article.html');
 const frag = path.join(dir, 'article-tistory.html');
 const prev = path.join(dir, '미리보기.md');
 
-// 글은 제목으로 시작한다. (2026-09-10)
-// 티스토리 제목란에도 같은 제목을 넣으므로 화면에서 두 번 보일 수 있다.
-// 그건 스킨에서 본문 제목 표시를 끄는 쪽으로 맞춘다.
-const bodyForTistory = body;
+// 티스토리에 붙여넣는 본문에서는 맨 앞 <h1>을 뺀다.
+//
+// 제목은 티스토리 제목란에 직접 입력한다. 본문에 또 있으면 화면에 두 번 나온다.
+// draft.md 의 「# 제목」은 파일 안에서 글을 알아보기 위한 것이고,
+// article.html(내 컴퓨터에서 보는 미리보기)은 혼자 서는 페이지라 그대로 둔다.
+//
+// 그래서 발행본은 썸네일 이미지부터 시작한다.
+const bodyForTistory = body.replace(/<h1>[\s\S]*?<\/h1>\s*/, '');
 
 fs.writeFileSync(full, page(title, body), 'utf8');
 fs.writeFileSync(
