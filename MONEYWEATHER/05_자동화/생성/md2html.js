@@ -166,6 +166,68 @@ function convert(md) {
       continue;
     }
 
+    // [정답] ... [/정답] — 제목의 질문에 대한 한 문장 답
+    //
+    // 글 맨 앞에 둔다. 사람은 스크롤하기 전에 답을 얻고,
+    // AI는 이 문단만 잘라가도 말이 되는 답을 얻는다. (AEO)
+    // 그래서 이 박스 안에서는 "위에서 말했듯이" 같은 앞뒤 의존 표현을 쓰지 않는다.
+    if (/^\[정답\]\s*$/.test(line)) {
+      i++;
+      const buf = [];
+      while (i < lines.length && !/^\[\/정답\]\s*$/.test(lines[i])) buf.push(lines[i++]);
+      i++;
+      out.push('<aside class="answer-box">');
+      buf.join('\n').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean)
+         .forEach((p) => out.push(`<p>${inline(p.replace(/\n/g, ' '))}</p>`));
+      out.push('</aside>');
+      continue;
+    }
+
+    // [체크] ... [/체크] — 독자가 오늘 직접 할 수 있는 것
+    //
+    // 읽고 끝나는 글과 확인하게 만드는 글의 차이다.
+    // 한 줄에 하나씩, 순서대로 따라 할 수 있게 쓴다.
+    if (/^\[체크\]\s*$/.test(line)) {
+      i++;
+      const items = [];
+      while (i < lines.length && !/^\[\/체크\]\s*$/.test(lines[i])) {
+        const t = lines[i++].replace(/^\s*[-*]\s+/, '').trim();
+        if (t) items.push(t);
+      }
+      i++;
+      // 여는 줄과 닫는 줄을 한 태그씩 따로 둔다.
+      // 인라인 스타일러가 줄 단위로 컨테이너를 세기 때문이다.
+      out.push('<div class="do-box">');
+      out.push('<ol>');
+      items.forEach((t) => out.push(`<li>${inline(t)}</li>`));
+      out.push('</ol>');
+      out.push('</div>');
+      continue;
+    }
+
+    // [문답] ... [/문답] — 자주 묻는 질문
+    //
+    // 「Q. 」로 시작하는 줄이 질문, 그다음 줄들이 답이다.
+    // 질문 하나와 답 하나가 짝으로 떨어져 있어야 AI가 골라 인용할 수 있다. (AEO)
+    if (/^\[문답\]\s*$/.test(line)) {
+      i++;
+      const buf = [];
+      while (i < lines.length && !/^\[\/문답\]\s*$/.test(lines[i])) buf.push(lines[i++]);
+      i++;
+      out.push('<div class="qa-box">');
+      buf.join('\n').split(/\n\s*\n/).map((b) => b.trim()).filter(Boolean).forEach((b) => {
+        const [first, ...rest] = b.split('\n');
+        const q = first.replace(/^Q\.\s*/, '').trim();
+        out.push('<div class="qa">');
+        out.push(`<p class="qa-q">${inline(q)}</p>`);
+        rest.filter(Boolean).forEach((a) =>
+          out.push(`<p class="qa-a">${inline(a.replace(/^A\.\s*/, '').trim())}</p>`));
+        out.push('</div>');
+      });
+      out.push('</div>');
+      continue;
+    }
+
     // [FOOTER] — 이 줄 아래는 본문이 아니라 꼬리말이다.
     // 출처·주의사항처럼 독자가 굳이 읽지 않아도 되는 내용을 작게 처리한다.
     // 본문의 마지막 문장이 진짜 마지막 문장으로 남게 하기 위한 장치다.
@@ -392,6 +454,25 @@ const STYLE = {
   '.article-footer p': `margin:0 0 12px;`,
   '.article-footer strong': `display:block; color:${C.navy}; font-weight:700; margin-top:20px;`,
 
+  // 한 문장 정답 — 글에서 가장 먼저 눈에 들어와야 하는 한 덩어리
+  // 본문보다 크고 진하게. 스크롤하기 전에 답을 주는 자리다.
+  '.answer-box': `background:${C.pinkBg}; border-left:5px solid ${C.pink}; border-radius:0 10px 10px 0; padding:20px 24px; margin:28px 0 34px;`,
+  '.answer-box p': `margin:0 0 10px; font-size:1.02rem; line-height:1.72; color:${C.navyD};`,
+  '.answer-box p:last-child': `margin:0;`,
+  '.answer-box strong': `color:${C.navyD};`,
+
+  // 오늘 할 것 — 읽고 끝나지 않게 만드는 상자
+  '.do-box': `background:${C.cream}; border:1px solid ${C.line}; border-radius:10px; padding:22px 26px 22px 20px; margin:26px 0;`,
+  '.do-box ol': `margin:0; padding-left:24px;`,
+  '.do-box li': `margin-bottom:12px; line-height:1.66;`,
+  '.do-box li:last-child': `margin-bottom:0;`,
+
+  // 자주 묻는 질문 — 질문 하나와 답 하나가 눈으로도 짝지어 보이게
+  '.qa-box': `margin:26px 0;`,
+  '.qa': `border-top:1px solid ${C.line}; padding:18px 0 4px;`,
+  '.qa-q': `margin:0 0 8px; font-weight:700; color:${C.navyD};`,
+  '.qa-a': `margin:0 0 10px; color:${C.navy};`,
+
   // 인라인 출처 — 수치·표 바로 아래 붙는 한 줄
   '.src-note': `margin:-8px 0 22px; padding-left:12px; border-left:3px solid ${C.pink}; color:${C.muted}; font-size:.83rem; line-height:1.6;`,
   '.src-note a': `color:${C.muted};`,
@@ -458,10 +539,11 @@ function inlineStyles(html) {
     );
 
     // 이 줄에서 열리는 컨테이너
-    const open = raw.match(/^<(?:aside|div) class="(pre-note|article-footer)"/);
+    // table-wrap 은 여기 넣지 않는다. 안쪽 태그에 따로 물려줄 스타일이 없고,
+    // 닫는 줄이 </tbody></table></div> 라서 위의 pop 과 짝이 맞지 않는다.
+    const open = raw.match(/^<(?:aside|div) class="(pre-note|article-footer|answer-box|do-box|qa-box)"/);
     if (open) ctx.push('.' + open[1]);
     else if (/^<blockquote/.test(raw)) ctx.push('blockquote');
-    else if (/^<div class="table-wrap"/.test(raw)) ctx.push(null);
   }
 
   // 좌우 여백을 조금 준다. 없으면 글자가 배경 끝에 붙는다.
@@ -549,8 +631,11 @@ if (fs.existsSync(imgSpec)) {
       (s.caption ? `<figcaption>${inline(s.caption)}</figcaption>` : '') +
       '</figure>';
 
+    // after 가 비어 있으면 대표 이미지다. 제목 바로 아래에 넣는다.
+    // 글은 제목으로 시작하고, 그림은 그다음이다.
     if (!s.after) {
-      body = fig + '\n' + body;
+      const h1 = body.match(/^<h1>[\s\S]*?<\/h1>\n?/);
+      body = h1 ? h1[0] + fig + '\n' + body.slice(h1[0].length) : fig + '\n' + body;
       placed++;
       continue;
     }
@@ -609,7 +694,14 @@ function previewMd(rawMd, specs) {
   for (const s of specs) {
     const pic = `\n![${(s.alt || '').replace(/[[\]]/g, '')}](${s.src})` +
                 (s.caption ? `\n\n<sub>${s.caption}</sub>` : '') + '\n';
-    if (!s.after) { out.unshift(pic); placed++; continue; }
+    // 대표 이미지는 제목(# ) 바로 아래로
+    if (!s.after) {
+      const h = out.findIndex((l) => /^#\s/.test(l));
+      if (h === -1) out.unshift(pic);
+      else out.splice(h + 1, 0, pic);
+      placed++;
+      continue;
+    }
 
     const want = norm(s.after);
     // 앵커가 여러 줄이면 마지막 줄로 찾는다
@@ -636,12 +728,18 @@ const full = path.join(dir, 'article.html');
 const frag = path.join(dir, 'article-tistory.html');
 const prev = path.join(dir, '미리보기.md');
 
+// 글은 제목으로 시작한다. (2026-09-10)
+// 티스토리 제목란에도 같은 제목을 넣으므로 화면에서 두 번 보일 수 있다.
+// 그건 스킨에서 본문 제목 표시를 끄는 쪽으로 맞춘다.
+const bodyForTistory = body;
+
 fs.writeFileSync(full, page(title, body), 'utf8');
 fs.writeFileSync(
   frag,
   '<!-- Tistory HTML 모드에 이 내용을 붙여넣으세요. 이미지는 에디터에서 별도 업로드합니다. -->\n' +
     '<!-- 색은 태그마다 style="" 로 박혀 있습니다. 스킨 설정을 타지 않습니다. -->\n' +
-    inlineStyles(body) +
+    '<!-- 제목이 본문 맨 위에 들어 있습니다. 티스토리 제목란에도 같은 제목을 넣으세요. -->\n' +
+    inlineStyles(bodyForTistory) +
     '\n',
   'utf8'
 );
