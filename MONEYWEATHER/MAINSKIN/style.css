@@ -188,6 +188,47 @@ body{max-width:100%;overflow-x:hidden;overflow-x:clip}
 .article-body h2{font-size:23px;font-weight:800;color:var(--rose);margin:2.2em 0 .7em}
 .article-body h3{font-size:19px;font-weight:800;color:var(--navy);margin:1.8em 0 .6em}
 .article-body img{border-radius:12px;margin:1.4em auto}
+
+/* ----- 티스토리 그림 블록 (figure.imageblock)
+   발행본에서 그림은 티스토리 매크로로 들어가 figure.imageblock 이 되고,
+   캡션은 그 뒤의 <p style="margin-top: 10px; ... text-align: center;"> 가 된다.
+   글 쪽(md2html·이미지주소적용)은 건드리지 않고 스킨에서만 맞춘다.
+
+   확인한 것 (실제 발행본 HTML)
+   1) 위 img 규칙의 1.4em 여백이 그림 블록 안에서도 먹어서 그림과 캡션 사이가 벌어졌다
+   2) 에디터가 그림을 <p> 안에 넣어 저장해서, 그림 뒤에 빈 <p></p> 가 하나 생긴다
+   3) 에디터가 style 에 띄어쓰기를 넣는다 (text-align:center → text-align: center)
+   4) 에디터가 인라인 !important 를 지운다. 문단 여백은 skin.html 의 스크립트가
+      .tt_article_useless_p_margin 을 떼어내서 되살린다. 아래 !important 는 스크립트가
+      못 도는 경우를 위한 대비다. id 선택자라 티스토리 규칙보다 우선한다. */
+#article-view figure.imageblock{margin:36px 0 26px !important}
+#article-view figure.imageblock img{margin:0 auto}
+#article-view p:empty{display:none}
+/* 캡션이 붙은 그림은 아래 여백을 캡션에게 넘긴다. 빈 <p> 를 사이에 둔 경우도 잡는다 */
+#article-view figure.imageblock:has(+ p[style*="text-align"]),
+#article-view figure.imageblock:has(+ p:empty + p[style*="text-align"]){margin-bottom:0 !important}
+/* 캡션 위는 4px. 그림 PNG 아래쪽에 흰 여백이 12px 쯤 들어 있어서 눈에는 20px 안팎으로 보인다 */
+#article-view p[style*="text-align"]{margin-top:4px !important;margin-bottom:30px !important}
+
+/* ----- 글 밑 블로그 소개 카드 (.tt_box_namecard)
+   티스토리가 자바스크립트로 나중에 끼워 넣는다. 스킨 HTML 에는 없다.
+   기본값이 회색 #f7f7f7 · 최소 높이 206px 이라 넓고 밋밋했다.
+   아이보리 바탕에 분홍 줄 하나, 높이는 내용만큼. 썸네일은 왼쪽으로 옮긴다. */
+#tt-body-page .tt_box_namecard{min-height:0 !important;margin:44px 0 28px !important;
+  justify-content:flex-start;align-items:center;gap:16px;padding:18px 22px;
+  background:var(--ivory);border:1px solid var(--line);border-left:4px solid var(--pink);
+  border-radius:var(--radius)}
+#tt-body-page .tt_box_namecard .tt_wrap_thumb{order:-1;width:52px !important;height:52px !important;
+  margin:0 !important;border-radius:12px}
+#tt-body-page .tt_box_namecard .tt_cont{padding:0 !important;min-width:0;flex:1}
+#tt-body-page .tt_box_namecard .tt_tit_cont{font-family:var(--font);font-size:16px;line-height:1.4;
+  font-weight:800;color:var(--navyD)}
+#tt-body-page .tt_box_namecard .tt_desc{padding-top:3px;font-size:14px;line-height:1.6;color:var(--muted)}
+#tt-body-page .tt_box_namecard .tt_link{margin:6px 0 0}
+#tt-body-page .tt_box_namecard .tt_link .tt_tit_g{color:var(--rose);font-weight:800}
+#tt-body-page .tt_box_namecard .tt_btn_subscribe{height:32px;margin:10px 0 0 !important;padding:0 14px;
+  border:1px solid var(--navy);background:#fff}
+#tt-body-page .tt_box_namecard .tt_btn_subscribe .tt_txt_g{font-size:13px;font-weight:800;color:var(--navy)}
 .article-body a{color:var(--rose);text-decoration:underline;text-underline-offset:3px}
 .article-body blockquote{background:var(--cream);border-left:4px solid var(--pink);
   border-radius:0 10px 10px 0;padding:18px 22px;margin:1.4em 0}
