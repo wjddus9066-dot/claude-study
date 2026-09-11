@@ -276,7 +276,13 @@ html = html.replace(
     let out = items[n++];
     if (block.startsWith('<figure')) {
       const cap = block.match(/<figcaption\b([^>]*)>([\s\S]*?)<\/figcaption>/);
-      if (cap) out += `\n<p${cap[1]}>${cap[2]}</p>`;
+      if (cap) {
+        // 티스토리에서는 캡션이 그림 밖 문단이 된다. 위 여백은 빼고(그림 블록 아래가 이미 비어 있다)
+        // 아래 여백은 문단과 같게 준다. 안 주면 다음 문단에 붙어 보였다. (2026-09-11 스크린샷)
+        const attrs = cap[1].replace(/margin(?:-top)?:[^;"]*;?\s*/g, '')
+          .replace('style="', 'style="margin:0 0 18px !important; ');
+        out += `\n<p${attrs}>${cap[2]}</p>`;
+      }
     }
     return out;
   }
