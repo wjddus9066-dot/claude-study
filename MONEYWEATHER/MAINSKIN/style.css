@@ -176,7 +176,10 @@ body{max-width:100%;overflow-x:hidden;overflow-x:clip}
 /* 글을 읽는 화면은 흰 종이 한 장처럼 둔다.
    아이보리 바탕 위에 흰 카드가 떠 있으면 테두리와 그림자가 눈에 걸린다.
    tt-body-page 는 티스토리가 글 화면에 붙여주는 id다. */
-#tt-body-page .article{border:0;border-radius:0;padding:44px 0 52px}
+#tt-body-page .article{border:0;border-radius:0;padding:44px 0 16px}
+/* 공감 버튼 → 소개 카드 사이에 여백 네 개(36+52+34+44)가 겹쳐 150px 넘게 비었다.
+   광고 자리가 아니다. 관련글이 생기면 .related 가 제 위 여백을 갖고 들어온다 */
+#tt-body-page .comments{margin-top:0}
 
 .article-head{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:32px}
 .article-cat{font-size:13px;font-weight:800;color:var(--rose)}
@@ -214,7 +217,7 @@ body{max-width:100%;overflow-x:hidden;overflow-x:clip}
    티스토리가 자바스크립트로 나중에 끼워 넣는다. 스킨 HTML 에는 없다.
    기본값이 회색 #f7f7f7 · 최소 높이 206px 이라 넓고 밋밋했다.
    아이보리 바탕에 분홍 줄 하나, 높이는 내용만큼. 썸네일은 왼쪽으로 옮긴다. */
-#tt-body-page .tt_box_namecard{min-height:0 !important;margin:44px 0 28px !important;
+#tt-body-page .tt_box_namecard{min-height:0 !important;margin:16px 0 28px !important;
   justify-content:flex-start;align-items:center;gap:16px;padding:18px 22px;
   background:var(--ivory);border:1px solid var(--line);border-left:4px solid var(--pink);
   border-radius:var(--radius)}
