@@ -567,7 +567,15 @@ function inlineStyles(html) {
         }
         if (!css) return m;
 
-        return `<${tag}${attrs} style="${tidy(css)}"${selfClose}>`;
+        // 티스토리는 본문을 .tt_article_useless_p_margin 으로 감싸고
+        // 모든 <p> 의 margin·padding 을 0 !important 로 누른다. (static/style/uselessPMargin.css)
+        // 인라인 !important 만 그걸 이긴다. figcaption 은 에디터가 <p> 로 바꾸므로 같이 챙긴다.
+        let decl = tidy(css);
+        if (tag === 'p' || tag === 'figcaption') {
+          decl = decl.replace(/((?:margin|padding)(?:-[a-z]+)?:[^;]+?)(?=;|$)/g, '$1 !important');
+        }
+
+        return `<${tag}${attrs} style="${decl}"${selfClose}>`;
       })
     );
 
