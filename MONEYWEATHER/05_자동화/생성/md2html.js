@@ -482,16 +482,8 @@ const STYLE = {
   'figure img': `width:100%; height:auto; border:1px solid ${C.line}; border-radius:10px; display:block;`,
   figcaption: `margin-top:10px; font-size:.86rem; color:${C.muted}; text-align:center;`,
 
-  // 글 맨 앞 안내 박스 — 본문보다 눈에 띄면 안 된다.
-  // 독자가 주의사항부터 읽게 만들지 않기 위한 것.
-  '.pre-note': `background:${C.cream}; border:1px solid ${C.line}; border-radius:10px; padding:15px 19px; margin:0 0 36px; font-size:.83rem; line-height:1.72; color:${C.muted};`,
-  '.pre-note p': `margin:0 0 7px;`,
-  '.pre-note strong': `display:block; color:${C.navy}; font-weight:700; margin-bottom:5px;`,
-
-  // 꼬리말 — 본문 엔딩을 살리기 위해 작게
-  '.article-footer': `margin-top:64px; padding-top:26px; border-top:1px solid ${C.line}; font-size:.82rem; line-height:1.7; color:${C.muted};`,
-  '.article-footer p': `margin:0 0 12px;`,
-  '.article-footer strong': `display:block; color:${C.navy}; font-weight:700; margin-top:20px;`,
+  // 안내(면책)와 꼬리말에는 따로 스타일을 주지 않는다.
+  // 어떻게 보일지는 글 쓰는 쪽에서 정한다. 여기서는 본문 그대로 흘려보낸다.
 
   // 한 문장 정답 — 글에서 가장 먼저 눈에 들어와야 하는 한 덩어리
   // 본문보다 크고 진하게. 스크롤하기 전에 답을 주는 자리다.
