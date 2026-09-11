@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>[##_page_title_##]</title>
+  <meta name="description" content="[##_desc_##]">
+  <link rel="stylesheet" href="./style.css">
+  <script src="//t1.daumcdn.net/tistory_admin/lib/jquery/jquery-1.12.4.min.js"></script>
+</head>
+
+<!-- 티스토리가 화면 종류에 따라 id를 넣어준다 (홈이면 tt-body-index).
+     이 id 하나로 홈에서만 히어로·카드를 보이게 하고 사이드바를 감춘다.
+     자바스크립트가 필요 없다. style.css 의 #tt-body-index 규칙을 본다. -->
+<body id="[##_body_id_##]">
+<s_t3>
+
+  <div id="acc-nav"><a href="#content">본문 바로가기</a></div>
+
+  <!-- ===================================================== 헤더 -->
+  <header class="mw-head">
+    <div class="wrap">
+      <a class="mw-logo" href="[##_blog_link_##]">
+        <img src="./images/logo-header.png" alt="[##_title_##]" width="180">
+      </a>
+      <!-- 홈 · 태그 · 방명록. 티스토리가 ul>li 로 뿌린다 -->
+      <nav class="mw-nav">[##_blog_menu_##]</nav>
+      <button type="button" class="mw-icon" id="mw-search-btn" aria-label="검색 열기" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg>
+      </button>
+    </div>
+
+    <div class="mw-search" id="mw-search-box">
+      <div class="wrap">
+        <s_search>
+          <label for="[##_search_name_##]" class="a11y">블로그 내 검색</label>
+          <input id="[##_search_name_##]" type="text" name="[##_search_name_##]" value="[##_search_text_##]"
+                 placeholder="찾고 싶은 내용을 입력해 보세요"
+                 onkeypress="if (event.keyCode == 13) { [##_search_onclick_submit_##] }">
+          <button type="submit" class="a11y" onclick="[##_search_onclick_submit_##]">검색</button>
+        </s_search>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================== 본문 -->
+  <div class="mw-body">
+    <div class="wrap mw-layout">
+
+      <main class="mw-main" id="content">
+
+        [##_revenue_list_upper_##]
+
+        <!-- ------------------------------------------ 홈에서만 보이는 영역 -->
+        <div class="home-only">
+
+          <!-- 글씨가 그림보다 먼저 온다.
+               데스크톱에서는 둘 다 절대위치라 순서가 상관없고,
+               좁은 화면에서 위아래로 쌓일 때 제목이 위로 오게 하려는 것이다. -->
+          <section class="hero">
+            <div class="hero-tx">
+              <h2>내 재테크<br>온도는 몇 도일까?</h2>
+              <p>매일 한 걸음, 내 돈의 온도를 높이는 습관</p>
+              <a class="hero-btn" href="#content-list">최신 글 보기 &rsaquo;</a>
+            </div>
+            <img class="hero-img" src="./images/hero.png" alt="" width="1050">
+          </section>
+
+          <section class="cats-sec">
+            <div class="sec-head"><h2>어떤 이야기가 궁금하세요?</h2></div>
+            <div class="cats">
+              <a class="cat" href="[##_blog_link_##]/category/재테크 기초">
+                <span class="cat-thumb"><img src="./images/thumb-basic.png" alt=""></span>
+                <span class="cat-body"><span class="cat-name">재테크 기초</span></span>
+              </a>
+              <a class="cat" href="[##_blog_link_##]/category/투자">
+                <span class="cat-thumb"><img src="./images/thumb-invest.png" alt=""></span>
+                <span class="cat-body"><span class="cat-name">투자</span></span>
+              </a>
+              <a class="cat" href="[##_blog_link_##]/category/세금">
+                <span class="cat-thumb"><img src="./images/thumb-tax.png" alt=""></span>
+                <span class="cat-body"><span class="cat-name">세금</span></span>
+              </a>
+              <a class="cat" href="[##_blog_link_##]/category/부동산">
+                <span class="cat-thumb"><img src="./images/thumb-estate.png" alt=""></span>
+                <span class="cat-body"><span class="cat-name">부동산</span></span>
+              </a>
+              <a class="cat" href="[##_blog_link_##]/category/오늘의 머니온도">
+                <span class="cat-thumb"><img src="./images/thumb-weather.png" alt=""></span>
+                <span class="cat-body"><span class="cat-name">오늘의 머니온도</span></span>
+              </a>
+            </div>
+          </section>
+
+          <div class="sec-head" id="content-list"><h2>최신 글</h2></div>
+        </div>
+
+        <!-- ------------------------------------------ 목록 머리 (분류·검색·태그) -->
+        <s_list>
+          <div class="list-head">
+            <h2>[##_list_conform_##]</h2>
+            <div class="cnt">글 [##_list_count_##]개</div>
+          </div>
+          <s_list_empty>
+            <div class="list-empty">
+              <p>찾으시는 글이 없습니다.</p>
+              <p class="sub">검색어를 줄이거나 다른 분류를 눌러보세요.</p>
+            </div>
+          </s_list_empty>
+        </s_list>
+
+        <!-- ------------------------------------------ 보호글 -->
+        <s_article_protected>
+          <s_index_article_rep>
+            <div class="posts">
+              <a class="post protected" href="[##_article_rep_link_##]">
+                <span class="post-thumb"></span>
+                <span>
+                  <span class="post-cat">비공개</span>
+                  <span class="post-title">[##_article_rep_title_##]</span>
+                  <span class="post-sum">보호되어 있는 글입니다.</span>
+                  <span class="post-meta">[##_article_rep_simple_date_##]</span>
+                </span>
+              </a>
+            </div>
+          </s_index_article_rep>
+          <s_permalink_article_rep>
+            <div class="article">
+              <form class="protected-form" onsubmit="[##_article_dissolve_##]">
+                <h2>보호되어 있는 글입니다</h2>
+                <p>내용을 보시려면 비밀번호를 입력해 주세요.</p>
+                <input type="password" id="[##_article_password_##]" name="[##_article_password_##]" value="" placeholder="비밀번호">
+                <button type="submit" class="hero-btn">확인</button>
+              </form>
+            </div>
+          </s_permalink_article_rep>
+        </s_article_protected>
+
+        <!-- ------------------------------------------ 글 -->
+        <s_article_rep>
+
+          <!-- 홈과 목록에 쓰이는 글 카드 -->
+          <s_index_article_rep>
+            <div class="posts">
+              <a class="post" href="[##_article_rep_link_##]">
+                <span class="post-thumb">
+                  <s_article_rep_thumbnail>
+                    <img loading="lazy" alt=""
+                         src="//i1.daumcdn.net/thumb/C480x270.fwebp.q85/?fname=[##_article_rep_thumbnail_raw_url_##]">
+                  </s_article_rep_thumbnail>
+                </span>
+                <span>
+                  <span class="post-cat">[##_article_rep_category_##]</span>
+                  <span class="post-title">[##_article_rep_title_##]</span>
+                  <span class="post-sum">[##_article_rep_summary_##]</span>
+                  <span class="post-meta">[##_article_rep_simple_date_##]</span>
+                </span>
+              </a>
+            </div>
+          </s_index_article_rep>
+
+          <!-- 글 한 편 -->
+          <s_permalink_article_rep>
+            <article class="article">
+              <div class="article-head">
+                <a class="article-cat" href="[##_article_rep_category_link_##]">[##_article_rep_category_##]</a>
+                <h1>[##_article_rep_title_##]</h1>
+                <div class="article-meta">
+                  [##_article_rep_simple_date_##] · [##_article_rep_author_##]
+                  [##_s_ad_isolation_##]
+                </div>
+              </div>
+
+              <div class="article-body" id="article-view">
+                [##_article_rep_desc_##]
+              </div>
+
+              <s_tag_label>
+                <div class="article-tags">[##_tag_label_rep_##]</div>
+              </s_tag_label>
+            </article>
+
+            <s_article_related>
+              <section class="related">
+                <div class="sec-head"><h2>같이 보면 좋은 글</h2></div>
+                <div class="rel-list">
+                  <s_article_related_rep>
+                    <a class="rel" href="[##_article_related_rep_link_##]">
+                      <span class="rel-thumb">
+                        <s_article_related_rep_thumbnail>
+                          <img loading="lazy" alt=""
+                               src="//i1.daumcdn.net/thumb/C480x270.fwebp.q85/?fname=[##_article_related_rep_thumbnail_link_##]">
+                        </s_article_related_rep_thumbnail>
+                      </span>
+                      <span class="rel-title">[##_article_related_rep_title_##]</span>
+                    </a>
+                  </s_article_related_rep>
+                </div>
+              </section>
+            </s_article_related>
+
+            <section class="comments">
+              <s_rp>
+                <div class="tt-comments-wrap">
+                  [##_comment_group_##]
+                </div>
+              </s_rp>
+            </section>
+          </s_permalink_article_rep>
+
+        </s_article_rep>
+
+        <!-- ------------------------------------------ 공지 -->
+        <s_notice_rep>
+          <article class="article">
+            <div class="article-head">
+              <span class="article-cat">공지</span>
+              <h1><a href="[##_notice_rep_link_##]">[##_notice_rep_title_##]</a></h1>
+              <div class="article-meta">[##_notice_rep_simple_date_##]</div>
+            </div>
+            <div class="article-body">[##_notice_rep_desc_##]</div>
+          </article>
+        </s_notice_rep>
+
+        <!-- ------------------------------------------ 페이지 -->
+        <s_page_rep>
+          <article class="article">
+            <div class="article-head">
+              <h1>[##_article_rep_title_##]</h1>
+              <div class="article-meta">[##_article_rep_simple_date_##]</div>
+            </div>
+            <div class="article-body" id="article-view">[##_article_rep_desc_##]</div>
+          </article>
+        </s_page_rep>
+
+        <!-- ------------------------------------------ 태그 목록 화면 -->
+        <s_tag>
+          <div class="list-head"><h2>태그</h2></div>
+          <div class="article-tags">
+            <s_tag_rep><a href="[##_tag_link_##]">[##_tag_name_##]</a></s_tag_rep>
+          </div>
+        </s_tag>
+
+        <!-- ------------------------------------------ 방명록 -->
+        <s_guest>
+          <div class="list-head"><h2>방명록</h2></div>
+          <div class="tt-comments-wrap">[##_guestbook_group_##]</div>
+        </s_guest>
+
+        <!-- ------------------------------------------ 페이지 넘김 -->
+        <s_paging>
+          <div class="paging">
+            <a [##_prev_page_##] class="[##_no_more_prev_##]">이전</a>
+            <s_paging_rep>
+              <a [##_paging_rep_link_##]>[##_paging_rep_link_num_##]</a>
+            </s_paging_rep>
+            <a [##_next_page_##] class="[##_no_more_next_##]">다음</a>
+          </div>
+        </s_paging>
+
+        [##_revenue_list_lower_##]
+
+      </main>
+
+      <!-- ------------------------------------------ 사이드바 (홈에서는 CSS로 감춘다) -->
+      <aside class="mw-side">
+        <s_sidebar>
+
+          <s_sidebar_element>
+            <div class="sidebar-module">
+              <h2>분류</h2>
+              <nav class="side-cat">[##_category_list_##]</nav>
+            </div>
+          </s_sidebar_element>
+
+          <s_sidebar_element>
+            <s_rct_notice>
+              <div class="sidebar-module">
+                <h2>공지사항</h2>
+                <ul>
+                  <s_rct_notice_rep>
+                    <li><a href="[##_notice_rep_link_##]">[##_notice_rep_title_##]</a></li>
+                  </s_rct_notice_rep>
+                </ul>
+              </div>
+            </s_rct_notice>
+          </s_sidebar_element>
+
+          <s_sidebar_element>
+            <div class="sidebar-module">
+              <h2>최근 글</h2>
+              <ul class="side-posts">
+                <s_rctps_rep>
+                  <li>
+                    <a href="[##_rctps_rep_link_##]">
+                      <span class="t">[##_rctps_rep_title_##]</span>
+                      <span class="d">[##_rctps_rep_simple_date_##]</span>
+                    </a>
+                  </li>
+                </s_rctps_rep>
+              </ul>
+            </div>
+          </s_sidebar_element>
+
+          <s_sidebar_element>
+            <div class="sidebar-module">
+              <h2>많이 읽은 글</h2>
+              <ul class="side-posts">
+                <s_rctps_popular_rep>
+                  <li>
+                    <a href="[##_rctps_rep_link_##]">
+                      <span class="t">[##_rctps_rep_title_##]</span>
+                      <span class="d">[##_rctps_rep_simple_date_##]</span>
+                    </a>
+                  </li>
+                </s_rctps_popular_rep>
+              </ul>
+            </div>
+          </s_sidebar_element>
+
+          <s_sidebar_element>
+            <div class="sidebar-module">
+              <h2>최근 댓글</h2>
+              <ul>
+                <s_rctrp_rep>
+                  <li><a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##]</a></li>
+                </s_rctrp_rep>
+              </ul>
+            </div>
+          </s_sidebar_element>
+
+          <s_sidebar_element>
+            <div class="sidebar-module">
+              <h2>태그</h2>
+              <div class="side-tags">
+                <s_random_tags><a href="[##_tag_link_##]">[##_tag_name_##]</a></s_random_tags>
+              </div>
+            </div>
+          </s_sidebar_element>
+
+        </s_sidebar>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- ===================================================== 꼬리말 -->
+  <footer class="mw-foot">
+    <div class="wrap">
+      <div class="mw-foot-top">
+        <a class="mw-foot-logo" href="[##_blog_link_##]">
+          <img src="./images/logo-footer.png" alt="[##_title_##]" width="170">
+        </a>
+        <!-- 여기에 소개 · 문의 · 개인정보처리방침 링크가 들어갈 자리다.
+             셋 다 애드센스 신청 전에 만들어야 하는 페이지다 (CLAUDE.md §66.10).
+             페이지를 만들기 전에는 링크를 넣지 않는다. 깨진 링크가 되기 때문이다.
+             만들고 나면 아래 형태로 넣으면 된다.
+             <nav class="mw-foot-nav">
+               <a href="[##_blog_link_##]/소개">소개</a>
+               <a href="[##_blog_link_##]/문의">문의</a>
+               <a href="[##_blog_link_##]/개인정보처리방침">개인정보처리방침</a>
+             </nav>
+             RSS 는 넣지 않는다. 눌러도 XML 원문이 그대로 열려서 독자가 당황한다. -->
+        <div class="mw-foot-copy">&copy; [##_title_##]</div>
+      </div>
+      <div class="mw-foot-credit">
+        
+      </div>
+    </div>
+  </footer>
+
+</s_t3>
+
+<script>
+/* 검색 — 돋보기를 누르면 열린다. 실제 검색 동작은 티스토리 검색 치환자가 처리한다.
+   (주석 안에도 치환자 태그를 그대로 적지 않는다. 티스토리가 진짜 치환자로 읽는다) */
+(function () {
+  var btn = document.getElementById('mw-search-btn');
+  var box = document.getElementById('mw-search-box');
+  if (!btn || !box) return;
+  btn.addEventListener('click', function () {
+    var open = box.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) { var i = box.querySelector('input'); if (i) i.focus(); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && box.classList.contains('is-open')) {
+      box.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+})();
+
+/* 본문의 넓은 표를 가로 스크롤로 감싼다.
+   감싸지 않으면 표가 화면 밖으로 삐져나가 페이지 전체가 옆으로 밀린다. */
+(function () {
+  var body = document.getElementById('article-view');
+  if (!body) return;
+  Array.prototype.forEach.call(body.querySelectorAll('table'), function (t) {
+    if (t.parentNode.className === 'table-scroll') return;
+    var box = document.createElement('div');
+    box.className = 'table-scroll';
+    t.parentNode.insertBefore(box, t);
+    box.appendChild(t);
+  });
+})();
+</script>
+
+</body>
+
+</html>

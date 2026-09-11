@@ -1,0 +1,462 @@
+@charset "utf-8";
+/* ==========================================================================
+   오늘의 재테크온도 — 티스토리 스킨
+   색은 05_자동화/팔레트.js 와 같은 값이다. 여기서 새로 만들지 않는다.
+   ========================================================================== */
+
+@import url('https://cdn.jsdelivr.net/gh/innks/NanumSquareRound@master/nanumsquareround.css');
+@import url('https://cdn.jsdelivr.net/gh/fonts-archive/Maplestory/Maplestory.css');
+
+:root{
+  /* 팔레트 (05_자동화/팔레트.js) */
+  --ivory:#FEF8F3;  --cream:#FAF2E8;  --creamD:#F6EDE2;
+  --line:#EADFD2;   --lineD:#D9CBBB;
+  --navy:#1A3360;   --navyD:#0C2657;  --muted:#5E6E8F;  --faint:#A6B2C9;
+  --rose:#B94A65;   --pink:#F492A6;   --pinkBg:#FCE9ED;
+  --gold:#F7CE5A;   --goldBg:#FDF6E6;
+
+  --font:"NanumSquareRound","Malgun Gothic",-apple-system,sans-serif;
+  --display:"Maplestory","NanumSquareRound",sans-serif;
+
+  --wrap:1200px;   /* 본문 최대 폭. 애드센스 사이드 레일 자리를 남기려면 넘기지 않는다 */
+  --side:280px;    /* 사이드바 폭 */
+  --gap:44px;      /* 본문과 사이드바 사이 */
+  --pad:32px;      /* 좌우 여백 */
+  --radius:16px;
+}
+
+/* ---------------------------------------------------------------- 리셋 */
+*,*::before,*::after{box-sizing:border-box}
+html,body,h1,h2,h3,h4,p,ul,ol,li,figure,blockquote,dl,dd{margin:0;padding:0}
+ul,ol{list-style:none}
+img{max-width:100%;height:auto;display:block;border:0}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input{font:inherit}
+
+body{
+  background:#fff; color:var(--navy);
+  font-family:var(--font); font-weight:400;
+  font-size:16px; line-height:1.75;
+  -webkit-text-size-adjust:100%;
+  word-break:keep-all; overflow-wrap:break-word;
+}
+
+/* 무엇 하나라도 화면보다 넓어지면 페이지 전체가 옆으로 밀려서 다 망가져 보인다.
+   overflow-x:hidden 을 쓰면 사이드바의 position:sticky 가 죽으므로 clip 을 쓴다.
+   clip 을 모르는 옛 브라우저를 위해 hidden 을 먼저 적어 둔다. */
+html{max-width:100%;overflow-x:hidden;overflow-x:clip}
+body{max-width:100%;overflow-x:hidden;overflow-x:clip}
+
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--pad)}
+
+/* ---------------------------------------------------------------- 헤더 */
+.mw-head{background:#fff;border-bottom:1px solid var(--line);position:relative;z-index:30}
+.mw-head .wrap{display:flex;align-items:center;gap:20px;height:72px}
+.mw-logo img{width:122px}
+
+/* 홈 · 태그 · 방명록 — [##_blog_menu_##] 가 ul>li 로 온다 */
+.mw-nav{margin-left:auto}
+.mw-nav ul{display:flex;gap:28px}
+.mw-nav li a{position:relative;display:block;font-size:15.5px;font-weight:800;
+  color:var(--muted);padding:4px 0}
+.mw-nav li a:hover{color:var(--navy)}
+.mw-nav li.current a{color:var(--navyD)}
+.mw-nav li.current a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;
+  height:3px;border-radius:2px;background:var(--navyD)}
+
+.mw-icon{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;flex:none;margin-left:18px;transition:background .15s}
+.mw-icon:hover{background:var(--cream)}
+.mw-icon svg{width:21px;height:21px;stroke:var(--navy);stroke-width:2.2;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+
+/* 검색창 — 돋보기를 누르면 열린다 */
+.mw-search{position:absolute;left:0;right:0;top:100%;background:#fff;
+  border-bottom:1px solid var(--line);display:none}
+.mw-search.is-open{display:block}
+.mw-search .wrap{padding-top:18px;padding-bottom:18px}
+.mw-search input{width:100%;border:1px solid var(--lineD);border-radius:999px;
+  padding:13px 22px;background:#fff;color:var(--navy);font-size:15px}
+.mw-search input::placeholder{color:var(--faint)}
+.mw-search input:focus{outline:2px solid var(--pink);outline-offset:1px}
+
+/* ---------------------------------------------------------------- 레이아웃 */
+.mw-body{padding:44px 0 72px}
+.mw-layout{display:grid;grid-template-columns:minmax(0,1fr) var(--side);
+  gap:var(--gap);align-items:start}
+
+/* 홈에서는 사이드바를 감추고 본문이 전체 폭을 쓴다.
+   tt-body-index 는 티스토리가 홈 화면에 붙여주는 id다. 자바스크립트가 필요 없다. */
+#tt-body-index .mw-layout{grid-template-columns:minmax(0,1fr)}
+#tt-body-index .mw-side{display:none}
+
+/* 홈에서만 보이는 것 / 홈이 아닐 때만 보이는 것 */
+.home-only{display:none}
+#tt-body-index .home-only{display:block}
+#tt-body-index .not-home{display:none}
+
+/* 홈에서도 티스토리가 목록 머리말(「전체 글 · 글 N개」)을 같이 뿌린다.
+   홈에는 우리가 만든 「최신 글」 제목이 이미 있어서 제목이 두 번 나온다. 그래서 감춘다. */
+#tt-body-index .list-head{display:none}
+
+/* ---------------------------------------------------------------- 히어로 */
+.hero{position:relative;height:480px;border-radius:28px;overflow:hidden;margin-bottom:64px;
+  background:radial-gradient(115% 125% at 84% 16%, var(--pinkBg) 0%, var(--cream) 40%, var(--ivory) 76%)}
+.hero-img{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:1050px;
+  max-width:none;pointer-events:none;user-select:none}
+.hero-tx{position:absolute;left:88px;top:50%;transform:translateY(-50%);z-index:2;max-width:56%}
+.hero-tx h2{font-family:var(--display);font-weight:700;font-size:60px;line-height:1.3;
+  color:var(--navyD);letter-spacing:-2px}
+.hero-tx p{font-size:18.5px;color:var(--navy);margin-top:20px}
+.hero-btn{display:inline-block;margin-top:26px;background:var(--navyD);color:#fff;
+  font-size:16px;font-weight:800;padding:15px 30px;border-radius:999px;
+  transition:transform .15s, background .15s}
+.hero-btn:hover{background:var(--navy);transform:translateY(-2px)}
+
+/* ---------------------------------------------------------------- 섹션 제목 */
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:20px}
+/* 카테고리 카드와 그 아래 「최신 글」 사이를 띄운다 */
+.cats-sec{margin-bottom:64px}
+.home-only .sec-head{scroll-margin-top:24px}
+.sec-head h2{font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.5px}
+.sec-more{margin-left:auto;font-size:14px;font-weight:800;color:var(--rose)}
+.sec-more:hover{text-decoration:underline}
+
+/* ---------------------------------------------------------------- 카테고리 카드 */
+.cats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px}
+.cat{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:transform .16s, box-shadow .16s, border-color .16s}
+.cat:hover{transform:translateY(-3px);border-color:var(--lineD);
+  box-shadow:0 10px 24px rgba(12,38,87,.09)}
+.cat-thumb{aspect-ratio:16/9;background:var(--creamD)}
+.cat-thumb img{width:100%;height:100%;object-fit:cover}
+.cat-body{padding:15px 16px 18px;flex:1;display:flex;flex-direction:column}
+.cat-name{font-size:15.5px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+.cat-posts{margin-top:12px;display:flex;flex-direction:column;gap:9px}
+.cat-posts a{display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;font-size:13.5px;line-height:1.5;color:var(--muted)}
+.cat-posts a:hover{color:var(--rose)}
+.cat-empty{font-size:13px;color:var(--faint);margin-top:12px}
+
+/* ---------------------------------------------------------------- 글 목록 */
+.list-head{margin-bottom:24px}
+.list-head h2{font-size:24px;font-weight:800;color:var(--navy)}
+.list-head .cnt{font-size:14px;color:var(--muted);margin-top:6px}
+
+.posts{display:flex;flex-direction:column;gap:22px}
+.post{display:grid;grid-template-columns:220px minmax(0,1fr);gap:22px;
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;
+  transition:border-color .16s, box-shadow .16s}
+.post:hover{border-color:var(--lineD);box-shadow:0 8px 20px rgba(12,38,87,.07)}
+.post-thumb{aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:var(--creamD)}
+.post-thumb img{width:100%;height:100%;object-fit:cover}
+.post-cat{font-size:12.5px;font-weight:800;color:var(--rose)}
+.post h3{font-size:19px;font-weight:800;color:var(--navy);margin-top:7px;line-height:1.45;
+  display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.post p{font-size:14.5px;color:var(--muted);margin-top:9px;line-height:1.65;
+  display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.post-meta{font-size:12.5px;color:var(--faint);margin-top:12px}
+.list-empty{background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:56px 24px;text-align:center;color:var(--muted)}
+
+/* 페이지 넘김 */
+.paging{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:44px}
+.paging a,.paging span{min-width:40px;height:40px;padding:0 12px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:14.5px;font-weight:800;
+  border:1px solid var(--line);background:#fff;color:var(--muted)}
+.paging a:hover{border-color:var(--lineD);color:var(--navy)}
+.paging .now{background:var(--navyD);border-color:var(--navyD);color:#fff}
+
+/* ---------------------------------------------------------------- 글 페이지 */
+.article{background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:44px 48px 52px}
+
+/* 글을 읽는 화면은 흰 종이 한 장처럼 둔다.
+   아이보리 바탕 위에 흰 카드가 떠 있으면 테두리와 그림자가 눈에 걸린다.
+   tt-body-page 는 티스토리가 글 화면에 붙여주는 id다. */
+#tt-body-page .article{border:0;border-radius:0;padding:44px 0 52px}
+
+.article-head{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:32px}
+.article-cat{font-size:13px;font-weight:800;color:var(--rose)}
+.article-head h1{font-family:var(--display);font-weight:700;font-size:33px;line-height:1.4;
+  color:var(--navyD);margin-top:10px;letter-spacing:-1px}
+.article-meta{font-size:13px;color:var(--faint);margin-top:14px}
+.article-body{font-size:16.5px;line-height:1.85;color:var(--navy)}
+.article-body p{margin:0 0 1.15em}
+.article-body h2{font-size:23px;font-weight:800;color:var(--rose);margin:2.2em 0 .7em}
+.article-body h3{font-size:19px;font-weight:800;color:var(--navy);margin:1.8em 0 .6em}
+.article-body img{border-radius:12px;margin:1.4em auto}
+.article-body a{color:var(--rose);text-decoration:underline;text-underline-offset:3px}
+.article-body blockquote{background:var(--cream);border-left:4px solid var(--pink);
+  border-radius:0 10px 10px 0;padding:18px 22px;margin:1.4em 0}
+.article-body table{width:100%;border-collapse:collapse;margin:1.4em 0;font-size:15px}
+.article-body th,.article-body td{border:1px solid var(--line);padding:11px 13px;text-align:left}
+.article-body th{background:var(--creamD);font-weight:800}
+.article-body hr{border:0;border-top:1px solid var(--line);margin:2.2em 0}
+
+.article-tags{margin-top:36px;padding-top:24px;border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:8px}
+.article-tags a{font-size:13px;font-weight:800;color:var(--muted);background:var(--cream);
+  border-radius:999px;padding:7px 14px}
+.article-tags a:hover{background:var(--pinkBg);color:var(--rose)}
+
+.nav-prevnext{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px}
+.nav-prevnext a{background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px 20px}
+.nav-prevnext a:hover{border-color:var(--lineD)}
+.nav-prevnext .lb{font-size:12px;font-weight:800;color:var(--faint)}
+.nav-prevnext .tt{font-size:15px;font-weight:800;color:var(--navy);margin-top:6px;line-height:1.5;
+  display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nav-prevnext .next{text-align:right}
+
+/* ---------------------------------------------------------------- 사이드바 */
+.mw-side{position:sticky;top:24px}
+.mw-side .sidebar-module{background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 22px;margin-bottom:16px;font-size:14.5px}
+.mw-side h2,.mw-side h3,.mw-side .sidebar-title{font-size:14px;font-weight:800;
+  color:var(--navy);margin-bottom:12px;letter-spacing:-.2px}
+.mw-side li{padding:5px 0}
+.mw-side a{color:var(--muted)}
+.mw-side a:hover{color:var(--rose)}
+
+/* ---------------------------------------------------------------- 꼬리말 */
+.mw-foot{border-top:1px solid var(--line);background:var(--cream);padding:44px 0 52px}
+.mw-foot-top{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+.mw-foot-logo img{width:170px}
+/* 나중에 소개·문의·개인정보처리방침을 넣을 때 쓴다 (skin.html 꼬리말 주석 참고) */
+.mw-foot-nav{display:flex;gap:22px;flex-wrap:wrap}
+.mw-foot-nav a{font-size:14px;font-weight:800;color:var(--muted)}
+.mw-foot-nav a:hover{color:var(--rose)}
+.mw-foot-copy{margin-left:auto;font-size:13px;color:var(--faint)}
+.mw-foot-credit{margin-top:20px;font-size:11.5px;color:var(--faint);line-height:1.7}
+
+/* ==========================================================================
+   화면이 좁아질 때
+   ========================================================================== */
+
+/* 카드 5열 → 3열 */
+@media (max-width:1080px){
+  .cats{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+
+/* 사이드바를 본문 아래로 내린다 */
+@media (max-width:1000px){
+  .mw-layout{grid-template-columns:minmax(0,1fr)}
+  .mw-side{position:static;margin-top:40px}
+  .article{padding:34px 28px 40px}
+}
+
+/* 히어로 — 글씨와 그림을 위아래로 쌓는다.
+   hero.png 은 위아래에 투명 여백이 각각 12%쯤 들어 있다.
+   그대로 두면 그림 위아래가 텅 빈 것처럼 보여서 음수 여백으로 당겨 붙인다. */
+@media (max-width:860px){
+  :root{--pad:20px}
+  .hero{height:auto;padding:34px 26px 26px;border-radius:22px;margin-bottom:52px}
+  .hero-tx{position:static;transform:none;max-width:none}
+  .hero-tx h2{font-size:36px;letter-spacing:-1.4px}
+  .hero-tx p{font-size:16px;margin-top:12px}
+  .hero-btn{margin-top:18px;padding:13px 26px;font-size:15px}
+  /* 그림이 상자 안쪽 여백(26px)까지 먹고 들어가 더 커진다.
+     그리고 위로 끌어올려 글씨와 겹친다 — 배경이 투명이고 그림 왼쪽은 거의 비어 있어서
+     버튼 위에 얹혀도 아무것도 가리지 않는다.
+     음수 여백을 %로 주는 이유는 그림 크기에 따라 같이 줄고 늘어야 하기 때문이다.
+     (위아래 % 여백은 가로 폭을 기준으로 계산된다)
+     겹친 그림이 버튼 클릭을 막지 않도록 pointer-events:none 은 위쪽 규칙에 있다. */
+  .hero-img{position:static;transform:none;max-width:none;
+    width:calc(100% + 52px);
+    margin:-15% -26px -7%;padding:0}
+  .mw-head .wrap{height:60px}
+  .mw-logo img{width:108px}
+  .mw-nav ul{gap:20px}
+  .mw-nav li a{font-size:14.5px}
+  .mw-icon{margin-left:10px}
+  .post{grid-template-columns:150px minmax(0,1fr);gap:16px;padding:14px}
+  .post h3{font-size:17px}
+  .post p{display:none}
+  .article-head h1{font-size:26px}
+  .article-body{font-size:16px}
+}
+
+/* 카드 3열 → 2열 */
+@media (max-width:720px){
+  .cats{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .mw-body{padding:32px 0 56px}
+  .hero{margin-bottom:44px}
+  .mw-foot-top{flex-direction:column;align-items:flex-start;gap:18px}
+  .mw-foot-copy{margin-left:0}
+}
+
+/* 휴대폰 — 메뉴를 로고 아래 한 줄로 내린다.
+   flex-wrap 으로 하면 줄 나눔이 예상과 다르게 돌아서 돋보기가 화면 밖으로 밀렸다.
+   격자로 자리를 못 박는다. 이러면 어긋날 수가 없다. */
+@media (max-width:560px){
+  .mw-head .wrap{
+    display:grid; gap:0; height:auto; padding-top:16px;
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-areas:"logo icon" "nav nav";
+    align-items:center;
+  }
+  .mw-logo{grid-area:logo}
+  .mw-icon{grid-area:icon;margin-left:0}
+  .mw-nav{grid-area:nav;min-width:0;width:auto;margin:12px 0 0;
+    overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .mw-nav::-webkit-scrollbar{display:none}
+  .mw-nav ul{gap:22px;padding-bottom:12px;width:max-content}
+}
+
+/* 아주 좁은 화면 */
+@media (max-width:460px){
+  .hero-tx h2{font-size:31px}
+  .post{grid-template-columns:110px minmax(0,1fr);gap:13px}
+  .post h3{font-size:15.5px}
+  .article{padding:26px 20px 32px;border-radius:12px}
+  .article-head h1{font-size:23px}
+  .nav-prevnext{grid-template-columns:1fr}
+  .nav-prevnext .next{text-align:left}
+}
+
+/* 인쇄 */
+@media print{
+  .mw-head,.mw-side,.mw-foot,.paging,.nav-prevnext,.hero{display:none}
+  .article{border:0;padding:0}
+}
+
+/* ==========================================================================
+   티스토리가 스스로 뿌리는 마크업
+   댓글·분류·메뉴는 우리가 HTML을 짜는 게 아니라 티스토리가 통째로 넣어준다.
+   그쪽 클래스 이름에 맞춰 스타일을 준다. 이름을 바꾸면 안 된다.
+   ========================================================================== */
+
+/* ----- 분류 목록 [##_category_list_##] — 여러 겹으로 중첩된 ul 이 온다 */
+.side-cat li{padding:4px 0;font-size:14.5px;font-weight:800}
+.side-cat li a{color:var(--navy)}
+.side-cat li a:hover{color:var(--rose)}
+.side-cat li ul{padding-top:6px}
+.side-cat li ul li{padding:4px 0;font-weight:400;font-size:14px}
+.side-cat li ul li a{color:var(--muted)}
+.side-cat li ul li ul li{position:relative;padding-left:11px;font-size:13.5px}
+.side-cat li ul li ul li::before{content:"";position:absolute;left:0;top:0;bottom:0;
+  width:2px;background:var(--line)}
+
+/* ----- 헤더 메뉴 [##_blog_menu_##] 의 li.current 표시는 위 .mw-nav 규칙에서 처리한다 */
+
+/* ----- 사이드바 최근글 목록 */
+.side-posts li{padding:0 0 14px}
+.side-posts .t{display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;font-size:14px;line-height:1.5;color:var(--muted)}
+.side-posts a:hover .t{color:var(--rose)}
+.side-posts .d{display:block;margin-top:5px;font-size:11.5px;color:var(--faint)}
+.side-tags a{display:inline-block;font-size:13px;color:var(--muted);margin:0 4px 4px 0}
+.side-tags a::after{content:","}
+.side-tags a:last-child::after{content:""}
+.side-tags a:hover{color:var(--rose)}
+
+/* ----- 댓글 [##_comment_group_##] */
+.comments{margin-top:34px}
+.comments h2{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:16px}
+.comments h2 .count{margin-left:5px;color:var(--rose)}
+
+.comment-list{border-top:1px solid var(--line);margin-bottom:32px}
+.comment-list li{padding:22px 0 20px;border-bottom:1px solid var(--line);overflow:hidden}
+.comment-list .author-meta{position:relative;padding-left:56px;margin-bottom:8px;
+  font-size:12.5px;color:var(--faint)}
+.comment-list .author-meta .avatar{float:left;width:42px;height:42px;margin:0 0 0 -56px;
+  border-radius:50%;border:1px solid var(--line)}
+.comment-list .author-meta .nickname{font-weight:800;color:var(--navy)}
+.comment-list .author-meta a{color:var(--faint)}
+.comment-list .author-meta .control{position:absolute;top:0;right:0}
+.comment-list .author-meta .control .link a{display:block;background:#fff;
+  border:1px solid var(--line);padding:4px 12px;font-size:12.5px;color:var(--muted)}
+.comment-list p{padding-left:56px;font-size:14.5px;line-height:1.7;color:var(--navy)}
+.comment-list .reply{display:inline-block;margin-top:8px;margin-left:56px;
+  font-size:12.5px;color:var(--rose)}
+/* 답글 */
+.comment-list li ul{margin-top:18px;padding:18px 0 4px;border-top:1px solid var(--line);
+  background:var(--cream);border-radius:10px}
+.comment-list li ul li{padding:12px 16px;border-bottom:0}
+.comment-list .tt_more_preview_comments_text{display:block;padding:11px 0;
+  border:1px solid var(--line);border-radius:10px;text-align:center;
+  font-size:13.5px;color:var(--muted)}
+
+.comment-form{margin-bottom:8px}
+.comment-form .field{overflow:hidden;border:1px solid var(--line);border-radius:12px 12px 0 0;
+  margin-bottom:-1px;background:#fff}
+.comment-form .field input{float:left;width:50%;padding:12px 16px;border:0;
+  border-left:1px solid var(--line);font-size:14px;background:transparent;color:var(--navy)}
+.comment-form .field input:first-child{border-left:0}
+.comment-form textarea{display:block;width:100%;min-height:110px;padding:14px 16px;
+  border:1px solid var(--line);border-radius:0 0 12px 12px;background:#fff;
+  font-size:14.5px;line-height:1.7;color:var(--navy);resize:vertical}
+.comment-form input::placeholder,.comment-form textarea::placeholder{color:var(--faint)}
+.comment-form input:focus,.comment-form textarea:focus{outline:2px solid var(--pink);
+  outline-offset:-1px}
+.comment-form .secret{margin-top:12px;font-size:13px;color:var(--muted)}
+.comment-form .submit{text-align:right;margin-top:12px}
+.comment-form .submit button{background:var(--navyD);color:#fff;font-weight:800;
+  font-size:14.5px;padding:11px 26px;border-radius:999px}
+.comment-form .submit button:hover{background:var(--navy)}
+
+/* ----- 보호글 비밀번호 */
+.protected-form{text-align:center;padding:56px 0}
+.protected-form h2{font-size:21px;font-weight:800;color:var(--navy);margin-bottom:8px}
+.protected-form p{color:var(--muted);margin-bottom:22px}
+.protected-form input{border:1px solid var(--lineD);border-radius:999px;
+  padding:12px 20px;background:#fff;margin-right:8px}
+
+/* ----- 관련글 */
+.related{margin-top:34px}
+.rel-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.rel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.rel:hover{border-color:var(--lineD)}
+.rel-thumb{display:block;aspect-ratio:16/9;background:var(--creamD)}
+.rel-thumb img{width:100%;height:100%;object-fit:cover}
+.rel-title{display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;padding:12px 14px 15px;font-size:14px;font-weight:800;
+  line-height:1.5;color:var(--navy)}
+
+/* ----- 티스토리가 본문에 끼워 넣는 것들 */
+.another_category{margin:44px 0 !important;padding:18px 20px !important;
+  background:var(--cream);border:1px solid var(--line);border-radius:12px}
+.another_category h4{margin:0 0 10px !important;padding:0 !important;border:0 !important;
+  font-size:14px !important;font-weight:800;color:var(--navy)}
+.another_category table{margin:0 !important;border:0}
+.another_category th,.another_category td{border:0;padding:3px 0 !important;
+  font-size:13.5px !important;background:transparent}
+.container_postbtn{margin:36px 0 !important;padding:0 !important}
+.absent_post{padding:72px 0 !important;background:none !important;text-align:center;
+  color:var(--muted) !important;font-size:16px !important;line-height:1.8}
+
+/* ----- 목록 카드 (s_index_article_rep 는 span 으로 짰다) */
+.post-title{display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;font-size:19px;font-weight:800;color:var(--navy);
+  margin-top:7px;line-height:1.45}
+.post-sum{display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;font-size:14.5px;color:var(--muted);margin-top:9px;line-height:1.65}
+/* span 이라 블록으로 만들어 준다.
+   .post-title 과 .post-sum 은 여기에 넣지 않는다.
+   넣으면 바로 위에서 준 display:-webkit-box 를 덮어써서 줄 자르기가 풀린다.
+   (그래서 요약이 통째로 다 나왔던 것이다) */
+.post-cat,.post-meta{display:block}
+.post-meta{font-size:12.5px;color:var(--faint);margin-top:12px}
+.post.protected .post-thumb{position:relative}
+.post.protected .post-thumb::after{content:"비공개";position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:800;color:var(--faint)}
+.cat-thumb,.cat-body,.cat-name{display:block}
+.list-empty .sub{font-size:14px;color:var(--faint);margin-top:8px}
+
+/* 화면만 읽어주는 요소 (눈에는 안 보인다) */
+.a11y{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+#acc-nav a{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden}
+#acc-nav a:focus{width:100%;height:auto;padding:10px 0;background:var(--navyD);
+  color:#fff;text-align:center;z-index:999}
+
+@media (max-width:860px){
+  .rel-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .comment-form .field input{float:none;width:100%;border-left:0;
+    border-top:1px solid var(--line)}
+  .comment-form .field input:first-child{border-top:0}
+}
