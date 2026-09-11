@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오늘의 날씨</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <!-- CDN 버전 고정: Babel 은 반드시 7.x (8.x 는 인라인 text/babel 미지원) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.25.9/babel.min.js"></script>
+  <style>
+    /* Tailwind 유틸리티로 표현하기 어려운 애니메이션·효과만 정의 */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    @keyframes spin   { to { transform: rotate(360deg); } }
+    @keyframes float  { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    .anim-up    { animation: fadeUp .35s cubic-bezier(.22,1,.36,1) both; }
+    .anim-spin  { animation: spin .9s linear infinite; }
+    .anim-float { animation: float 4s ease-in-out infinite; }
+    /* 날씨가 바뀔 때 하늘 배경이 부드럽게 전환되도록 */
+    .sky { transition: background-image .6s ease; }
+    /* 시간별 예보 가로 스크롤바 숨김 */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- API 키는 config.js 에 둔다 (저장소에는 올리지 않음). 없으면 config.example.js 를 복사해 만든다. -->
+  <script src="config.js"></script>
+  <script type="text/babel">
+    const { useState, useEffect, useMemo, useRef, useCallback } = React;
+
+    // ========================================
+    // ⚙️ Constants & Config
+    // ========================================
+
+    const API_KEY = window.OWM_API_KEY || '';
+    const OWM_BASE = 'https://api.openweathermap.org';
+    const STORAGE_KEY = 'weather-app:last-location';
+    const DEFAULT_LOCATION = { lat: 37.5683, lon: 126.9778, label: '서울', sub: 'KR' };
+
+    // 날씨 상태(OWM icon code)별 하늘 배경.
+    // Tailwind 클래스 대신 inline style 로 두어 전환 애니메이션을 그대로 살린다.
+    const SKIES = {
+      clearDay:   'linear-gradient(165deg,#4cb8f5 0%,#2b7fe0 48%,#1a4fb0 100%)',
+      clearNight: 'linear-gradient(165deg,#12203f 0%,#1b1b3a 50%,#090c1c 100%)',
+      cloudDay:   'linear-gradient(165deg,#7aa7cc 0%,#5a80ab 50%,#3d5b80 100%)',
+      cloudNight: 'linear-gradient(165deg,#28324a 0%,#1d2437 55%,#0d1120 100%)',
+      rainDay:    'linear-gradient(165deg,#5b7d99 0%,#41607a 50%,#2a3d51 100%)',
+      rainNight:  'linear-gradient(165deg,#232f3d 0%,#18222e 55%,#0b1119 100%)',
+      stormDay:   'linear-gradient(165deg,#4a4a6b 0%,#33334f 50%,#1d1d30 100%)',
+      stormNight: 'linear-gradient(165deg,#26243c 0%,#191828 55%,#0a0912 100%)',
+      snowDay:    'linear-gradient(165deg,#a8c4dd 0%,#7f9fbf 50%,#5b789a 100%)',
+      snowNight:  'linear-gradient(165deg,#2c3a4d 0%,#202b3a 55%,#111823 100%)',
+      mistDay:    'linear-gradient(165deg,#9aa6b2 0%,#77848f 50%,#535e69 100%)',
+      mistNight:  'linear-gradient(165deg,#2b3138 0%,#1f242a 55%,#111417 100%)',
+    };
+
+    function skyFor(code) {
+      if (!code) return SKIES.clearDay;
+      const night = code.endsWith('n');
+      const group = code.slice(0, 2);
+      if (group === '01') return night ? SKIES.clearNight : SKIES.clearDay;
+      if (group === '02' || group === '03' || group === '04') return night ? SKIES.cloudNight : SKIES.cloudDay;
+      if (group === '09' || group === '10') return night ? SKIES.rainNight : SKIES.rainDay;
+      if (group === '11') return night ? SKIES.stormNight : SKIES.stormDay;
+      if (group === '13') return night ? SKIES.snowNight : SKIES.snowDay;
+      return night ? SKIES.mistNight : SKIES.mistDay;
+    }
+
+    // ========================================
+    // 🧮 Utils
+    // ========================================
+
+    // OWM 은 UTC epoch 를 주므로, 도시의 timezone 오프셋을 더한 뒤
+    // UTC 게터로 읽어야 브라우저 시간대와 무관하게 "현지 시각" 이 나온다.
+    const localDate = (dt, tz) => new Date((dt + tz) * 1000);
+    const pad2 = (n) => String(n).padStart(2, '0');
+
+    const fmtHour = (dt, tz) => localDate(dt, tz).getUTCHours() + '시';
+    const fmtClock = (dt, tz) => {
+      const d = localDate(dt, tz);
+      return pad2(d.getUTCHours()) + ':' + pad2(d.getUTCMinutes());
+    };
+
+    const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
+    const dayKey = (dt, tz) => {
+      const d = localDate(dt, tz);
+      return d.getUTCFullYear() + '-' + pad2(d.getUTCMonth() + 1) + '-' + pad2(d.getUTCDate());
+    };
+    const fmtDayLabel = (dt, tz) => {
+      const d = localDate(dt, tz);
+      return { weekday: WEEKDAYS[d.getUTCDay()], date: (d.getUTCMonth() + 1) + '.' + d.getUTCDate() };
+    };
+
+    const showTemp = (c, unit) => Math.round(unit === 'F' ? c * 9 / 5 + 32 : c) + '°';
+
+    const WIND_DIRS = ['북', '북동', '동', '남동', '남', '남서', '서', '북서'];
+    const windDir = (deg) => WIND_DIRS[Math.round((deg || 0) / 45) % 8];
+
+    // 3시간 단위 예보를 현지 날짜별로 묶어 일별 요약으로 바꾼다.
+    function groupDaily(list, tz) {
+      const buckets = new Map();
+      list.forEach((item) => {
+        const key = dayKey(item.dt, tz);
+        if (!buckets.has(key)) buckets.set(key, []);
+        buckets.get(key).push(item);
+      });
+
+      return Array.from(buckets.entries()).map(([key, items]) => {
+        // 대표 아이콘은 정오에 가장 가까운 시각의 것을 쓴다.
+        const noon = items.reduce((best, it) => {
+          const h = localDate(it.dt, tz).getUTCHours();
+          const bh = localDate(best.dt, tz).getUTCHours();
+          return Math.abs(h - 12) < Math.abs(bh - 12) ? it : best;
+        }, items[0]);
+
+        return {
+          key,
+          dt: items[0].dt,
+          min: Math.min.apply(null, items.map((i) => i.main.temp_min)),
+          max: Math.max.apply(null, items.map((i) => i.main.temp_max)),
+          pop: Math.max.apply(null, items.map((i) => i.pop || 0)),
+          icon: noon.weather[0].icon,
+          description: noon.weather[0].description,
+        };
+      });
+    }
+
+    // ========================================
+    // 📡 API Layer
+    // ========================================
+
+    async function owmFetch(path, params) {
+      if (!API_KEY) {
+        throw new Error('API 키가 없습니다. week3/weather/config.example.js 를 config.js 로 복사하고 키를 넣어 주세요.');
+      }
+      const url = new URL(OWM_BASE + path);
+      const all = Object.assign({}, params, { appid: API_KEY });
+      Object.keys(all).forEach((k) => url.searchParams.set(k, all[k]));
+
+      const res = await fetch(url.toString());
+      if (!res.ok) {
+        let message = '날씨 정보를 불러오지 못했습니다 (오류 ' + res.status + ')';
+        if (res.status === 401) message = 'API 키가 유효하지 않습니다. 키를 확인해 주세요.';
+        if (res.status === 404) message = '해당 위치의 날씨 정보를 찾을 수 없습니다.';
+        if (res.status === 429) message = '요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.';
+        const err = new Error(message);
+        err.status = res.status;
+        throw err;
+      }
+      return res.json();
+    }
+
+    const searchCities = (q) => owmFetch('/geo/1.0/direct', { q: q, limit: 5 });
+
+    const fetchWeather = (lat, lon) => Promise.all([
+      owmFetch('/data/2.5/weather', { lat: lat, lon: lon, units: 'metric', lang: 'kr' }),
+      owmFetch('/data/2.5/forecast', { lat: lat, lon: lon, units: 'metric', lang: 'kr' }),
+    ]);
+
+    // 좌표가 바뀌거나 새로고침할 때마다 현재 날씨 + 5일 예보를 함께 가져온다.
+    function useWeather(location) {
+      const [data, setData] = useState(null);
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+      const [updatedAt, setUpdatedAt] = useState(null);
+      const [nonce, setNonce] = useState(0);
+
+      useEffect(() => {
+        if (!location) return;
+        let stale = false;
+        setLoading(true);
+        setError(null);
+
+        fetchWeather(location.lat, location.lon)
+          .then(([current, forecast]) => {
+            if (stale) return;
+            setData({ current: current, forecast: forecast });
+            setUpdatedAt(new Date());
+          })
+          .catch((err) => { if (!stale) setError(err); })
+          .finally(() => { if (!stale) setLoading(false); });
+
+        return () => { stale = true; };
+      }, [location.lat, location.lon, nonce]);
+
+      const reload = useCallback(() => setNonce((n) => n + 1), []);
+      return { data, loading, error, reload, updatedAt };
+    }
+
+    // ========================================
+    // 🎨 Design System Components
+    // ========================================
+
+    function Button({ variant = 'primary', size = 'md', className = '', children, ...props }) {
+      const base =
+        'inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl font-medium transition ' +
+        'focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 ' +
+        'disabled:opacity-50 disabled:cursor-not-allowed';
+      const variants = {
+        primary: 'bg-white/20 text-white hover:bg-white/30 border border-white/25 backdrop-blur',
+        secondary: 'bg-white/10 text-white/90 hover:bg-white/20 border border-white/15 backdrop-blur',
+        ghost: 'text-white/80 hover:text-white hover:bg-white/10',
+      };
+      const sizes = { sm: 'px-3 py-1.5 text-sm', md: 'px-4 py-3 text-sm', lg: 'px-5 py-3.5 text-base' };
+
+      return (
+        <button className={base + ' ' + variants[variant] + ' ' + sizes[size] + ' ' + className} {...props}>
+          {children}
+        </button>
+      );
+    }
+
+    function Input({ label, error, className = '', ...props }) {
+      return (
+        <div className={'w-full ' + className}>
+          {label && <label className="mb-1.5 block text-sm text-white/80">{label}</label>}
+          <input
+            className={
+              'w-full rounded-xl border bg-white/15 px-4 py-3 text-white placeholder-white/55 backdrop-blur ' +
+              'transition focus:outline-none focus:ring-2 focus:ring-white/70 ' +
+              (error ? 'border-rose-300/70' : 'border-white/25')
+            }
+            {...props}
+          />
+        </div>
+      );
+    }
+
+    function Card({ className = '', children, ...props }) {
+      return (
+        <div
+          className={'rounded-2xl border border-white/20 bg-white/10 p-5 shadow-lg shadow-black/10 backdrop-blur-md ' + className}
+          {...props}
+        >
+          {children}
+        </div>
+      );
+    }
+
+    function Badge({ className = '', children }) {
+      return (
+        <span className={'inline-flex items-center gap-1 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-xs font-medium text-white ' + className}>
+          {children}
+        </span>
+      );
+    }
+
+    function Spinner({ className = 'h-5 w-5' }) {
+      return (
+        <span
+          role="status"
+          aria-label="불러오는 중"
+          className={'anim-spin inline-block rounded-full border-2 border-white/30 border-t-white ' + className}
+        />
+      );
+    }
+
+    // ========================================
+    // 🌤️ WeatherIcon (inline SVG)
+    // ========================================
+
+    const CLOUD_D = 'M7.5 19a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18.2 9.7 3.9 3.9 0 0 1 17.9 19H7.5z';
+    const STROKE = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round', strokeLinejoin: 'round' };
+
+    function WeatherIcon({ code = '01d', className = 'h-12 w-12' }) {
+      const group = code.slice(0, 2);
+      const night = code.endsWith('n');
+
+      const sun = (
+        <g {...STROKE}>
+          <circle cx="12" cy="12" r="4.2" />
+          {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
+            <line key={deg} x1="12" y1="4.4" x2="12" y2="2.2" transform={'rotate(' + deg + ' 12 12)'} />
+          ))}
+        </g>
+      );
+      const moon = <path {...STROKE} d="M19.8 14.6A8.2 8.2 0 0 1 9.4 4.2 8.3 8.3 0 1 0 19.8 14.6z" />;
+      // 구름과 겹치지 않도록 해·달은 오른쪽 위로 밀어 둔다.
+      const smallLight = night
+        ? <path {...STROKE} d="M20.2 9.4A4.4 4.4 0 0 1 14.6 3.8a4.5 4.5 0 1 0 5.6 5.6z" />
+        : (
+          <g {...STROKE}>
+            <circle cx="17.2" cy="5.6" r="2.3" />
+            {[0, 60, 120, 180, 240, 300].map((deg) => (
+              <line key={deg} x1="17.2" y1="2.4" x2="17.2" y2="1.4" transform={'rotate(' + deg + ' 17.2 5.6)'} />
+            ))}
+          </g>
+        );
+      const cloud = <path {...STROKE} d={CLOUD_D} />;
+      const drops = (n, xs) => (
+        <g {...STROKE}>
+          {xs.slice(0, n).map((x, i) => <line key={i} x1={x} y1="20.2" x2={x - 1.2} y2="23.2" />)}
+        </g>
+      );
+
+      let content;
+      if (group === '01') {
+        content = night ? moon : sun;
+      } else if (group === '02') {
+        content = <g>{smallLight}{cloud}</g>;
+      } else if (group === '03') {
+        content = cloud;
+      } else if (group === '04') {
+        // 온흐림: 뒤에 구름 한 겹을 더 겹쳐 03(구름많음)과 구분한다.
+        content = <g><path {...STROKE} opacity="0.55" transform="translate(3.4,-4.6) scale(0.72)" d={CLOUD_D} />{cloud}</g>;
+      } else if (group === '09') {
+        content = <g>{cloud}{drops(3, [8.4, 12, 15.6])}</g>;
+      } else if (group === '10') {
+        content = <g>{smallLight}{cloud}{drops(2, [9.6, 14.4])}</g>;
+      } else if (group === '11') {
+        content = <g>{cloud}<path {...STROKE} d="M13.2 19.6l-3 3.6h3.2l-1.6 2.6" /></g>;
+      } else if (group === '13') {
+        content = (
+          <g>
+            {cloud}
+            <g {...STROKE}>
+              <line x1="9" y1="20.4" x2="9" y2="23.4" /><line x1="7.7" y1="21.1" x2="10.3" y2="22.7" /><line x1="10.3" y1="21.1" x2="7.7" y2="22.7" />
+              <line x1="15" y1="20.4" x2="15" y2="23.4" /><line x1="13.7" y1="21.1" x2="16.3" y2="22.7" /><line x1="16.3" y1="21.1" x2="13.7" y2="22.7" />
+            </g>
+          </g>
+        );
+      } else {
+        content = (
+          <g {...STROKE}>
+            <line x1="3.5" y1="9" x2="18" y2="9" />
+            <line x1="5.5" y1="13" x2="20.5" y2="13" />
+            <line x1="4" y1="17" x2="16" y2="17" />
+          </g>
+        );
+      }
+
+      return (
+        <svg viewBox="0 0 24 26" className={className} role="img" aria-hidden="true">
+          {content}
+        </svg>
+      );
+    }
+
+    // ========================================
+    // 🧩 Common Components
+    // ========================================
+
+    function SearchBar({ onSelect, onUseMyLocation, geoLoading }) {
+      const [query, setQuery] = useState('');
+      const [results, setResults] = useState(null);
+      const [searching, setSearching] = useState(false);
+      const [error, setError] = useState('');
+      const boxRef = useRef(null);
+
+      // 바깥을 클릭하면 결과 목록을 닫는다.
+      useEffect(() => {
+        const onDown = (e) => {
+          if (boxRef.current && !boxRef.current.contains(e.target)) setResults(null);
+        };
+        document.addEventListener('mousedown', onDown);
+        return () => document.removeEventListener('mousedown', onDown);
+      }, []);
+
+      const submit = async (e) => {
+        e.preventDefault();
+        const q = query.trim();
+        if (!q) return;
+        setSearching(true);
+        setError('');
+        try {
+          setResults(await searchCities(q));
+        } catch (err) {
+          setError(err.message);
+          setResults(null);
+        } finally {
+          setSearching(false);
+        }
+      };
+
+      const pick = (city) => {
+        onSelect({
+          lat: city.lat,
+          lon: city.lon,
+          label: (city.local_names && city.local_names.ko) || city.name,
+          sub: [city.state, city.country].filter(Boolean).join(', '),
+        });
+        setResults(null);
+        setQuery('');
+      };
+
+      return (
+        <div ref={boxRef} className="relative">
+          <form onSubmit={submit} className="flex gap-2" role="search">
+            <Input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="도시 이름으로 검색 (예: 부산, Tokyo)"
+              aria-label="도시 검색"
+              error={error}
+            />
+            <Button type="submit" disabled={searching || !query.trim()}>
+              {searching ? <Spinner className="h-4 w-4" /> : '검색'}
+            </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={onUseMyLocation}
+              disabled={geoLoading}
+              title="현재 위치 사용"
+              aria-label="현재 위치 사용"
+            >
+              {geoLoading ? <Spinner className="h-4 w-4" /> : '📍'}
+            </Button>
+          </form>
+
+          {error && <p className="mt-2 text-sm text-rose-200">{error}</p>}
+
+          {results && (
+            <ul className="anim-up absolute z-20 mt-2 w-full overflow-hidden rounded-2xl border border-white/25 bg-slate-900/80 backdrop-blur-xl">
+              {results.length === 0 ? (
+                <li className="px-4 py-4 text-sm text-white/70">검색 결과가 없습니다. 다른 이름으로 찾아보세요.</li>
+              ) : results.map((city, i) => (
+                <li key={city.lat + '-' + city.lon + '-' + i}>
+                  <button
+                    type="button"
+                    onClick={() => pick(city)}
+                    className="flex w-full items-baseline gap-2 px-4 py-3 text-left text-white transition hover:bg-white/15"
+                  >
+                    <span className="font-medium">{(city.local_names && city.local_names.ko) || city.name}</span>
+                    <span className="text-xs text-white/60">{[city.state, city.country].filter(Boolean).join(', ')}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      );
+    }
+
+    function ErrorState({ error, onRetry }) {
+      return (
+        <Card className="anim-up text-center">
+          <div className="mb-3 text-4xl" aria-hidden="true">⚠️</div>
+          <p className="text-lg font-semibold text-white">날씨를 불러오지 못했습니다</p>
+          <p className="mt-1 text-sm text-white/75">{error.message}</p>
+          <Button className="mt-5" onClick={onRetry}>다시 시도</Button>
+        </Card>
+      );
+    }
+
+    function LoadingState() {
+      return (
+        <Card className="flex flex-col items-center gap-4 py-16" aria-busy="true">
+          <Spinner className="h-9 w-9" />
+          <p className="text-sm text-white/75">날씨 정보를 불러오는 중…</p>
+        </Card>
+      );
+    }
+
+    // ========================================
+    // 📄 Weather Sections
+    // ========================================
+
+    function CurrentWeather({ current, today, location, unit, updatedAt, onRefresh, loading }) {
+      const tz = current.timezone;
+      const weather = current.weather[0];
+      const now = Math.floor(Date.now() / 1000);
+
+      // current API 의 temp_min/max 는 관측소 편차만 반영해 현재 기온과 같아지는 일이 잦다.
+      // 오늘 남은 시간의 예보값과 합쳐 실제 일교차를 보여준다.
+      const low = today ? Math.min(today.min, current.main.temp_min) : current.main.temp_min;
+      const high = today ? Math.max(today.max, current.main.temp_max) : current.main.temp_max;
+
+      return (
+        <Card className="anim-up">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h1 className="text-2xl font-bold text-white">{location.label}</h1>
+              <p className="mt-0.5 text-sm text-white/70">
+                {location.sub ? location.sub + ' · ' : ''}현지 시각 {fmtClock(now, tz)}
+              </p>
+            </div>
+            <Button variant="ghost" size="sm" onClick={onRefresh} disabled={loading}>
+              {loading ? <Spinner className="h-4 w-4" /> : '↻'} 새로고침
+            </Button>
+          </div>
+
+          <div className="mt-6 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-10">
+            <WeatherIcon code={weather.icon} className="anim-float h-28 w-28 text-white" />
+            <div className="text-center sm:text-left">
+              <div className="text-7xl font-extralight leading-none tracking-tighter text-white">
+                {showTemp(current.main.temp, unit)}
+              </div>
+              <p className="mt-2 text-lg text-white/90">{weather.description}</p>
+              <p className="text-sm text-white/70">
+                체감 {showTemp(current.main.feels_like, unit)} · 최저 {showTemp(low, unit)} / 최고 {showTemp(high, unit)}
+              </p>
+            </div>
+          </div>
+
+          {updatedAt && (
+            <p className="mt-6 text-center text-xs text-white/50">
+              {pad2(updatedAt.getHours())}:{pad2(updatedAt.getMinutes())} 기준
+            </p>
+          )}
+        </Card>
+      );
+    }
+
+    function SunTimes({ current }) {
+      const tz = current.timezone;
+      const sunrise = current.sys.sunrise;
+      const sunset = current.sys.sunset;
+      const now = Math.floor(Date.now() / 1000);
+      const progress = Math.min(100, Math.max(0, ((now - sunrise) / (sunset - sunrise)) * 100));
+      const isDay = now >= sunrise && now <= sunset;
+
+      return (
+        <Card className="anim-up">
+          <div className="flex items-center justify-between text-sm text-white/80">
+            <span>🌅 일출 {fmtClock(sunrise, tz)}</span>
+            <Badge>{isDay ? '낮' : '밤'}</Badge>
+            <span>🌇 일몰 {fmtClock(sunset, tz)}</span>
+          </div>
+          <div
+            className="mt-3 h-2 w-full overflow-hidden rounded-full bg-white/20"
+            role="progressbar"
+            aria-label="낮 시간 경과"
+            aria-valuenow={Math.round(progress)}
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div className="h-full rounded-full bg-amber-200 transition-all duration-700" style={{ width: progress + '%' }} />
+          </div>
+        </Card>
+      );
+    }
+
+    function HourlyForecast({ forecast, unit }) {
+      const tz = forecast.city.timezone;
+      const hours = forecast.list.slice(0, 8); // 3시간 간격 × 8 = 24시간
+
+      return (
+        <Card className="anim-up">
+          <h2 className="mb-4 text-sm font-semibold tracking-wide text-white/80">24시간 예보</h2>
+          <ul className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+            {hours.map((h) => (
+              <li key={h.dt} className="flex min-w-[76px] flex-1 flex-col items-center gap-1.5 rounded-xl bg-white/10 px-3 py-3">
+                <span className="text-xs text-white/70">{fmtHour(h.dt, tz)}</span>
+                <WeatherIcon code={h.weather[0].icon} className="h-8 w-8 text-white" />
+                <span className="text-base font-semibold text-white">{showTemp(h.main.temp, unit)}</span>
+                <span className={'text-[11px] ' + (h.pop > 0.1 ? 'text-sky-200' : 'text-white/40')}>
+                  {Math.round((h.pop || 0) * 100)}%
+                </span>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      );
+    }
+
+    function MetricGrid({ current, unit }) {
+      const metrics = [
+        { label: '습도', icon: '💧', value: current.main.humidity + '%' },
+        { label: '바람', icon: '🌬️', value: windDir(current.wind.deg) + ' ' + current.wind.speed.toFixed(1) + 'm/s' },
+        { label: '기압', icon: '📊', value: current.main.pressure + 'hPa' },
+        { label: '구름', icon: '☁️', value: current.clouds.all + '%' },
+        { label: '가시거리', icon: '👁️', value: ((current.visibility || 0) / 1000).toFixed(1) + 'km' },
+        { label: '체감온도', icon: '🌡️', value: showTemp(current.main.feels_like, unit) },
+      ];
+
+      return (
+        <div className="anim-up grid grid-cols-2 gap-3 sm:grid-cols-3">
+          {metrics.map((m) => (
+            <Card key={m.label} className="p-4">
+              <p className="flex items-center gap-1.5 text-xs text-white/70">
+                <span aria-hidden="true">{m.icon}</span> {m.label}
+              </p>
+              <p className="mt-1.5 text-xl font-semibold text-white">{m.value}</p>
+            </Card>
+          ))}
+        </div>
+      );
+    }
+
+    function DailyForecast({ days, tz, unit }) {
+      const weekMin = Math.min.apply(null, days.map((d) => d.min));
+      const weekMax = Math.max.apply(null, days.map((d) => d.max));
+      const span = Math.max(1, weekMax - weekMin);
+
+      return (
+        <Card className="anim-up">
+          <h2 className="mb-4 text-sm font-semibold tracking-wide text-white/80">5일 예보</h2>
+          <ul className="space-y-1">
+            {days.map((d, i) => {
+              const label = fmtDayLabel(d.dt, tz);
+              const left = ((d.min - weekMin) / span) * 100;
+              const width = Math.max(6, ((d.max - d.min) / span) * 100);
+
+              return (
+                <li key={d.key} className="flex items-center gap-3 rounded-xl px-2 py-2.5 transition hover:bg-white/10">
+                  <div className="w-14 shrink-0">
+                    <p className="text-sm font-medium text-white">{i === 0 ? '오늘' : label.weekday}</p>
+                    <p className="text-[11px] text-white/55">{label.date}</p>
+                  </div>
+                  <WeatherIcon code={d.icon} className="h-8 w-8 shrink-0 text-white" />
+                  <div className="hidden min-w-0 flex-1 sm:block">
+                    <p className="truncate text-sm text-white/80">{d.description}</p>
+                    {d.pop > 0.1 && <p className="text-[11px] text-sky-200">강수확률 {Math.round(d.pop * 100)}%</p>}
+                  </div>
+                  <div className="flex flex-1 items-center gap-2 sm:flex-[1.2]">
+                    <span className="w-9 text-right text-sm text-white/60">{showTemp(d.min, unit)}</span>
+                    <span className="relative h-1.5 flex-1 rounded-full bg-white/20">
+                      <span
+                        className="absolute inset-y-0 rounded-full bg-gradient-to-r from-sky-200 to-amber-200"
+                        style={{ left: left + '%', width: width + '%' }}
+                      />
+                    </span>
+                    <span className="w-9 text-sm font-semibold text-white">{showTemp(d.max, unit)}</span>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </Card>
+      );
+    }
+
+    // ========================================
+    // 🚀 App Component
+    // ========================================
+
+    function App() {
+      const [location, setLocation] = useState(() => {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          return saved ? JSON.parse(saved) : DEFAULT_LOCATION;
+        } catch (e) {
+          return DEFAULT_LOCATION;
+        }
+      });
+      const [unit, setUnit] = useState('C');
+      const [geoLoading, setGeoLoading] = useState(false);
+      const [geoError, setGeoError] = useState('');
+
+      const { data, loading, error, reload, updatedAt } = useWeather(location);
+
+      // 마지막으로 본 도시를 기억해 다음 방문에 바로 띄운다.
+      useEffect(() => {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(location));
+        } catch (e) { /* 저장 실패는 무시 */ }
+      }, [location]);
+
+      // 브라우저 좌표를 받아 역지오코딩으로 지역명을 붙인다.
+      const useMyLocation = () => {
+        if (!navigator.geolocation) {
+          setGeoError('이 브라우저에서는 위치 정보를 사용할 수 없습니다.');
+          return;
+        }
+        setGeoLoading(true);
+        setGeoError('');
+
+        navigator.geolocation.getCurrentPosition(
+          async (pos) => {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+            try {
+              const places = await owmFetch('/geo/1.0/reverse', { lat: lat, lon: lon, limit: 1 });
+              const place = places[0];
+              setLocation({
+                lat: lat,
+                lon: lon,
+                label: place ? (place.local_names && place.local_names.ko) || place.name : '현재 위치',
+                sub: place ? [place.state, place.country].filter(Boolean).join(', ') : '',
+              });
+            } catch (e) {
+              setLocation({ lat: lat, lon: lon, label: '현재 위치', sub: '' });
+            } finally {
+              setGeoLoading(false);
+            }
+          },
+          () => {
+            setGeoError('위치 권한이 거부되었습니다. 도시 이름으로 검색해 주세요.');
+            setGeoLoading(false);
+          },
+          { timeout: 10000 }
+        );
+      };
+
+      // 3시간 예보 40개를 현지 날짜로 묶으면 오늘·마지막 날은 불완전한 조각이 남는다.
+      // 표기와 맞도록 앞에서 5일만 쓴다.
+      const days = useMemo(
+        () => (data ? groupDaily(data.forecast.list, data.forecast.city.timezone).slice(0, 5) : []),
+        [data]
+      );
+
+      const sky = skyFor(data && data.current.weather[0].icon);
+
+      return (
+        <div className="sky min-h-screen w-full" style={{ backgroundImage: sky }}>
+          <div className="mx-auto max-w-3xl px-4 py-8 sm:py-12">
+            <header className="mb-5 flex items-center justify-between gap-3">
+              <p className="text-sm font-semibold tracking-[0.2em] text-white/70">오늘의 날씨</p>
+              <div className="flex rounded-full border border-white/25 bg-white/10 p-0.5 backdrop-blur" role="group" aria-label="온도 단위">
+                {['C', 'F'].map((u) => (
+                  <button
+                    key={u}
+                    onClick={() => setUnit(u)}
+                    aria-pressed={unit === u}
+                    className={
+                      'rounded-full px-3 py-1 text-xs font-semibold transition ' +
+                      (unit === u ? 'bg-white text-slate-900' : 'text-white/80 hover:text-white')
+                    }
+                  >
+                    °{u}
+                  </button>
+                ))}
+              </div>
+            </header>
+
+            <SearchBar onSelect={setLocation} onUseMyLocation={useMyLocation} geoLoading={geoLoading} />
+            {geoError && <p className="mt-2 text-sm text-rose-200">{geoError}</p>}
+
+            <main className="mt-5 space-y-4">
+              {error ? (
+                <ErrorState error={error} onRetry={reload} />
+              ) : !data ? (
+                <LoadingState />
+              ) : (
+                <React.Fragment>
+                  <CurrentWeather
+                    current={data.current}
+                    today={days[0]}
+                    location={location}
+                    unit={unit}
+                    updatedAt={updatedAt}
+                    onRefresh={reload}
+                    loading={loading}
+                  />
+                  <SunTimes current={data.current} />
+                  <HourlyForecast forecast={data.forecast} unit={unit} />
+                  <MetricGrid current={data.current} unit={unit} />
+                  <DailyForecast days={days} tz={data.forecast.city.timezone} unit={unit} />
+                </React.Fragment>
+              )}
+            </main>
+
+            <footer className="mt-8 text-center text-xs text-white/45">데이터 제공: OpenWeatherMap</footer>
+          </div>
+        </div>
+      );
+    }
+
+    // ========================================
+    // Rendering
+    // ========================================
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

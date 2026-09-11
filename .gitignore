@@ -17,6 +17,7 @@ desktop.ini
 !**/.env.example
 *.key
 secrets.json
+week3/weather/config.js
 
 # Playwright MCP 작업 산출물 (스냅샷·콘솔 로그 자동 생성)
 .playwright-mcp/
