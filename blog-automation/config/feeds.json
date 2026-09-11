@@ -1,0 +1,51 @@
+{
+  "_주석": "실제로 응답을 확인한 피드만 등록. rate_limited=true 인 곳은 재시도·지연이 필요합니다.",
+  "재테크": {
+    "설명": "2-30대 투자 · 절세 · 부동산",
+    "feeds": [
+      { "name": "연합뉴스 경제", "url": "https://www.yna.co.kr/rss/economy.xml", "items": 120 },
+      { "name": "머니투데이", "url": "https://rss.mt.co.kr/mt_news.xml", "items": 100 },
+      { "name": "뉴시스 경제", "url": "https://newsis.com/RSS/economy.xml", "items": 100 },
+      { "name": "매일경제 부동산", "url": "https://www.mk.co.kr/rss/50300009/", "items": 50 },
+      { "name": "경향 경제", "url": "https://www.khan.co.kr/rss/rssdata/economy_news.xml", "items": 50 },
+      { "name": "한겨레 경제", "url": "https://www.hani.co.kr/rss/economy/", "items": 30 },
+      { "name": "SBS 경제", "url": "https://news.sbs.co.kr/news/SectionRssFeed.do?sectionId=02", "items": 29 },
+      { "name": "한국경제", "url": "https://www.hankyung.com/feed/economy", "items": 50, "rate_limited": true }
+    ],
+    "keywords": [
+      "금리", "청약", "전세", "매매", "재건축", "공시가격", "양도세", "종부세",
+      "연말정산", "ISA", "연금저축", "IRP", "청년", "적금", "배당", "ETF"
+    ]
+  },
+  "테크": {
+    "설명": "IT 기기 — 스마트폰 · 노트북 · PC · 태블릿",
+    "feeds": [
+      { "name": "9to5Mac", "url": "https://9to5mac.com/feed/", "items": 100 },
+      { "name": "Android Authority", "url": "https://www.androidauthority.com/feed/", "items": 80 },
+      { "name": "ZDNet 코리아", "url": "https://feeds.feedburner.com/zdkorea", "items": 30 },
+      { "name": "전자신문", "url": "https://rss.etnews.com/Section901.xml", "items": 26 },
+      { "name": "Engadget", "url": "https://www.engadget.com/rss.xml", "items": 20 },
+      { "name": "Ars Technica", "url": "https://feeds.arstechnica.com/arstechnica/index", "items": 20 },
+      { "name": "GSMArena", "url": "https://www.gsmarena.com/rss-news-reviews.php3", "items": 20 },
+      { "name": "The Verge", "url": "https://www.theverge.com/rss/index.xml", "items": 10 }
+    ],
+    "keywords": [
+      "갤럭시", "아이폰", "맥북", "아이패드", "갤럭시탭", "노트북", "태블릿",
+      "review", "hands-on", "benchmark", "battery", "display", "chipset"
+    ]
+  },
+  "패션": {
+    "설명": "패션 · 트렌드",
+    "feeds": [
+      { "name": "Vogue", "url": "https://www.vogue.com/feed/rss", "items": 28 },
+      { "name": "Hypebeast KR", "url": "https://hypebeast.kr/feed", "items": 20 },
+      { "name": "Hypebeast", "url": "https://hypebeast.com/feed", "items": 20 },
+      { "name": "Dazed", "url": "https://www.dazeddigital.com/rss", "items": 15 },
+      { "name": "Highsnobiety", "url": "https://www.highsnobiety.com/feed/", "items": 12 }
+    ],
+    "keywords": [
+      "트렌드", "컬렉션", "협업", "드롭", "스니커", "코디",
+      "collection", "collaboration", "drop", "sneaker", "runway", "SS", "FW"
+    ]
+  }
+}

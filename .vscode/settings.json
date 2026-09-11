@@ -1,3 +1,8 @@
 {
-    "claude-code-extension.autoStartCommand": "claude --dangerously-skip-permissions"
+    "claude-code-extension.autoStartCommand": "claude --dangerously-skip-permissions",
+    "python.testing.pytestArgs": [
+        "2주차"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }

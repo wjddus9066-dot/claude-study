@@ -1,0 +1,84 @@
+<!doctype html>
+<meta charset="utf-8">
+<!-- @출력 04_이미지/2026-09-07_ISA_직장인_실제혜택_v2/02_세금비교.png -->
+<!-- @크기 1600x900 -->
+<!--
+  같은 500만원을 벌었을 때 어디에 담았느냐로 세금이 갈리는 그림.
+  막대 높이는 세금 금액에 비례한다. 0 은 y=620, 80만원이 y=120 (25만원당 156px).
+  77만원 -> 높이 481 / 29.7만원 -> 높이 186 / 9.9만원 -> 높이 62
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1600px; height:900px; overflow:hidden; background:var(--ivory);
+    font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif; color:var(--navy);
+    padding:52px 90px 0;
+  }
+  h2 { font-size:48px; font-weight:800; letter-spacing:-1.5px; }
+  .sub { font-size:27px; color:var(--muted); margin-top:12px; }
+  .wrap { display:flex; gap:56px; margin-top:10px; align-items:flex-start; }
+  .right { flex:1; padding-top:30px; }
+  .kv { background:var(--ivory); border:2px solid var(--line); border-radius:16px; padding:20px 28px; margin-bottom:12px; }
+  .kv .k { font-size:24px; color:var(--muted); }
+  .kv .v { font-size:42px; font-weight:800; margin-top:8px; letter-spacing:-1px; }
+  .kv.accent { border-color:var(--gold); background:var(--gold-bg); }
+  .kv.accent .v { color:var(--rose); }
+  .kv .note { font-size:23px; color:var(--muted); margin-top:10px; line-height:1.45; }
+  .src { margin-top:16px; font-size:22px; color:var(--muted-l); line-height:1.6; }
+  .src b { color:var(--muted); }
+</style>
+
+<h2>같은 500만원을 벌어도 세금은 이렇게 갈립니다</h2>
+<div class="sub">한 해에 이자·배당으로 500만원을 벌었다고 가정한 단순 계산</div>
+
+<div class="wrap">
+  <svg width="860" height="700" viewBox="0 0 860 700">
+    <g stroke-width="1" style="stroke:var(--grid)">
+      <line x1="120" y1="620" x2="840" y2="620"/>
+      <line x1="120" y1="495" x2="840" y2="495"/>
+      <line x1="120" y1="370" x2="840" y2="370"/>
+      <line x1="120" y1="245" x2="840" y2="245"/>
+      <line x1="120" y1="120" x2="840" y2="120"/>
+    </g>
+    <g font-size="24" text-anchor="end" font-family="'Malgun Gothic',sans-serif" style="fill:var(--muted-l)">
+      <text x="104" y="628">0</text>
+      <text x="104" y="503">20만</text>
+      <text x="104" y="378">40만</text>
+      <text x="104" y="253">60만</text>
+      <text x="104" y="128">80만</text>
+    </g>
+    <line x1="120" y1="620" x2="840" y2="620" stroke-width="2" style="stroke:var(--line-d)"/>
+
+    <rect x="190" y="139" width="150" height="481" rx="6" style="fill:var(--navy)"/>
+    <text x="265" y="119" font-size="42" font-weight="800" text-anchor="middle" font-family="'Malgun Gothic',sans-serif" style="fill:var(--navy)">77만원</text>
+    <text x="265" y="662" font-size="29" font-weight="700" text-anchor="middle" font-family="'Malgun Gothic',sans-serif" style="fill:var(--navy)">그냥 계좌</text>
+    <text x="265" y="694" font-size="24" text-anchor="middle" font-family="'Malgun Gothic',sans-serif" style="fill:var(--muted)">15.4%</text>
+
+    <rect x="405" y="434" width="150" height="186" rx="6" style="fill:var(--pink)"/>
+    <text x="480" y="414" font-size="42" font-weight="800" text-anchor="middle" font-family="'Malgun Gothic',sans-serif" style="fill:var(--navy)">29만 7천원</text>
+    <text x="480" y="662" font-size="29" font-weight="700" text-anchor="middle" font-family="'Malgun Gothic',sans-serif" style="fill:var(--navy)">ISA 일반형</text>
+    <text x="480" y="694" font-size="24" text-anchor="middle" font-family="'Malgun Gothic',sans-serif" style="fill:var(--muted)">200만원까지 0원</text>
+
+    <rect x="620" y="558" width="150" height="62" rx="6" style="fill:var(--gold)"/>
+    <text x="695" y="538" font-size="42" font-weight="800" text-anchor="middle" font-family="'Malgun Gothic',sans-serif" style="fill:var(--navy)">9만 9천원</text>
+    <text x="695" y="662" font-size="29" font-weight="700" text-anchor="middle" font-family="'Malgun Gothic',sans-serif" style="fill:var(--navy)">ISA 서민형</text>
+    <text x="695" y="694" font-size="24" text-anchor="middle" font-family="'Malgun Gothic',sans-serif" style="fill:var(--muted)">400만원까지 0원</text>
+  </svg>
+
+  <div class="right">
+    <div class="kv accent">
+      <div class="k">그냥 계좌와 ISA 서민형의 차이</div>
+      <div class="v">67만원</div>
+      <div class="note">같은 돈을 벌었는데<br>손에 남는 금액이 이만큼 다릅니다.</div>
+    </div>
+    <div class="kv">
+      <div class="k">서민형이 되는 조건</div>
+      <div class="v">총급여 5,000만원 이하</div>
+      <div class="note">종합소득금액 3,800만원 이하도 해당됩니다.</div>
+    </div>
+    <div class="src">
+      <b>세금만 비교한 단순 계산입니다.</b> 수수료와 거래비용은 넣지 않았습니다.<br>
+      비과세 한도·세율 — 조세특례제한법 제91조의18 / 국회예산정책처(2026.4.30.)
+    </div>
+  </div>
+</div>

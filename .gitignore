@@ -7,3 +7,13 @@ desktop.ini
 .claude/
 *.swp
 *~
+
+# Secrets — API 키는 절대 커밋하지 않는다
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+*.key
+secrets.json

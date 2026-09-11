@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ISA, 다들 좋다는데 그래서 나한테 뭐가 좋은 걸까?</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0; background:#FEF8F3; color:#1A3360; font-family:'Malgun Gothic','맑은 고딕',-apple-system,'Segoe UI',sans-serif; line-height:1.75; font-size:17px; letter-spacing:-.01em; max-width:100%; overflow-wrap:break-word; word-break:keep-all;}
+  .wrap{max-width:760px; margin:0 auto; padding:56px 20px 96px}
+  h1{font-size:1.95rem; line-height:1.34; letter-spacing:-1px; font-weight:800; color:#0C2657; margin:0 0 28px;}
+  h2{font-size:1.45rem; line-height:1.4; letter-spacing:-.5px; font-weight:800; color:#0C2657; margin:56px 0 18px; padding-top:20px; border-top:2px solid #EADFD2;}
+  h3{font-size:1.16rem; line-height:1.45; font-weight:700; color:#C0546E; margin:34px 0 12px;}
+  h4{font-size:1.02rem; font-weight:700; color:#1A3360; margin:24px 0 10px;}
+  p{margin:0 0 18px;}
+  strong{font-weight:700; color:#0C2657;}
+  em{font-style:normal; background:linear-gradient(transparent 62%, #FCE9ED 62%);}
+  a{color:#B94A65; text-decoration:underline; text-underline-offset:2px;}
+  hr{border:0; border-top:1px solid #EADFD2; margin:40px 0;}
+  blockquote{margin:26px 0; padding:20px 24px; background:#FDF6E6; border-left:5px solid #F7CE5A; border-radius:0 8px 8px 0;}
+  blockquote p{margin:0 0 12px;}
+  .table-wrap{overflow-x:auto; max-width:100%; margin:24px 0;}
+  table{border-collapse:collapse; width:100%; max-width:100%; font-size:.95rem; background:#FEF8F3;}
+  th{border:1px solid #EADFD2; padding:11px 13px; text-align:left; vertical-align:top; background:#F6EDE2; font-weight:700; color:#0C2657; word-break:keep-all;}
+  td{border:1px solid #EADFD2; padding:11px 13px; text-align:left; vertical-align:top;}
+  pre{background:#F6EDE2; border:1px solid #EADFD2; border-radius:8px; padding:16px 18px; overflow-x:auto; max-width:100%; margin:24px 0; line-height:1.65; font-size:.86rem;}
+  code{font-family:Consolas,'D2Coding','Malgun Gothic','맑은 고딕',monospace; font-size:.9rem;}
+  ul{margin:0 0 20px; padding-left:24px;}
+  ol{margin:0 0 20px; padding-left:24px;}
+  li{margin-bottom:8px;}
+  figure{margin:32px 0; max-width:100%;}
+  figure img{width:100%; height:auto; border:1px solid #EADFD2; border-radius:10px; display:block;}
+  figcaption{margin-top:10px; font-size:.86rem; color:#5E6E8F; text-align:center;}
+  .pre-note{background:#FAF2E8; border:1px solid #EADFD2; border-radius:10px; padding:15px 19px; margin:0 0 36px; font-size:.83rem; line-height:1.72; color:#5E6E8F;}
+  .pre-note p{margin:0 0 7px;}
+  .pre-note strong{display:block; color:#1A3360; font-weight:700; margin-bottom:5px;}
+  .article-footer{margin-top:64px; padding-top:26px; border-top:1px solid #EADFD2; font-size:.82rem; line-height:1.7; color:#5E6E8F;}
+  .article-footer p{margin:0 0 12px;}
+  .article-footer strong{display:block; color:#1A3360; font-weight:700; margin-top:20px;}
+  .answer-box{background:#FCE9ED; border-left:5px solid #F492A6; border-radius:0 10px 10px 0; padding:20px 24px; margin:28px 0 34px;}
+  .answer-box p{margin:0 0 10px; font-size:1.02rem; line-height:1.72; color:#0C2657;}
+  .answer-box p:last-child{margin:0;}
+  .answer-box strong{color:#0C2657;}
+  .do-box{background:#FAF2E8; border:1px solid #EADFD2; border-radius:10px; padding:22px 26px 22px 20px; margin:26px 0;}
+  .do-box ol{margin:0; padding-left:24px;}
+  .do-box li{margin-bottom:12px; line-height:1.66;}
+  .do-box li:last-child{margin-bottom:0;}
+  .qa-box{margin:26px 0;}
+  .qa{border-top:1px solid #EADFD2; padding:18px 0 4px;}
+  .qa-q{margin:0 0 8px; font-weight:700; color:#0C2657;}
+  .qa-a{margin:0 0 10px; color:#1A3360;}
+  .src-note{margin:-8px 0 22px; padding-left:12px; border-left:3px solid #F492A6; color:#5E6E8F; font-size:.83rem; line-height:1.6;}
+  .src-note a{color:#5E6E8F;}
+  .src-note strong{color:#5E6E8F; font-weight:700;}
+
+  ul.checklist{list-style:none; padding-left:4px}
+  ul.checklist li{padding-left:28px; position:relative}
+  ul.checklist li::before{
+    content:''; position:absolute; left:0; top:.42em;
+    width:15px; height:15px; border:2px solid #F492A6; border-radius:4px;
+  }
+  .table-wrap + .src-note, figure + .src-note{margin-top:-12px}
+  a:hover{color:#0C2657}
+  @media (max-width:640px){
+    body{font-size:16px}
+    .wrap{padding:36px 16px 72px}
+    h1{font-size:1.6rem}
+    h2{font-size:1.28rem}
+  }
+</style>
+</head>
+<body>
+<article class="wrap">
+<figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택/01_썸네일.png" alt="ISA 안에서 벌면 세율이 15.4%에서 0%로 바뀐다는 내용의 썸네일 이미지" loading="lazy"></figure>
+<h1>ISA, 다들 좋다는데 그래서 나한테 뭐가 좋은 걸까?</h1>
+<hr>
+<p>ISA 이야기를 참 오래 들었습니다.</p>
+<p>통장 하나쯤 만들어두라고, 안 만들면 손해라고요.</p>
+<p>그런데 누가 "그게 뭐가 좋은데?" 하고 물으면 저는 대답을 못 했습니다. 세금을 깎아준다는 것까지는 아는데, 뭘 얼마나 깎아주는지를 몰랐거든요.</p>
+<p>그래서 한번 제대로 찾아봤습니다.</p>
+<p>찾아보니 좋은 점도 분명했고, <strong>저한테는 생각보다 덜 좋은 부분도 있었어요.</strong></p>
+<h2>그래서 ISA가 뭔데?</h2>
+<p>저는 한동안 ISA를 예금 같은 상품이라고 생각했습니다. 아니었어요.</p>
+<p>ISA는 <strong>상품이 아니라 계좌입니다.</strong></p>
+<p>빈 바구니라고 보면 됩니다. 그 안에 예금도 넣고, 주식도 넣고, 펀드나 ETF도 넣을 수 있어요.</p>
+<p>바구니 자체가 돈을 벌어주지는 않습니다. 안에 뭘 담느냐는 여전히 내가 정해야 해요.</p>
+<p>대신 이 바구니에는 딱 하나 특별한 게 있습니다.</p>
+<p><strong>바구니 안에서 번 돈에 붙는 세금을 깎아줍니다.</strong></p>
+<p>정식 이름은 개인종합자산관리계좌입니다. 이름이 길어서 보통 ISA라고 부릅니다.</p>
+<p>그런데 방금 펀드랑 ETF라는 말을 그냥 썼네요. 이 글에 계속 나오니까 짚고 갈게요.</p>
+<p><strong>펀드</strong>는 여러 사람 돈을 모아서 전문가가 대신 굴려주는 상품입니다. 내가 종목을 하나하나 고르지 않아도 돼요.</p>
+<p><strong>ETF</strong>는 그 펀드를 주식처럼 사고팔 수 있게 만든 것입니다. 증권 앱에서 주식 사듯이 클릭 한 번으로 살 수 있습니다.</p>
+<h2>그런데 원래는 세금을 얼마나 내는데?</h2>
+<p>혜택이 얼마나 큰지 보려면 원래 얼마를 내는지부터 알아야 하더라고요. 저는 이 순서를 건너뛰어서 계속 감이 안 왔던 것 같습니다.</p>
+<p>예금에 돈을 넣어두면 이자가 붙죠. 주식을 갖고 있으면 회사가 번 돈의 일부를 나눠주기도 하는데, 이걸 <strong>배당금</strong>이라고 합니다.</p>
+<p>이렇게 <strong>돈이 돈을 벌어다 준 소득</strong>에는 세금이 붙습니다.</p>
+<p>세율은 <strong>15.4%</strong>입니다.</p>
+<p>100만원을 벌었으면 15만 4천원이 빠지고 84만 6천원이 들어옵니다. 내가 신고하는 게 아니라 받을 때 이미 떼고 들어와요. 그래서 세금을 낸다는 느낌도 잘 안 듭니다.</p>
+<p class="src-note">이자·배당소득 원천징수세율 15.4%(소득세 14% + 지방소득세 1.4%) · 소득세법</p>
+<p>이 15.4%가 앞으로 나올 이야기의 기준선입니다.</p>
+<h2>혜택 하나 — 200만원까지는 세금이 0원</h2>
+<p>ISA 안에서 번 돈은 <strong>200만원까지 세금을 매기지 않습니다.</strong></p>
+<p>여기서 제가 처음에 잘못 알아들었던 게 있어요.</p>
+<p><strong>200만원을 넣는다는 뜻이 아닙니다. 200만원을 번다는 뜻입니다.</strong></p>
+<p>원금이 아니라 수익 기준이에요. 넣은 돈이 얼마든, 거기서 번 돈이 여기까지면 세금이 없습니다.</p>
+<p>200만원을 넘으면요? 그때도 15.4%는 아닙니다. 넘은 부분에만 <strong>9.9%</strong>가 붙습니다.</p>
+<p>그리고 이 한도는 소득에 따라 두 배가 됩니다.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>구분</th><th>조건</th><th>세금 안 내는 금액</th></tr></thead>
+<tbody>
+<tr><td>일반형</td><td>아래에 해당하지 않는 경우</td><td><strong>200만원</strong></td></tr>
+<tr><td>서민형</td><td>총급여 5,000만원 이하 또는 종합소득금액 3,800만원 이하</td><td><strong>400만원</strong></td></tr>
+<tr><td>농어민형</td><td>종합소득금액 3,800만원 이하인 농어민</td><td><strong>400만원</strong></td></tr>
+</tbody></table></div>
+<p class="src-note">국회예산정책처 「개인종합자산관리계좌(ISA)의 국내외 현황 및 쟁점」(2026-04-30) · 조세특례제한법 제91조의18 · <a href="https://www.nabo.go.kr/board/file/down.do?fid=33319223" target="_blank" rel="noopener">원문 보기</a></p>
+<p>총급여는 회사에서 1년 동안 받은 급여를 다 더한 금액입니다. 5,000만원 이하면 직장인 중에 해당하는 분이 꽤 많아요. 저도 여기서 "어? 나 서민형이네" 했습니다.</p>
+<p>회사에 다니지 않고 프리랜서나 자영업으로 버는 경우라면 종합소득금액이 3,800만원 이하일 때 서민형이 됩니다.</p>
+<p>숫자로 보면 차이가 이렇게 납니다. 한 해에 500만원을 벌었다고 해볼게요.</p>
+<pre><code>일반 계좌   500만원 × 15.4%   = 77만원
+
+ISA 일반형  200만원 → 0원
+            300만원 × 9.9%    = 29만 7천원
+
+ISA 서민형  400만원 → 0원
+            100만원 × 9.9%    = 9만 9천원</code></pre>
+<p>세금만 놓고 본 단순 계산입니다. 수수료나 거래비용은 넣지 않았어요.</p>
+<figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택/02_세금비교.png" alt="같은 500만원을 벌었을 때 일반 계좌 77만원, ISA 일반형 29만 7천원, ISA 서민형 9만 9천원으로 세금이 갈리는 막대 그래프" loading="lazy"><figcaption>같은 500만원을 벌어도 어디에 담았느냐로 세금이 갈립니다.</figcaption></figure>
+<p>같은 500만원을 벌었는데 서민형이면 67만원이 남습니다. 한 달 통신비 몇 달치예요.</p>
+<h2>혜택 둘 — 손해 본 것도 같이 쳐준다</h2>
+<p>저는 이게 더 컸습니다.</p>
+<p>일반 계좌는 <strong>이익 난 것만 보고 세금을 뗍니다.</strong> 옆에서 손해를 봤어도 안 봐줘요.</p>
+<p>예를 들어 미국 주식에 투자하는 ETF 두 개를 샀다고 해볼게요.</p>
+<p>미국 증시에서 직접 사는 게 아니라, 한국 증시에 올라와 있어서 원화로 그냥 살 수 있는 상품입니다. 이런 걸 <strong>국내 상장 해외 ETF</strong>라고 불러요. 증권 앱에서 흔히 보이는 미국 지수 ETF가 여기에 해당합니다.</p>
+<p>1년 뒤에 A는 300만원을 벌었고, B는 100만원을 잃었다고 해볼게요. 둘을 합치면 내 손에 남은 건 200만원입니다.</p>
+<p>그런데 일반 계좌라면 A에서 번 300만원에만 세금이 붙어요. B에서 잃은 100만원은 그냥 없는 셈 칩니다.</p>
+<pre><code>300만원 × 15.4% = 46만 2천원</code></pre>
+<p>ISA는 다릅니다. <strong>바구니 전체를 하나로 보고 계산합니다.</strong></p>
+<pre><code>300만원 − 100만원 = 200만원
+200만원은 비과세 한도 안 → 세금 0원</code></pre>
+<p>같은 투자를 했는데 46만 2천원이 갈립니다.</p>
+<figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택/03_손익통산.png" alt="일반 계좌는 이익 300만원에만 세금을 매겨 46만 2천원, ISA는 손실을 뺀 200만원이 비과세 한도 안이라 0원인 비교 그림" loading="lazy"><figcaption>일반 계좌는 이익 난 것만 봅니다. ISA는 바구니 전체를 봅니다.</figcaption></figure>
+<p class="src-note">손익통산 — 국회예산정책처 「ISA의 국내외 현황 및 쟁점」(2026-04-30) · <a href="https://www.nabo.go.kr/board/file/down.do?fid=33319223" target="_blank" rel="noopener">원문 보기</a></p>
+<p>투자를 하다 보면 전부 오르는 경우는 잘 없죠. 이것저것 담을수록 이 부분이 커집니다.</p>
+<h2>그런데 나한테도 해당되는 이야기일까?</h2>
+<p>여기서부터 제가 좀 김이 빠졌습니다.</p>
+<p>찾다 보니 이런 내용이 나왔어요.</p>
+<p><strong>국내 주식은 팔아서 남긴 차익에 원래 세금이 없습니다.</strong></p>
+<p>회사 지분을 아주 많이 들고 있는 대주주가 아니라면, 국내 주식을 사고팔아 남긴 돈에는 세금이 붙지 않아요. ISA에 넣든 안 넣든 똑같이 0원입니다.</p>
+<p>그러니까 <strong>국내 주식만 직접 골라서 사고파는 사람이라면 ISA로 아낄 수 있는 세금이 생각보다 적습니다.</strong></p>
+<p>물론 아예 없는 건 아니에요. 두 가지가 남습니다.</p>
+<ul>
+<li>그 주식이 주는 <strong>배당금</strong>에는 세금이 붙는데, 이건 ISA에서 깎입니다</li>
+<li>주식에서 난 <strong>손실</strong>을 다른 상품의 이익과 합쳐서 계산해줍니다</li>
+</ul>
+<p>반대로 ISA가 확실히 세게 작동하는 쪽도 있었습니다.</p>
+<p><strong>국내에 상장된 해외 ETF입니다.</strong></p>
+<p>이건 사고팔아서 남긴 차익도 배당금과 같은 소득으로 봅니다. 그래서 팔 때마다 15.4%를 뗍니다. 게다가 다른 ETF에서 손해를 봐도 그건 빼주지 않아요.</p>
+<p>앞에서 본 46만 2천원 차이가 바로 이 경우였습니다.</p>
+<p class="src-note">국내 상장주식·펀드의 양도차익은 비과세(대주주 제외), 배당금은 배당소득으로 과세 / 국내 상장 해외펀드는 양도차익과 분배금 모두 배당소득으로 과세 — 국회예산정책처 「ISA의 국내외 현황 및 쟁점」 각주 9·10 · <a href="https://www.nabo.go.kr/board/file/down.do?fid=33319223" target="_blank" rel="noopener">원문 보기</a></p>
+<p>정리해보니 ISA가 도움이 되는 정도는 <strong>내가 뭘 담느냐에 따라 꽤 달랐습니다.</strong></p>
+<p>예금 이자, 배당금, 국내 상장 해외 ETF가 많을수록 커집니다. 국내 주식을 직접 사고파는 쪽 위주면 작아지고요.</p>
+<h2>그럼 대신 뭘 감수해야 하나</h2>
+<p>공짜는 아니겠죠. 조건을 봤습니다.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>항목</th><th>내용</th></tr></thead>
+<tbody>
+<tr><td>유지 기간</td><td><strong>3년</strong></td></tr>
+<tr><td>연간 넣을 수 있는 돈</td><td>2,000만원 (못 채우면 다음 해로 이월)</td></tr>
+<tr><td>전체 한도</td><td>1억원</td></tr>
+<tr><td>계좌 수</td><td>1인 1계좌</td></tr>
+<tr><td>가입 나이</td><td>19세 이상 (15세 이상은 근로소득이 있으면 가능)</td></tr>
+</tbody></table></div>
+<p class="src-note">국회예산정책처 「ISA의 국내외 현황 및 쟁점」(2026-04-30) [표 1] · <a href="https://www.nabo.go.kr/board/file/down.do?fid=33319223" target="_blank" rel="noopener">원문 보기</a></p>
+<p>3년이 제일 걸렸습니다. 목돈이 3년간 잠기는 건가 싶었어요.</p>
+<p>그런데 찾아보니 <strong>넣은 원금은 중간에 뺄 수 있었습니다.</strong></p>
+<p>3년을 채워야 하는 건 세금 혜택을 받기 위한 조건이에요. 계좌를 3년간 유지해야 비과세가 확정됩니다. 원금은 그 안에서도 인출이 됩니다. 다만 <strong>번 돈은 못 빼요.</strong> 그건 만기까지 둬야 합니다.</p>
+<p>한 가지 더 있어요. <strong>뺀 만큼 넣을 수 있는 한도가 되살아나지는 않습니다.</strong></p>
+<p>그해에 2,000만원을 다 넣었다가 500만원을 도로 뺐다면, 남은 한도는 500만원이 아니라 0원이에요. 한 번 쓴 한도는 그대로 줄어든 채로 있습니다.</p>
+<p>연 2,000만원 한도도 처음엔 커 보였는데, 실제 통계를 보니 좀 다르게 느껴졌습니다.</p>
+<p><strong>한 사람당 평균 가입금액이 710만원입니다.</strong> 한도의 3분의 1 수준이에요.</p>
+<p class="src-note">2026년 2월 말 기준 · 금융투자협회 ISA 다모아 자료를 국회예산정책처가 정리 · <a href="https://www.nabo.go.kr/board/file/down.do?fid=33319223" target="_blank" rel="noopener">원문 보기</a></p>
+<p>한도가 모자라서 못 넣는 사람보다, 한도를 다 못 채우는 사람이 훨씬 많다는 뜻입니다. 저도 그쪽이고요.</p>
+<h2>만기 때 그냥 찾으면 아까운 이유</h2>
+<p>이건 찾다가 알게 된 건데 잘 안 알려진 것 같아요.</p>
+<p>3년이 지나 만기가 오면 보통 돈을 찾습니다. 그런데 그 돈을 연금 통장으로 옮기면 세금을 한 번 더 돌려받을 수 있어요.</p>
+<p><strong>연금저축</strong>과 <strong>IRP</strong>가 그 연금 통장입니다. 노후에 쓸 돈을 미리 모아두면 나라가 세금을 깎아주는 계좌예요.</p>
+<p>여기에 넣은 돈은 연말정산 때 낸 세금 중 일부를 돌려받습니다. 이걸 <strong>세액공제</strong>라고 합니다.</p>
+<p>ISA 만기 자금을 이쪽으로 옮기면, 옮긴 금액의 <strong>10%</strong>만큼 돌려받을 수 있는 한도가 늘어납니다. 최대 300만원까지요.</p>
+<p>조건이 하나 있습니다. <strong>만기일부터 60일 안에</strong> 옮겨야 합니다.</p>
+<p>3,000만원을 옮겼다고 해보면 이렇게 됩니다.</p>
+<pre><code>3,000만원 × 10% = 300만원   (돌려받을 수 있는 한도가 이만큼 늘어남)
+
+총급여 5,500만원 이하   300만원 × 16.5% = 49만 5천원
+총급여 5,500만원 초과   300만원 × 13.2% = 39만 6천원</code></pre>
+<p>연말정산 때 40~50만원을 더 돌려받는 셈입니다.</p>
+<p class="src-note">소득세법 시행령 제118조의2(계약기간 만료일부터 60일 이내 연금계좌 납입) · 연금계좌 세액공제율은 <a href="https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7875" target="_blank" rel="noopener">국세청 안내</a></p>
+<p>다만 이건 그냥 좋은 게 아니라 <strong>맞바꾸는 겁니다.</strong></p>
+<p>연금계좌는 55세 이후에 연금으로 받는 걸 전제로 세금을 깎아주는 계좌예요. 그전에 찾으면 돌려받았던 세금을 다시 토해내야 합니다.</p>
+<p>당장 쓸 돈이면 옮기지 않는 게 맞습니다.</p>
+<h2>인터넷에 도는 「4,000만원」 이야기</h2>
+<p>여기가 제일 헷갈렸던 부분입니다.</p>
+<p>ISA를 검색하면 이런 글이 정말 많이 나옵니다.</p>
+<blockquote>
+<p>2026년부터 납입한도가 연 4,000만원으로 늘고, 비과세도 500만원으로 확대됩니다</p>
+</blockquote>
+<p>저도 처음엔 그런 줄 알았어요. 그런데 국회예산정책처 보고서를 보다가 각주에서 이런 문장을 발견했습니다.</p>
+<blockquote>
+<p>2024년 정부 세법개정안은 현행 ISA 납입한도 및 비과세한도 확대와 국내투자형 ISA를 신설하고 금융소득종합과세자의 가입을 허용하는 내용을 포함하였으나, 국회 심사 과정에서 수직적 형평성 저해 등의 우려가 제기되면서 <strong>개정세법에 반영되지 않음</strong></p>
+</blockquote>
+<p class="src-note">국회예산정책처 「ISA의 국내외 현황 및 쟁점」(2026-04-30) 각주 11 · <a href="https://www.nabo.go.kr/board/file/down.do?fid=33319223" target="_blank" rel="noopener">원문 보기</a></p>
+<p>그러니까 4,000만원, 500만원은 <strong>2024년에 정부가 내놓았던 안</strong>이었습니다. 국회를 통과하지 못했고, 시행된 적이 없습니다.</p>
+<p>지금 검색에 뜨는 글 상당수가 그때 나온 개정안 숫자를 <strong>이미 시행된 제도인 것처럼</strong> 쓰고 있었어요.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>인터넷에서 자주 보이는 숫자</th><th>실제로 지금 적용되는 숫자</th></tr></thead>
+<tbody>
+<tr><td>연 4,000만원 / 총 2억원</td><td><strong>연 2,000만원 / 총 1억원</strong></td></tr>
+<tr><td>비과세 500만원 (서민형 1,000만원)</td><td><strong>비과세 200만원 (서민형 400만원)</strong></td></tr>
+</tbody></table></div>
+<p>왼쪽 숫자를 보고 계획을 세우면 실제로는 절반에서 막힙니다.</p>
+<figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택/04_떠도는숫자.png" alt="인터넷에 도는 연 4,000만원·비과세 500만원과 실제 적용되는 연 2,000만원·비과세 200만원을 나란히 비교한 표" loading="lazy"><figcaption>왼쪽은 2024년에 나왔다가 국회를 통과하지 못한 숫자입니다.</figcaption></figure>
+<p>올해도 움직임이 있긴 했습니다. 다만 방향이 반대였어요.</p>
+<p>8월 3일에 나온 2026년 세제개편안에는 국내 투자 전용인 <strong>생산적금융 ISA를 새로 만드는</strong> 내용이 담겼습니다. 그러면서 기존 일반 ISA는 계약기간을 최대 5년으로 제한하고 한도 이월도 없애겠다는 내용이 함께 들어갔습니다.</p>
+<p>기존 가입자들 사이에서 반발이 있었고요.</p>
+<p>그리고 <strong>9월 1일 국무회의에서 이 축소안이 빠졌습니다.</strong> 계약기간 제한도, 이월 폐지도 하지 않는 것으로 정부안이 확정됐습니다.</p>
+<p class="src-note">「2026년 세제개편안 정부안 확정」(2026-09-01) · 대한민국 정책브리핑 <a href="https://www.korea.kr/briefing/pressReleaseView.do?newsId=156776418" target="_blank" rel="noopener">보도자료 보기</a> / 당초 개편안(2026-08-03)은 헤럴드경제 <a href="https://biz.heraldcorp.com/article/10829468" target="_blank" rel="noopener">기사 보기</a></p>
+<p>다만 이것도 아직 <strong>정부안</strong>입니다. 확정된 법이 아니에요.</p>
+<p>이 개정안은 9월 3일까지 국회에 제출돼서 정기국회에서 심사를 받습니다. 결과는 그때 가봐야 압니다.</p>
+<p>2024년에도 정부안이 국회에서 그대로 통과되지 않았습니다. 그래서 저는 확정된 이야기로 받아들이지 않기로 했습니다.</p>
+<p>지금 계좌를 만든다면 기준은 <strong>연 2,000만원, 비과세 200만원(서민형 400만원)</strong>입니다.</p>
+<h2>그래서 나한테는 뭐가 좋은 걸까</h2>
+<p>찾아본 걸 제 기준으로 정리해보니 이렇게 갈렸습니다.</p>
+<p><strong>효과가 크게 나는 쪽</strong></p>
+<ul>
+<li>예금·적금 이자가 꾸준히 생기는 사람</li>
+<li>배당을 주는 주식이나 ETF를 모아가는 사람</li>
+<li>국내에 상장된 해외 ETF를 사고파는 사람</li>
+<li>여러 상품에 나눠 담아서 이익과 손실이 섞이는 사람</li>
+<li>총급여 5,000만원 이하라 서민형이 되는 사람</li>
+</ul>
+<p><strong>지금 당장은 급하지 않은 쪽</strong></p>
+<ul>
+<li>국내 주식만 직접 골라서 사고파는 사람 (원래 사고팔아 남긴 돈에 세금이 없어서)</li>
+<li>3년 안에 꼭 써야 할 목돈인 사람</li>
+<li>아직 투자로 생기는 수익 자체가 크지 않은 사람</li>
+</ul>
+<p>마지막 줄이 좀 허무하게 들릴 수도 있는데, 저한테는 이게 제일 정직한 답이었습니다.</p>
+<p>ISA는 <strong>번 돈에 붙는 세금을 깎아주는 장치</strong>입니다. 벌어들이는 게 아직 적으면 깎일 것도 적어요.</p>
+<p>그렇다고 의미가 없는 건 아닙니다. 계좌를 만들어두면 3년 시계가 그날부터 돌아가니까요. 나중에 수익이 커졌을 때 3년을 새로 기다리지 않아도 됩니다.</p>
+<h2>그래서 오늘 뭘 보면 될까?</h2>
+<p>딱 하나만 확인해보면 좋겠습니다.</p>
+<p><strong>작년 총급여가 5,000만원을 넘는지.</strong></p>
+<p>이 한 줄로 세금을 안 내는 금액이 두 배로 갈립니다. 조건을 채우는데 몰라서 일반형으로 만드는 게 제일 아깝거든요.</p>
+<p>회사에서 받은 원천징수영수증이나 홈택스 지급명세서에 적혀 있습니다. 연말정산 서류를 그대로 두셨다면 거기 있어요.</p>
+<p>다음에 누가 ISA 이야기를 꺼냈을 때</p>
+<p><strong>"그래서 내가 버는 돈 중에 뭐가 깎이는데?"</strong></p>
+<p>이 질문에 답할 수 있으면 됩니다.</p>
+<aside class="pre-note">
+<p><strong>읽기 전에 참고해주세요</strong></p>
+<p>이 글의 세금 계산은 이해를 돕기 위한 대략적인 단순 계산입니다. 실제 세금은 소득과 투자 결과에 따라 달라질 수 있습니다.</p>
+<p>특정 상품의 가입이나 해지를 권유하는 글은 아닙니다.</p>
+</aside>
+<div class="article-footer">
+<p><strong>참고한 자료</strong></p>
+<p>국회예산정책처 · 국세청 · 법제처 국가법령정보센터 · 금융투자협회 · 재정경제부</p>
+<p>2026년 9월 7일 기준</p>
+</div>
+</article>
+</body>
+</html>
