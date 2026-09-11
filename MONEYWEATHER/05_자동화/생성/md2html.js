@@ -458,14 +458,16 @@ const { C, FONT, MONO } = require('../팔레트.js');
  */
 const STYLE = {
   h1: `font-size:1.95rem; line-height:1.34; letter-spacing:-1px; font-weight:800; color:${C.navyD}; margin:0 0 28px;`,
-  h2: `font-size:1.45rem; line-height:1.4; letter-spacing:-.5px; font-weight:800; color:${C.navyD}; margin:56px 0 18px; padding-top:20px; border-top:2px solid ${C.line};`,
+  // 선으로 큰 문단을 나누는 곳(h2 윗선, hr)은 여백을 30px 넘기지 않는다. (2026-09-11)
+  // 56px 이었을 때 티스토리 글 아래 블로그 설명 상자까지 크게 벌어졌다.
+  h2: `font-size:1.45rem; line-height:1.4; letter-spacing:-.5px; font-weight:800; color:${C.navyD}; margin:30px 0 18px; padding-top:20px; border-top:2px solid ${C.line};`,
   h3: `font-size:1.16rem; line-height:1.45; font-weight:700; color:${C.roseD}; margin:34px 0 12px;`,
   h4: `font-size:1.02rem; font-weight:700; color:${C.navy}; margin:24px 0 10px;`,
   p: `margin:0 0 18px;`,
   strong: `font-weight:700; color:${C.navyD};`,
   em: `font-style:normal; background:linear-gradient(transparent 62%, ${C.pinkBg} 62%);`,
   a: `color:${C.rose}; text-decoration:underline; text-underline-offset:2px;`,
-  hr: `border:0; border-top:1px solid ${C.line}; margin:40px 0;`,
+  hr: `border:0; border-top:1px solid ${C.line}; margin:30px 0;`,
 
   blockquote: `margin:26px 0; padding:20px 24px; background:${C.goldBg}; border-left:5px solid ${C.gold}; border-radius:0 8px 8px 0;`,
   'blockquote p': `margin:0 0 12px;`,
