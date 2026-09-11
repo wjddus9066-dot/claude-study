@@ -125,8 +125,12 @@ const YELLOW = 'YELLOW';
 // 주제에 맞게 앞말은 바뀔 수 있어서 꼴로 본다. 이전 글의 「그래서 오늘 뭘 보면 될까?」도 통과.
 const 마무리 = /^## (?:결론: )?그래서 .*(?:확인|뭘 보면).*\?\s*$/;
 
-// 한 글에 한 번만 쓰는 말 (글쓰기톤 §5.1)
-const 한번만 = [/결론부터 말하면/g, /쉽게 말(?:하면|해)/g];
+// 횟수를 정해둔 말 (글쓰기톤 §5.2)
+// 「결론부터 말하면」은 [정답] 첫 문장 한 번. 「쉽게 말하면」은 용어 번역 자리에서 쓰되 흩뿌리지 않는다.
+const 횟수제한 = [
+  { re: /결론부터 말하면/g, max: 1, level: RED },
+  { re: /쉽게 말(?:하면|해)/g, max: 3, level: YELLOW },
+];
 
 function 검사(draftPath) {
   const root = findProjectRoot(path.dirname(draftPath));
@@ -164,9 +168,9 @@ function 검사(draftPath) {
     add(RED, '고정 뼈대', '마무리 소제목 뒤에 다른 소제목이 있습니다: ' + heads[heads.length - 1]);
   }
   if (!raw.includes('[체크]')) add(YELLOW, '고정 뼈대', '[체크] 오늘 1분 체크가 없습니다');
-  for (const re of 한번만) {
+  for (const { re, max, level } of 횟수제한) {
     const n = (body.match(re) || []).length;
-    if (n > 1) add(RED, '금지 표현', '「' + re.source + '」가 ' + n + '번 — 한 글에 한 번만 씁니다');
+    if (n > max) add(level, '횟수 제한', '「' + re.source + '」가 ' + n + '번 — ' + max + '번까지 씁니다 (글쓰기톤 §5.2)');
   }
   // 자료 출처를 [안내] 상자 안에 적었으면 [FOOTER] 는 없어도 된다 (2026-09-11)
   if (!raw.includes('[FOOTER]') && !/자료 출처/.test(raw.split('[안내]')[1] || '')) {
