@@ -97,9 +97,13 @@ function amounts(text) {
 // ---------------------------------------------------------------- 원고 쪼개기
 
 function splitDraft(md) {
+  // [안내] 는 2026-09-10 부터 본문 맨 뒤에 있다. 예전처럼 [/안내] 뒤를 본문으로 잡으면
+  // 본문이 빈 줄 몇 개가 되어 금지 표현·용어 검사가 전부 헛돌았다. 그래서 박스만 도려낸다.
   const noComment = md.replace(/<!--[\s\S]*?-->/g, '');
-  const afterNote = noComment.includes('[/안내]') ? noComment.split('[/안내]')[1] : noComment;
-  return { body: afterNote.split('[FOOTER]')[0] };
+  const noNote = noComment.replace(/\[안내\][\s\S]*?\[\/안내\]/, '');
+  // 머리말(> 상태: …)은 본문이 아니다. 첫 구분선까지 뗀다.
+  const noHead = noNote.replace(/^[\s\S]*?\n---[ \t]*\r?\n/, (m) => (/^> /m.test(m) ? '' : m));
+  return { body: noHead.split('[FOOTER]')[0] };
 }
 
 function parts(body) {
@@ -117,7 +121,12 @@ function parts(body) {
 
 const RED = 'RED';
 const YELLOW = 'YELLOW';
-const 마무리 = '## 그래서 오늘 뭘 보면 될까?';
+// 마무리 소제목. 2026-09-11 부터 「결론: 그래서 오늘 … 확인해야 할까?」 꼴이다.
+// 주제에 맞게 앞말은 바뀔 수 있어서 꼴로 본다. 이전 글의 「그래서 오늘 뭘 보면 될까?」도 통과.
+const 마무리 = /^## (?:결론: )?그래서 .*(?:확인|뭘 보면).*\?\s*$/;
+
+// 한 글에 한 번만 쓰는 말 (글쓰기톤 §5.1)
+const 한번만 = [/결론부터 말하면/g, /쉽게 말(?:하면|해)/g];
 
 function 검사(draftPath) {
   const root = findProjectRoot(path.dirname(draftPath));
@@ -142,20 +151,27 @@ function 검사(draftPath) {
     add(RED, '고정 뼈대', '[안내] 박스가 없습니다');
   } else {
     const note = raw.split('[안내]')[1].split('[/안내]')[0];
-    if (!note.includes('읽기 전에 참고해주세요')) {
-      add(RED, '고정 뼈대', '[안내] 제목이 「읽기 전에 참고해주세요」가 아닙니다');
+    if (!/참고해주세요/.test(note)) {
+      add(RED, '고정 뼈대', '[안내] 제목에 「참고해주세요」가 없습니다');
     }
     if (!/권유/.test(note)) add(RED, '고정 뼈대', '[안내] 에 「권유가 아님」 문구가 없습니다');
   }
-  if (!body.includes(마무리)) {
-    add(RED, '고정 뼈대', '마지막 소제목이 「' + 마무리.replace('## ', '') + '」가 아닙니다');
-  } else {
-    const heads = body.match(/^## .*/gm) || [];
-    if (heads[heads.length - 1].trim() !== 마무리) {
-      add(RED, '고정 뼈대', '「그래서 오늘 뭘 보면 될까?」 뒤에 다른 소제목이 있습니다');
-    }
+  const heads = (body.match(/^## .*/gm) || []).map((h) => h.trim());
+  const 마무리자리 = heads.findIndex((h) => 마무리.test(h));
+  if (마무리자리 < 0) {
+    add(RED, '고정 뼈대', '마무리 소제목(「결론: 그래서 오늘 … 확인해야 할까?」)이 없습니다');
+  } else if (마무리자리 !== heads.length - 1) {
+    add(RED, '고정 뼈대', '마무리 소제목 뒤에 다른 소제목이 있습니다: ' + heads[heads.length - 1]);
   }
-  if (!raw.includes('[FOOTER]')) add(RED, '고정 뼈대', '[FOOTER] 가 없습니다');
+  if (!raw.includes('[체크]')) add(YELLOW, '고정 뼈대', '[체크] 오늘 1분 체크가 없습니다');
+  for (const re of 한번만) {
+    const n = (body.match(re) || []).length;
+    if (n > 1) add(RED, '금지 표현', '「' + re.source + '」가 ' + n + '번 — 한 글에 한 번만 씁니다');
+  }
+  // 자료 출처를 [안내] 상자 안에 적었으면 [FOOTER] 는 없어도 된다 (2026-09-11)
+  if (!raw.includes('[FOOTER]') && !/자료 출처/.test(raw.split('[안내]')[1] || '')) {
+    add(RED, '고정 뼈대', '[FOOTER] 도, [안내] 안의 「자료 출처」도 없습니다');
+  }
 
   // ── 3. 표 셀 안 HTML 태그
   //    <br> 을 넣었더니 화면에 글자 그대로 나왔다. 마크다운만 봐서는 안 보인다.
@@ -224,19 +240,21 @@ function 검사(draftPath) {
   }
   if (dup.length) add(YELLOW, '숫자 중복', '표와 계산에 겹치는 금액: ' + dup.join(', '));
 
-  // ── 7. 마지막 섹션은 「확인할 것 한 가지」만 (글쓰기톤 §9.5)
+  // ── 7. 마무리 섹션 (글쓰기톤 §9.5)
   //    숫자가 여덟 개 들어가 있었다. 앞에서 이미 다 한 이야기다.
-  if (body.includes(마무리)) {
-    const last = body.split(마무리)[1] || '';
+  //    2026-09-11 부터 마무리는 「한두 문장 + [체크] 체크리스트」로 끝난다.
+  //    그래서 체크리스트 안은 빼고, 그 밖의 글자만 본다.
+  const 마무리줄 = heads.find((h) => 마무리.test(h));
+  if (마무리줄) {
+    const last = (body.split(마무리줄)[1] || '').replace(/\[체크\][\s\S]*?\[\/체크\]/g, '');
     const nums = last.match(/[0-9][0-9,]*/g) || [];
     if (nums.length > 2) {
       add(YELLOW, '마무리',
         '마지막 섹션에 숫자가 ' + nums.length + '개입니다 (' + nums.join(', ') +
         '). 확인할 것 하나만 남기세요');
     }
-    if (!/\?/.test(last)) add(YELLOW, '마무리', '질문으로 닫지 않았습니다');
     if (/^\s*[-*]\s/m.test(last)) {
-      add(YELLOW, '마무리', '요약 목록이 붙어 있습니다. 본문에서 이미 했습니다');
+      add(YELLOW, '마무리', '체크리스트 밖에 요약 목록이 붙어 있습니다. 본문에서 이미 했습니다');
     }
   }
 

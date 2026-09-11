@@ -187,14 +187,11 @@ function convert(md) {
     if (/^\[안내\]\s*$/.test(line)) {
       let buf;
       [buf, i] = readBlock(lines, i + 1, '안내');
-      out.push('<aside class="pre-note">');
-      buf
-        .join('\n')
-        .split(/\n\s*\n/)
-        .map((p) => p.trim())
-        .filter(Boolean)
-        .forEach((p) => out.push(`<p>${inline(p.replace(/\n/g, ' '))}</p>`));
-      out.push('</aside>');
+      // 제미나이 판처럼 한 덩어리 글자에 줄바꿈(<br>)만 넣는다.
+      // <p> 로 나누면 문단 여백이 붙어 상자가 헐거워진다.
+      out.push('<div class="pre-note">');
+      out.push(buf.map((l) => l.trim()).filter(Boolean).map(inline).join('<br>'));
+      out.push('</div>');
       continue;
     }
 
@@ -222,6 +219,9 @@ function convert(md) {
            }
            out.push(`<p>${inline(p.replace(/\n/g, ' '))}</p>`);
          });
+      // 마지막 문단은 아래 여백을 없앤다. 인라인 스타일은 :last-child 를 못 쓴다.
+      const last = out.length - 1;
+      if (out[last].startsWith('<p>')) out[last] = out[last].replace('<p>', '<p class="answer-last">');
       out.push('</aside>');
       continue;
     }
@@ -233,15 +233,19 @@ function convert(md) {
     if (/^\[체크\]\s*$/.test(line)) {
       let 체크buf;
       [체크buf, i] = readBlock(lines, i + 1, '체크');
-      const items = 체크buf
-        .map((l) => l.replace(/^\s*[-*]\s+/, '').trim())
-        .filter(Boolean);
+      // 첫 줄이 「### 」면 상자 제목이다. 없으면 「📝 오늘 1분 체크」.
+      const 체크줄 = 체크buf.map((l) => l.trim()).filter(Boolean);
+      const 체크제목 = /^###\s+/.test(체크줄[0] || '')
+        ? 체크줄.shift().replace(/^###\s+/, '')
+        : '📝 오늘 1분 체크';
+      const items = 체크줄.map((l) => l.replace(/^[-*]\s+/, ''));
       // 여는 줄과 닫는 줄을 한 태그씩 따로 둔다.
       // 인라인 스타일러가 줄 단위로 컨테이너를 세기 때문이다.
       out.push('<div class="do-box">');
-      out.push('<ol>');
+      out.push(`<h3>${inline(체크제목)}</h3>`);
+      out.push('<ul>');
       items.forEach((t) => out.push(`<li>${inline(t)}</li>`));
-      out.push('</ol>');
+      out.push('</ul>');
       out.push('</div>');
       continue;
     }
@@ -482,22 +486,26 @@ const STYLE = {
   'figure img': `width:100%; height:auto; border:1px solid ${C.line}; border-radius:10px; display:block;`,
   figcaption: `margin-top:10px; font-size:.86rem; color:${C.muted}; text-align:center;`,
 
-  // 안내(면책)와 꼬리말에는 따로 스타일을 주지 않는다.
-  // 어떻게 보일지는 글 쓰는 쪽에서 정한다. 여기서는 본문 그대로 흘려보낸다.
+  // 면책 — 제미나이 판 그대로의 회색 상자 (2026-09-11 사용자 지정)
+  '.pre-note': `background:${C.grayBg}; border-left:4px solid ${C.grayLine}; padding:16px 20px; margin-top:60px; font-size:.85rem; color:${C.grayText}; line-height:1.6;`,
+  '.pre-note strong': `color:${C.grayText};`,
 
   // 한 문장 정답 — 글에서 가장 먼저 눈에 들어와야 하는 한 덩어리
   // 본문보다 크고 진하게. 스크롤하기 전에 답을 주는 자리다.
   '.answer-box': `background:${C.cream}; border-left:6px solid ${C.pink}; border-radius:0 10px 10px 0; padding:22px 26px; margin:28px 0 34px;`,
   '.answer-box p': `margin:0 0 10px; font-size:1.02rem; line-height:1.72; color:${C.navyD};`,
   '.answer-box p:last-child': `margin:0;`,
-  '.answer-box ul': `margin:2px 0 12px; padding-left:22px;`,
-  '.answer-box li': `margin-bottom:9px; font-size:1.02rem; line-height:1.72; color:${C.navyD};`,
+  '.answer-box ul': `list-style:disc; margin:0 0 10px; padding-left:20px; font-size:1.02rem; line-height:1.72; color:${C.navyD};`,
+  '.answer-box li': `margin-bottom:0;`,
+  '.answer-last': `margin:0; font-size:1.02rem; line-height:1.72; color:${C.navyD};`,
   '.answer-box strong': `color:${C.navyD};`,
 
   // 오늘 할 것 — 읽고 끝나지 않게 만드는 상자
-  '.do-box': `background:${C.cream}; border:1px solid ${C.line}; border-radius:10px; padding:22px 26px 22px 20px; margin:26px 0;`,
+  '.do-box': `background:${C.ivory}; border:1px solid ${C.line}; border-radius:8px; padding:20px 24px; margin:24px 0;`,
   '.do-box ol': `margin:0; padding-left:24px;`,
-  '.do-box li': `margin-bottom:12px; line-height:1.66;`,
+  '.do-box h3': `margin:0 0 14px; font-size:1.1rem; color:${C.navyD};`,
+  '.do-box ul': `list-style:disc; margin:0; padding-left:24px; color:${C.navy}; line-height:1.8; font-size:.95rem;`,
+  '.do-box li': `margin-bottom:0;`,
   '.do-box li:last-child': `margin-bottom:0;`,
 
   // 자주 묻는 질문 — 질문 하나와 답 하나가 눈으로도 짝지어 보이게
