@@ -1,0 +1,2252 @@
+- generic [active] [ref=f18e1]:
+  - generic:
+    - link "메뉴 영역으로 바로가기" [ref=f18e2] [cursor=pointer]:
+      - /url: "#lnb"
+    - link "본문 영역으로 바로가기" [ref=f18e4] [cursor=pointer]:
+      - /url: "#content"
+  - generic [ref=f18e6]:
+    - generic [ref=f18e8]:
+      - generic [ref=f18e10]:
+        - generic [ref=f18e11]:
+          - text: 현재 PC에 최적화된 브라우저
+          - strong [ref=f18e13]: 웨일을 설치하세요
+          - link "다운로드" [ref=f18e14] [cursor=pointer]:
+            - /url: https://whale.naver.com/ko/?wpid=search_theme1
+        - button "닫기" [ref=f18e16] [cursor=pointer]
+      - generic [ref=f18e18]:
+        - generic [ref=f18e20]:
+          - heading [level=1] [ref=f18e21]:
+            - link "NAVER" [ref=f18e22] [cursor=pointer]:
+              - /url: https://www.naver.com
+          - search [ref=f18e24]:
+            - group "검색" [ref=f18e25]:
+              - combobox "검색어를 입력해 주세요." [ref=f18e27]:
+                - text: 오늘 날씨
+                - generic:
+                  - generic:
+                    - dialog "자동완성 레이어"
+              - button "한글 입력기" [ref=f18e29] [cursor=pointer]
+              - button "검색" [ref=f18e31] [cursor=pointer]
+        - generic [ref=f18e2865]:
+          - strong [ref=f18e2866]: 사용자 링크
+          - list [ref=f18e2867]:
+            - listitem [ref=f18e2868]:
+              - link "로그인" [ref=f18e2869] [cursor=pointer]:
+                - /url: https://nid.naver.com/nidlogin.login?url=https%3A%2F%2Fsearch.naver.com%2Fsearch.naver%3Fquery%3D%25EC%2598%25A4%25EB%258A%2598%2520%25EB%2582%25A0%25EC%2594%25A8
+            - listitem [ref=f18e2873]:
+              - link "서비스 더보기" [ref=f18e2874] [cursor=pointer]:
+                - /url: javascript:;
+      - generic [ref=f18e33]:
+        - generic [ref=f18e35]:
+          - generic [ref=f18e36]:
+            - tab "AI new" [ref=f18e38] [cursor=pointer]:
+              - text: AI
+              - generic [ref=f18e39]: new
+            - tab "블로그" [ref=f18e42] [cursor=pointer]
+            - tab "카페" [ref=f18e44] [cursor=pointer]
+            - tab "클립" [ref=f18e46] [cursor=pointer]
+            - tab "이미지" [ref=f18e48] [cursor=pointer]
+            - tab "지식iN" [ref=f18e50] [cursor=pointer]
+            - tab "동영상" [ref=f18e52] [cursor=pointer]
+            - tab "쇼핑 새 창 열림" [ref=f18e54] [cursor=pointer]:
+              - text: 쇼핑
+              - generic [ref=f18e55]: 새 창 열림
+            - tab "뉴스" [ref=f18e57] [cursor=pointer]
+            - tab "어학사전 새 창 열림" [ref=f18e59] [cursor=pointer]:
+              - text: 어학사전
+              - generic [ref=f18e60]: 새 창 열림
+          - button "더보기" [ref=f18e62] [cursor=pointer]
+        - list [ref=f18e65]:
+          - listitem [ref=f18e66]:
+            - button "공유" [ref=f18e67] [cursor=pointer]
+    - main [ref=f18e68]:
+      - generic [ref=f18e69]:
+        - heading "오늘 날씨 검색 결과" [level=1] [ref=f18e70]
+        - generic [ref=f18e71]:
+          - generic [ref=f18e73]:
+            - generic [ref=f18e74]:
+              - generic [ref=f18e75]:
+                - generic [ref=f18e76]:
+                  - heading "성동구 성수1가2동" [level=2] [ref=f18e77]
+                  - heading "성동구 성수1가2동" [level=2] [ref=f18e78]
+                - tablist [ref=f18e82]:
+                  - tab [selected] [ref=f18e83]:
+                    - link "오늘" [ref=f18e84] [cursor=pointer]:
+                      - /url: "#"
+                  - tab [ref=f18e86]:
+                    - link "내일" [ref=f18e87] [cursor=pointer]:
+                      - /url: "#"
+                  - tab [ref=f18e89]:
+                    - link "모레" [ref=f18e90] [cursor=pointer]:
+                      - /url: "#"
+                  - tab [ref=f18e92]:
+                    - link "전망" [ref=f18e93] [cursor=pointer]:
+                      - /url: "#"
+                  - tab [ref=f18e95]:
+                    - link "과거" [ref=f18e96] [cursor=pointer]:
+                      - /url: "#"
+              - generic [ref=f18e99]:
+                - generic [ref=f18e101]:
+                  - generic [ref=f18e102]:
+                    - heading "날씨 제공사 설정" [level=3] [ref=f18e103]
+                    - tablist [ref=f18e106]:
+                      - tab "기상청" [selected] [ref=f18e107]:
+                        - link "기상청" [ref=f18e108] [cursor=pointer]:
+                          - /url: "#"
+                      - tab "아큐웨더" [ref=f18e109]:
+                        - link "아큐웨더" [ref=f18e110] [cursor=pointer]:
+                          - /url: "#"
+                      - tab "웨더채널" [ref=f18e111]:
+                        - link "웨더채널" [ref=f18e112] [cursor=pointer]:
+                          - /url: "#"
+                      - tab "웨더뉴스" [ref=f18e113]:
+                        - link "웨더뉴스" [ref=f18e114] [cursor=pointer]:
+                          - /url: "#"
+                    - button "예보비교" [ref=f18e115] [cursor=pointer]
+                  - generic [ref=f18e117]:
+                    - heading "오늘의 날씨" [level=3] [ref=f18e118]
+                    - generic [ref=f18e119]:
+                      - generic [ref=f18e120]:
+                        - generic [ref=f18e121]: 맑음
+                        - strong [ref=f18e125]:
+                          - generic [ref=f18e126]: 현재 온도
+                          - text: 28.0°
+                      - generic [ref=f18e127]:
+                        - paragraph [ref=f18e128]:
+                          - text: 어제보다
+                          - generic [ref=f18e129]:
+                            - text: 0.5°
+                            - generic [ref=f18e130]: 낮아요
+                          - generic [ref=f18e131]: / 맑음
+                        - generic [ref=f18e132]:
+                          - generic [ref=f18e133]:
+                            - term [ref=f18e134]: 체감
+                            - definition [ref=f18e135]: 26.6°
+                          - generic [ref=f18e136]:
+                            - term [ref=f18e137]: 습도
+                            - definition [ref=f18e138]: 40%
+                          - generic [ref=f18e139]:
+                            - term [ref=f18e140]: 남동풍
+                            - definition [ref=f18e141]: 3.1m/s
+                    - list [ref=f18e143]:
+                      - listitem [ref=f18e144]:
+                        - link "미세먼지 좋음" [ref=f18e145] [cursor=pointer]:
+                          - /url: "?where=nexearch&sm=tab_etc&pkid=227&qvt=0&query=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EC%84%B1%EB%8F%99%EA%B5%AC%20%EC%84%B1%EC%88%981%EA%B0%802%EB%8F%99%20%EB%AF%B8%EC%84%B8%EB%A8%BC%EC%A7%80"
+                          - strong [ref=f18e146]: 미세먼지
+                          - generic [ref=f18e147]: 좋음
+                      - listitem [ref=f18e148]:
+                        - link "초미세먼지 좋음" [ref=f18e149] [cursor=pointer]:
+                          - /url: "?where=nexearch&sm=tab_etc&pkid=227&qvt=0&query=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EC%84%B1%EB%8F%99%EA%B5%AC%20%EC%84%B1%EC%88%981%EA%B0%802%EB%8F%99%20%EC%B4%88%EB%AF%B8%EC%84%B8%EB%A8%BC%EC%A7%80"
+                          - strong [ref=f18e150]: 초미세먼지
+                          - generic [ref=f18e151]: 좋음
+                      - listitem [ref=f18e152]:
+                        - generic [ref=f18e153]:
+                          - strong [ref=f18e154]: 자외선
+                          - generic [ref=f18e155]: 높음
+                      - listitem [ref=f18e156]:
+                        - generic [ref=f18e157]:
+                          - strong [ref=f18e158]: 일몰
+                          - generic [ref=f18e159]: 18:53
+                      - listitem [ref=f18e160]:
+                        - generic [ref=f18e161]:
+                          - strong [ref=f18e162]: 날씨를 공유해보세요!
+                          - link "날씨 제보톡" [ref=f18e163] [cursor=pointer]:
+                            - /url: https://weather.naver.com/today/09200660/talk
+                    - generic [ref=f18e164]:
+                      - link "CCTV" [ref=f18e165] [cursor=pointer]:
+                        - /url: https://weather.naver.com/map/09200660?cctv=true
+                      - link "날씨 지도" [ref=f18e166] [cursor=pointer]:
+                        - /url: https://weather.naver.com/map/09200660
+                - generic [ref=f18e169]:
+                  - heading "시간별 예보" [level=3] [ref=f18e170]
+                  - tablist [ref=f18e173]:
+                    - tab "날씨" [selected] [ref=f18e174]:
+                      - link "날씨" [ref=f18e175] [cursor=pointer]:
+                        - /url: "#"
+                    - tab "강수" [ref=f18e176]:
+                      - link "강수" [ref=f18e177] [cursor=pointer]:
+                        - /url: "#"
+                    - tab "바람" [ref=f18e178]:
+                      - link "바람" [ref=f18e179] [cursor=pointer]:
+                        - /url: "#"
+                    - tab "습도" [ref=f18e180]:
+                      - link "습도" [ref=f18e181] [cursor=pointer]:
+                        - /url: "#"
+                  - generic [ref=f18e183]:
+                    - list [ref=f18e187]:
+                      - listitem [ref=f18e188]:
+                        - generic [ref=f18e189]:
+                          - term [ref=f18e190]:
+                            - emphasis [ref=f18e191]: 14시
+                          - definition [ref=f18e192]:
+                            - generic [ref=f18e193]: 맑음
+                          - definition [ref=f18e195]:
+                            - generic [ref=f18e198]
+                      - listitem [ref=f18e200]:
+                        - generic [ref=f18e201]:
+                          - term [ref=f18e202]:
+                            - emphasis [ref=f18e203]: 15시
+                          - definition [ref=f18e204]:
+                            - generic [ref=f18e205]: 맑음
+                          - definition [ref=f18e207]:
+                            - generic [ref=f18e210]
+                      - listitem [ref=f18e212]:
+                        - generic [ref=f18e213]:
+                          - term [ref=f18e214]:
+                            - emphasis [ref=f18e215]: 16시
+                          - definition [ref=f18e216]:
+                            - generic [ref=f18e217]: 맑음
+                          - definition [ref=f18e219]:
+                            - generic [ref=f18e222]
+                      - listitem [ref=f18e224]:
+                        - generic [ref=f18e225]:
+                          - term [ref=f18e226]:
+                            - emphasis [ref=f18e227]: 17시
+                          - definition [ref=f18e228]:
+                            - generic [ref=f18e229]: 맑음
+                          - definition [ref=f18e231]:
+                            - generic [ref=f18e234]
+                      - listitem [ref=f18e236]:
+                        - generic [ref=f18e237]:
+                          - term [ref=f18e238]:
+                            - emphasis [ref=f18e239]: 18시
+                          - definition [ref=f18e240]:
+                            - generic [ref=f18e241]: 맑음
+                          - definition [ref=f18e243]:
+                            - generic [ref=f18e246]
+                      - listitem [ref=f18e248]:
+                        - generic [ref=f18e249]:
+                          - term [ref=f18e250]:
+                            - emphasis [ref=f18e251]: 19시
+                          - definition [ref=f18e252]:
+                            - generic [ref=f18e253]: 맑음
+                          - definition [ref=f18e255]:
+                            - generic [ref=f18e258]
+                      - listitem [ref=f18e260]:
+                        - generic [ref=f18e261]:
+                          - term [ref=f18e262]:
+                            - emphasis [ref=f18e263]: 20시
+                          - definition [ref=f18e264]:
+                            - generic [ref=f18e265]: 맑음
+                          - definition [ref=f18e267]:
+                            - generic [ref=f18e270]
+                      - listitem [ref=f18e272]:
+                        - generic [ref=f18e273]:
+                          - term [ref=f18e274]:
+                            - emphasis [ref=f18e275]: 21시
+                          - definition [ref=f18e276]:
+                            - generic [ref=f18e277]: 맑음
+                          - definition [ref=f18e279]:
+                            - generic [ref=f18e282]
+                      - listitem [ref=f18e284]:
+                        - generic [ref=f18e285]:
+                          - term [ref=f18e286]:
+                            - emphasis [ref=f18e287]: 22시
+                          - definition [ref=f18e288]:
+                            - generic [ref=f18e289]: 맑음
+                          - definition [ref=f18e291]:
+                            - generic [ref=f18e294]
+                      - listitem [ref=f18e296]:
+                        - generic [ref=f18e297]:
+                          - term [ref=f18e298]:
+                            - emphasis [ref=f18e299]: 23시
+                          - definition [ref=f18e300]:
+                            - generic [ref=f18e301]: 맑음
+                          - definition [ref=f18e303]:
+                            - generic [ref=f18e306]
+                      - listitem [ref=f18e308]:
+                        - generic [ref=f18e309]:
+                          - term [ref=f18e310]:
+                            - emphasis [ref=f18e311]: 내일
+                          - definition [ref=f18e312]:
+                            - generic [ref=f18e313]: 맑음
+                          - definition [ref=f18e315]:
+                            - generic [ref=f18e318]
+                      - listitem [ref=f18e320]:
+                        - generic [ref=f18e321]:
+                          - term [ref=f18e322]:
+                            - emphasis [ref=f18e323]: 01시
+                          - definition [ref=f18e324]:
+                            - generic [ref=f18e325]: 맑음
+                          - definition [ref=f18e327]:
+                            - generic [ref=f18e330]
+                      - listitem [ref=f18e332]:
+                        - generic [ref=f18e333]:
+                          - term [ref=f18e334]:
+                            - emphasis [ref=f18e335]: 02시
+                          - definition [ref=f18e336]:
+                            - generic [ref=f18e337]: 맑음
+                          - definition [ref=f18e339]:
+                            - generic [ref=f18e342]
+                      - listitem [ref=f18e344]:
+                        - generic [ref=f18e345]:
+                          - term [ref=f18e346]:
+                            - emphasis [ref=f18e347]: 03시
+                          - definition [ref=f18e348]:
+                            - generic [ref=f18e349]: 맑음
+                          - definition [ref=f18e351]:
+                            - generic [ref=f18e354]
+                      - listitem [ref=f18e356]:
+                        - generic [ref=f18e357]:
+                          - term [ref=f18e358]:
+                            - emphasis [ref=f18e359]: 04시
+                          - definition [ref=f18e360]:
+                            - generic [ref=f18e361]: 맑음
+                          - definition [ref=f18e363]:
+                            - generic [ref=f18e366]
+                      - listitem [ref=f18e368]:
+                        - generic [ref=f18e369]:
+                          - term [ref=f18e370]:
+                            - emphasis [ref=f18e371]: 05시
+                          - definition [ref=f18e372]:
+                            - generic [ref=f18e373]: 맑음
+                          - definition [ref=f18e375]:
+                            - generic [ref=f18e378]
+                      - listitem [ref=f18e380]:
+                        - generic [ref=f18e381]:
+                          - term [ref=f18e382]:
+                            - emphasis [ref=f18e383]: 06시
+                          - definition [ref=f18e384]:
+                            - generic [ref=f18e385]: 맑음
+                          - definition [ref=f18e387]:
+                            - generic [ref=f18e389]
+                      - listitem [ref=f18e391]:
+                        - generic [ref=f18e392]:
+                          - term [ref=f18e393]:
+                            - emphasis [ref=f18e394]: 07시
+                          - definition [ref=f18e395]:
+                            - generic [ref=f18e396]: 맑음
+                          - definition [ref=f18e398]:
+                            - generic [ref=f18e400]
+                      - listitem [ref=f18e402]:
+                        - generic [ref=f18e403]:
+                          - term [ref=f18e404]:
+                            - emphasis [ref=f18e405]: 08시
+                          - definition [ref=f18e406]:
+                            - generic [ref=f18e407]: 맑음
+                          - definition [ref=f18e409]:
+                            - generic [ref=f18e412]
+                      - listitem [ref=f18e414]:
+                        - generic [ref=f18e415]:
+                          - term [ref=f18e416]:
+                            - emphasis [ref=f18e417]: 09시
+                          - definition [ref=f18e418]:
+                            - generic [ref=f18e419]: 맑음
+                          - definition [ref=f18e421]:
+                            - generic [ref=f18e424]
+                      - listitem [ref=f18e426]:
+                        - generic [ref=f18e427]:
+                          - term [ref=f18e428]:
+                            - emphasis [ref=f18e429]: 10시
+                          - definition [ref=f18e430]:
+                            - generic [ref=f18e431]: 맑음
+                          - definition [ref=f18e433]:
+                            - generic [ref=f18e436]
+                      - listitem [ref=f18e438]:
+                        - generic [ref=f18e439]:
+                          - term [ref=f18e440]:
+                            - emphasis [ref=f18e441]: 11시
+                          - definition [ref=f18e442]:
+                            - generic [ref=f18e443]: 맑음
+                          - definition [ref=f18e445]:
+                            - generic [ref=f18e448]
+                      - listitem [ref=f18e450]:
+                        - generic [ref=f18e451]:
+                          - term [ref=f18e452]:
+                            - emphasis [ref=f18e453]: 12시
+                          - definition [ref=f18e454]:
+                            - generic [ref=f18e455]: 맑음
+                          - definition [ref=f18e457]:
+                            - generic [ref=f18e460]
+                      - listitem [ref=f18e462]:
+                        - generic [ref=f18e463]:
+                          - term [ref=f18e464]:
+                            - emphasis [ref=f18e465]: 13시
+                          - definition [ref=f18e466]:
+                            - generic [ref=f18e467]: 맑음
+                          - definition [ref=f18e469]:
+                            - generic [ref=f18e472]
+                      - listitem [ref=f18e474]:
+                        - generic [ref=f18e475]:
+                          - term [ref=f18e476]:
+                            - emphasis [ref=f18e477]: 14시
+                          - definition [ref=f18e478]:
+                            - generic [ref=f18e479]: 맑음
+                          - definition [ref=f18e481]:
+                            - generic [ref=f18e484]
+                      - listitem [ref=f18e486]:
+                        - generic [ref=f18e487]:
+                          - term [ref=f18e488]:
+                            - emphasis [ref=f18e489]: 15시
+                          - definition [ref=f18e490]:
+                            - generic [ref=f18e491]: 맑음
+                          - definition [ref=f18e493]:
+                            - generic [ref=f18e496]
+                      - listitem [ref=f18e498]:
+                        - generic [ref=f18e499]:
+                          - term [ref=f18e500]:
+                            - emphasis [ref=f18e501]: 16시
+                          - definition [ref=f18e502]:
+                            - generic [ref=f18e503]: 맑음
+                          - definition [ref=f18e505]:
+                            - generic [ref=f18e508]
+                      - listitem [ref=f18e510]:
+                        - generic [ref=f18e511]:
+                          - term [ref=f18e512]:
+                            - emphasis [ref=f18e513]: 17시
+                          - definition [ref=f18e514]:
+                            - generic [ref=f18e515]: 맑음
+                          - definition [ref=f18e517]:
+                            - generic [ref=f18e520]
+                      - listitem [ref=f18e522]:
+                        - generic [ref=f18e523]:
+                          - term [ref=f18e524]:
+                            - emphasis [ref=f18e525]: 18시
+                          - definition [ref=f18e526]:
+                            - generic [ref=f18e527]: 맑음
+                          - definition [ref=f18e529]:
+                            - generic [ref=f18e532]
+                      - listitem [ref=f18e534]:
+                        - generic [ref=f18e535]:
+                          - term [ref=f18e536]:
+                            - emphasis [ref=f18e537]: 19시
+                          - definition [ref=f18e538]:
+                            - generic [ref=f18e539]: 맑음
+                          - definition [ref=f18e541]:
+                            - generic [ref=f18e544]
+                      - listitem [ref=f18e546]:
+                        - generic [ref=f18e547]:
+                          - term [ref=f18e548]:
+                            - emphasis [ref=f18e549]: 20시
+                          - definition [ref=f18e550]:
+                            - generic [ref=f18e551]: 맑음
+                          - definition [ref=f18e553]:
+                            - generic [ref=f18e556]
+                      - listitem [ref=f18e558]:
+                        - generic [ref=f18e559]:
+                          - term [ref=f18e560]:
+                            - emphasis [ref=f18e561]: 21시
+                          - definition [ref=f18e562]:
+                            - generic [ref=f18e563]: 맑음
+                          - definition [ref=f18e565]:
+                            - generic [ref=f18e568]
+                      - listitem [ref=f18e570]:
+                        - generic [ref=f18e571]:
+                          - term [ref=f18e572]:
+                            - emphasis [ref=f18e573]: 22시
+                          - definition [ref=f18e574]:
+                            - generic [ref=f18e575]: 맑음
+                          - definition [ref=f18e577]:
+                            - generic [ref=f18e580]
+                      - listitem [ref=f18e582]:
+                        - generic [ref=f18e583]:
+                          - term [ref=f18e584]:
+                            - emphasis [ref=f18e585]: 23시
+                          - definition [ref=f18e586]:
+                            - generic [ref=f18e587]: 맑음
+                          - definition [ref=f18e589]:
+                            - generic [ref=f18e592]
+                      - listitem [ref=f18e594]:
+                        - generic [ref=f18e595]:
+                          - term [ref=f18e596]:
+                            - emphasis [ref=f18e597]: 모레
+                          - definition [ref=f18e598]:
+                            - generic [ref=f18e599]: 맑음
+                          - definition [ref=f18e601]:
+                            - generic [ref=f18e604]
+                      - listitem [ref=f18e606]:
+                        - generic [ref=f18e607]:
+                          - term [ref=f18e608]:
+                            - emphasis [ref=f18e609]: 01시
+                          - definition [ref=f18e610]:
+                            - generic [ref=f18e611]: 맑음
+                          - definition [ref=f18e613]:
+                            - generic [ref=f18e616]
+                      - listitem [ref=f18e618]:
+                        - generic [ref=f18e619]:
+                          - term [ref=f18e620]:
+                            - emphasis [ref=f18e621]: 02시
+                          - definition [ref=f18e622]:
+                            - generic [ref=f18e623]: 맑음
+                          - definition [ref=f18e625]:
+                            - generic [ref=f18e628]
+                      - listitem [ref=f18e630]:
+                        - generic [ref=f18e631]:
+                          - term [ref=f18e632]:
+                            - emphasis [ref=f18e633]: 03시
+                          - definition [ref=f18e634]:
+                            - generic [ref=f18e635]: 흐림
+                          - definition [ref=f18e637]:
+                            - generic [ref=f18e640]
+                      - listitem [ref=f18e642]:
+                        - generic [ref=f18e643]:
+                          - term [ref=f18e644]:
+                            - emphasis [ref=f18e645]: 04시
+                          - definition [ref=f18e646]:
+                            - generic [ref=f18e647]: 구름많음
+                          - definition [ref=f18e649]:
+                            - generic [ref=f18e652]
+                      - listitem [ref=f18e654]:
+                        - generic [ref=f18e655]:
+                          - term [ref=f18e656]:
+                            - emphasis [ref=f18e657]: 05시
+                          - definition [ref=f18e658]:
+                            - generic [ref=f18e659]: 구름많음
+                          - definition [ref=f18e661]:
+                            - generic [ref=f18e664]
+                      - listitem [ref=f18e666]:
+                        - generic [ref=f18e667]:
+                          - term [ref=f18e668]:
+                            - emphasis [ref=f18e669]: 06시
+                          - definition [ref=f18e670]:
+                            - generic [ref=f18e671]: 흐림
+                          - definition [ref=f18e673]:
+                            - generic [ref=f18e676]
+                      - listitem [ref=f18e678]:
+                        - generic [ref=f18e679]:
+                          - term [ref=f18e680]:
+                            - emphasis [ref=f18e681]: 07시
+                          - definition [ref=f18e682]:
+                            - generic [ref=f18e683]: 구름많음
+                          - definition [ref=f18e685]:
+                            - generic [ref=f18e688]
+                      - listitem [ref=f18e690]:
+                        - generic [ref=f18e691]:
+                          - term [ref=f18e692]:
+                            - emphasis [ref=f18e693]: 08시
+                          - definition [ref=f18e694]:
+                            - generic [ref=f18e695]: 구름많음
+                          - definition [ref=f18e697]:
+                            - generic [ref=f18e700]
+                      - listitem [ref=f18e702]:
+                        - generic [ref=f18e703]:
+                          - term [ref=f18e704]:
+                            - emphasis [ref=f18e705]: 09시
+                          - definition [ref=f18e706]:
+                            - generic [ref=f18e707]: 구름많음
+                          - definition [ref=f18e709]:
+                            - generic [ref=f18e712]
+                      - listitem [ref=f18e714]:
+                        - generic [ref=f18e715]:
+                          - term [ref=f18e716]:
+                            - emphasis [ref=f18e717]: 10시
+                          - definition [ref=f18e718]:
+                            - generic [ref=f18e719]: 구름많음
+                          - definition [ref=f18e721]:
+                            - generic [ref=f18e724]
+                      - listitem [ref=f18e726]:
+                        - generic [ref=f18e727]:
+                          - term [ref=f18e728]:
+                            - emphasis [ref=f18e729]: 11시
+                          - definition [ref=f18e730]:
+                            - generic [ref=f18e731]: 구름많음
+                          - definition [ref=f18e733]:
+                            - generic [ref=f18e736]
+                      - listitem [ref=f18e738]:
+                        - generic [ref=f18e739]:
+                          - term [ref=f18e740]:
+                            - emphasis [ref=f18e741]: 12시
+                          - definition [ref=f18e742]:
+                            - generic [ref=f18e743]: 맑음
+                          - definition [ref=f18e745]:
+                            - generic [ref=f18e748]
+                      - listitem [ref=f18e750]:
+                        - generic [ref=f18e751]:
+                          - term [ref=f18e752]:
+                            - emphasis [ref=f18e753]: 13시
+                          - definition [ref=f18e754]:
+                            - generic [ref=f18e755]: 구름많음
+                          - definition [ref=f18e757]:
+                            - generic [ref=f18e760]
+                      - listitem [ref=f18e762]:
+                        - generic [ref=f18e763]:
+                          - term [ref=f18e764]:
+                            - emphasis [ref=f18e765]: 14시
+                          - definition [ref=f18e766]:
+                            - generic [ref=f18e767]: 구름많음
+                          - definition [ref=f18e769]:
+                            - generic [ref=f18e772]
+                      - listitem [ref=f18e774]:
+                        - generic [ref=f18e775]:
+                          - term [ref=f18e776]:
+                            - emphasis [ref=f18e777]: 15시
+                          - definition [ref=f18e778]:
+                            - generic [ref=f18e779]: 구름많음
+                          - definition [ref=f18e781]:
+                            - generic [ref=f18e784]
+                      - listitem [ref=f18e786]:
+                        - generic [ref=f18e787]:
+                          - term [ref=f18e788]:
+                            - emphasis [ref=f18e789]: 16시
+                          - definition [ref=f18e790]:
+                            - generic [ref=f18e791]: 맑음
+                          - definition [ref=f18e793]:
+                            - generic [ref=f18e796]
+                      - listitem [ref=f18e798]:
+                        - generic [ref=f18e799]:
+                          - term [ref=f18e800]:
+                            - emphasis [ref=f18e801]: 17시
+                          - definition [ref=f18e802]:
+                            - generic [ref=f18e803]: 맑음
+                          - definition [ref=f18e805]:
+                            - generic [ref=f18e808]
+                      - listitem [ref=f18e810]:
+                        - generic [ref=f18e811]:
+                          - term [ref=f18e812]:
+                            - emphasis [ref=f18e813]: 18시
+                          - definition [ref=f18e814]:
+                            - generic [ref=f18e815]: 맑음
+                          - definition [ref=f18e817]:
+                            - generic [ref=f18e820]
+                      - listitem [ref=f18e822]:
+                        - generic [ref=f18e823]:
+                          - term [ref=f18e824]:
+                            - emphasis [ref=f18e825]: 19시
+                          - definition [ref=f18e826]:
+                            - generic [ref=f18e827]: 맑음
+                          - definition [ref=f18e829]:
+                            - generic [ref=f18e832]
+                      - listitem [ref=f18e834]:
+                        - generic [ref=f18e835]:
+                          - term [ref=f18e836]:
+                            - emphasis [ref=f18e837]: 20시
+                          - definition [ref=f18e838]:
+                            - generic [ref=f18e839]: 맑음
+                          - definition [ref=f18e841]:
+                            - generic [ref=f18e844]
+                      - listitem [ref=f18e846]:
+                        - generic [ref=f18e847]:
+                          - term [ref=f18e848]:
+                            - emphasis [ref=f18e849]: 21시
+                          - definition [ref=f18e850]:
+                            - generic [ref=f18e851]: 맑음
+                          - definition [ref=f18e853]:
+                            - generic [ref=f18e856]
+                      - listitem [ref=f18e858]:
+                        - generic [ref=f18e859]:
+                          - term [ref=f18e860]:
+                            - emphasis [ref=f18e861]: 22시
+                          - definition [ref=f18e862]:
+                            - generic [ref=f18e863]: 맑음
+                          - definition [ref=f18e865]:
+                            - generic [ref=f18e868]
+                      - listitem [ref=f18e870]:
+                        - generic [ref=f18e871]:
+                          - term [ref=f18e872]:
+                            - emphasis [ref=f18e873]: 23시
+                          - definition [ref=f18e874]:
+                            - generic [ref=f18e875]: 맑음
+                          - definition [ref=f18e877]:
+                            - generic [ref=f18e880]
+                      - listitem [ref=f18e882]:
+                        - generic [ref=f18e883]:
+                          - term [ref=f18e884]:
+                            - emphasis [ref=f18e885]: 09.10.
+                          - definition [ref=f18e886]:
+                            - generic [ref=f18e887]: 맑음
+                          - definition [ref=f18e889]:
+                            - generic [ref=f18e891]
+                    - link "다음" [ref=f18e2878] [cursor=pointer]:
+                      - /url: "#"
+            - generic [ref=f18e893]:
+              - generic [ref=f18e895]:
+                - generic [ref=f18e897]:
+                  - heading "주간예보" [level=3] [ref=f18e898]
+                  - link "도움말" [ref=f18e900] [cursor=pointer]:
+                    - /url: "#none"
+                  - link "최저 최고 기준" [ref=f18e903] [cursor=pointer]:
+                    - /url: https://blog.naver.com/naver_weather/222199399966
+                  - list [ref=f18e905]:
+                    - listitem [ref=f18e906]:
+                      - generic [ref=f18e907]:
+                        - generic [ref=f18e909]:
+                          - strong [ref=f18e910]: 오늘
+                          - generic [ref=f18e911]: 9.07.
+                        - generic [ref=f18e912]:
+                          - generic [ref=f18e913]:
+                            - generic [ref=f18e914]
+                            - generic [ref=f18e917]: 맑음
+                          - generic [ref=f18e919]:
+                            - generic [ref=f18e920]
+                            - generic [ref=f18e923]: 맑음
+                        - generic [ref=f18e926]:
+                          - generic [ref=f18e927]:
+                            - generic [ref=f18e928]: 최저기온
+                            - text: 19°
+                          - generic [ref=f18e929]:
+                            - generic [ref=f18e930]: 최고기온
+                            - text: 29°
+                    - listitem [ref=f18e931]:
+                      - generic [ref=f18e932]:
+                        - generic [ref=f18e934]:
+                          - strong [ref=f18e935]: 내일
+                          - generic [ref=f18e936]: 9.08.
+                        - generic [ref=f18e937]:
+                          - generic [ref=f18e938]:
+                            - generic [ref=f18e939]: 0%
+                            - generic [ref=f18e941]: 맑음
+                          - generic [ref=f18e943]:
+                            - generic [ref=f18e944]: 0%
+                            - generic [ref=f18e946]: 맑음
+                        - generic [ref=f18e949]:
+                          - generic [ref=f18e950]:
+                            - generic [ref=f18e951]: 최저기온
+                            - text: 18°
+                          - generic [ref=f18e952]:
+                            - generic [ref=f18e953]: 최고기온
+                            - text: 30°
+                    - listitem [ref=f18e954]:
+                      - generic [ref=f18e955]:
+                        - generic [ref=f18e957]:
+                          - strong [ref=f18e958]: 수
+                          - generic [ref=f18e959]: 9.09.
+                        - generic [ref=f18e960]:
+                          - generic [ref=f18e961]:
+                            - generic [ref=f18e962]: 20%
+                            - generic [ref=f18e964]: 구름많음
+                          - generic [ref=f18e966]:
+                            - generic [ref=f18e967]: 0%
+                            - generic [ref=f18e969]: 맑음
+                        - generic [ref=f18e972]:
+                          - generic [ref=f18e973]:
+                            - generic [ref=f18e974]: 최저기온
+                            - text: 20°
+                          - generic [ref=f18e975]:
+                            - generic [ref=f18e976]: 최고기온
+                            - text: 26°
+                    - listitem [ref=f18e977]:
+                      - generic [ref=f18e978]:
+                        - generic [ref=f18e980]:
+                          - strong [ref=f18e981]: 목
+                          - generic [ref=f18e982]: 9.10.
+                        - generic [ref=f18e983]:
+                          - generic [ref=f18e984]:
+                            - generic [ref=f18e985]: 0%
+                            - generic [ref=f18e987]: 맑음
+                          - generic [ref=f18e989]:
+                            - generic [ref=f18e990]: 0%
+                            - generic [ref=f18e992]: 맑음
+                        - generic [ref=f18e995]:
+                          - generic [ref=f18e996]:
+                            - generic [ref=f18e997]: 최저기온
+                            - text: 16°
+                          - generic [ref=f18e998]:
+                            - generic [ref=f18e999]: 최고기온
+                            - text: 27°
+                    - listitem [ref=f18e1000]:
+                      - generic [ref=f18e1001]:
+                        - generic [ref=f18e1003]:
+                          - strong [ref=f18e1004]: 금
+                          - generic [ref=f18e1005]: 9.11.
+                        - generic [ref=f18e1006]:
+                          - generic [ref=f18e1007]:
+                            - generic [ref=f18e1008]: 10%
+                            - generic [ref=f18e1010]: 맑음
+                          - generic [ref=f18e1012]:
+                            - generic [ref=f18e1013]: 10%
+                            - generic [ref=f18e1015]: 맑음
+                        - generic [ref=f18e1018]:
+                          - generic [ref=f18e1019]:
+                            - generic [ref=f18e1020]: 최저기온
+                            - text: 16°
+                          - generic [ref=f18e1021]:
+                            - generic [ref=f18e1022]: 최고기온
+                            - text: 26°
+                    - listitem [ref=f18e1023]:
+                      - generic [ref=f18e1024]:
+                        - generic [ref=f18e1026]:
+                          - strong [ref=f18e1027]: 토
+                          - generic [ref=f18e1028]: 9.12.
+                        - generic [ref=f18e1029]:
+                          - generic [ref=f18e1030]:
+                            - generic [ref=f18e1031]: 10%
+                            - generic [ref=f18e1033]: 맑음
+                          - generic [ref=f18e1035]:
+                            - generic [ref=f18e1036]: 10%
+                            - generic [ref=f18e1038]: 맑음
+                        - generic [ref=f18e1041]:
+                          - generic [ref=f18e1042]:
+                            - generic [ref=f18e1043]: 최저기온
+                            - text: 17°
+                          - generic [ref=f18e1044]:
+                            - generic [ref=f18e1045]: 최고기온
+                            - text: 27°
+                    - listitem [ref=f18e1046]:
+                      - generic [ref=f18e1047]:
+                        - generic [ref=f18e1049]:
+                          - strong [ref=f18e1050]: 일
+                          - generic [ref=f18e1051]: 9.13.
+                        - generic [ref=f18e1052]:
+                          - generic [ref=f18e1053]:
+                            - generic [ref=f18e1054]: 20%
+                            - generic [ref=f18e1056]: 구름많음
+                          - generic [ref=f18e1058]:
+                            - generic [ref=f18e1059]: 20%
+                            - generic [ref=f18e1061]: 구름많음
+                        - generic [ref=f18e1064]:
+                          - generic [ref=f18e1065]:
+                            - generic [ref=f18e1066]: 최저기온
+                            - text: 18°
+                          - generic [ref=f18e1067]:
+                            - generic [ref=f18e1068]: 최고기온
+                            - text: 28°
+                    - listitem [ref=f18e1069]:
+                      - generic [ref=f18e1070]:
+                        - generic [ref=f18e1072]:
+                          - strong [ref=f18e1073]: 월
+                          - generic [ref=f18e1074]: 9.14.
+                        - generic [ref=f18e1075]:
+                          - generic [ref=f18e1076]:
+                            - generic [ref=f18e1077]: 20%
+                            - generic [ref=f18e1079]: 구름많음
+                          - generic [ref=f18e1081]:
+                            - generic [ref=f18e1082]: 20%
+                            - generic [ref=f18e1084]: 구름많음
+                        - generic [ref=f18e1087]:
+                          - generic [ref=f18e1088]:
+                            - generic [ref=f18e1089]: 최저기온
+                            - text: 19°
+                          - generic [ref=f18e1090]:
+                            - generic [ref=f18e1091]: 최고기온
+                            - text: 27°
+                    - listitem [ref=f18e1092]:
+                      - generic [ref=f18e1093]:
+                        - generic [ref=f18e1095]:
+                          - strong [ref=f18e1096]: 화
+                          - generic [ref=f18e1097]: 9.15.
+                        - generic [ref=f18e1098]:
+                          - generic [ref=f18e1099]:
+                            - generic [ref=f18e1100]: 20%
+                            - generic [ref=f18e1102]: 구름많음
+                          - generic [ref=f18e1104]:
+                            - generic [ref=f18e1105]: 20%
+                            - generic [ref=f18e1107]: 구름많음
+                        - generic [ref=f18e1110]:
+                          - generic [ref=f18e1111]:
+                            - generic [ref=f18e1112]: 최저기온
+                            - text: 18°
+                          - generic [ref=f18e1113]:
+                            - generic [ref=f18e1114]: 최고기온
+                            - text: 27°
+                    - listitem [ref=f18e1115]:
+                      - generic [ref=f18e1116]:
+                        - generic [ref=f18e1118]:
+                          - strong [ref=f18e1119]: 수
+                          - generic [ref=f18e1120]: 9.16.
+                        - generic [ref=f18e1121]:
+                          - generic [ref=f18e1122]:
+                            - generic [ref=f18e1123]: 20%
+                            - generic [ref=f18e1125]: 구름많음
+                          - generic [ref=f18e1127]:
+                            - generic [ref=f18e1128]: 20%
+                            - generic [ref=f18e1130]: 구름많음
+                        - generic [ref=f18e1133]:
+                          - generic [ref=f18e1134]:
+                            - generic [ref=f18e1135]: 최저기온
+                            - text: 18°
+                          - generic [ref=f18e1136]:
+                            - generic [ref=f18e1137]: 최고기온
+                            - text: 27°
+                - paragraph [ref=f18e1139]:
+                  - link "기상청," [ref=f18e1140] [cursor=pointer]:
+                    - /url: https://www.weather.go.kr/w/index.do
+                  - link "웨더아이" [ref=f18e1141] [cursor=pointer]:
+                    - /url: http://www.weatheri.co.kr/
+                  - text: 제공, 업데이트 기준
+                  - button "도움말" [ref=f18e1142] [cursor=pointer]
+                - generic [ref=f18e1146]:
+                  - term [ref=f18e1147]: 관련
+                  - definition [ref=f18e1148]:
+                    - link "날씨뉴스" [ref=f18e1149] [cursor=pointer]:
+                      - /url: https://weather.naver.com/news
+                    - text: ","
+                    - link "전국날씨" [ref=f18e1150] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_etc&qvt=0&query=%EC%A0%84%EA%B5%AD%EB%82%A0%EC%94%A8"
+                    - text: ","
+                    - link "기상특보" [ref=f18e1151] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_etc&qvt=0&query=%EA%B8%B0%EC%83%81%ED%8A%B9%EB%B3%B4"
+              - link "날씨 더보기" [ref=f18e1153] [cursor=pointer]:
+                - /url: https://weather.naver.com/today/09200660?cpName=KMA
+                - generic [ref=f18e1154]: 날씨
+                - generic [ref=f18e1155]: 더보기
+          - generic [ref=f18e1159]:
+            - generic [ref=f18e1161]:
+              - heading "뉴스" [level=2] [ref=f18e1163]
+              - generic [ref=f18e1165]:
+                - link "관련도순" [ref=f18e1166] [cursor=pointer]:
+                  - /url: "?nso=so%3Ar%2Cp%3Aall%2Ca%3Aall&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_smr&sort=0&ssc=tab.news.all"
+                - link "최신순" [ref=f18e1171] [cursor=pointer]:
+                  - /url: "?nso=so%3Add%2Cp%3Aall%2Ca%3Aall&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_smr&sort=1&ssc=tab.news.all"
+                - link "모바일 메인 언론사" [ref=f18e1176] [cursor=pointer]:
+                  - /url: "?nso=so%3Ar%2Cp%3Aall%2Ca%3Aall&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&service_area=1&sm=tab_smr&sort=0&ssc=tab.news.all"
+                  - switch "모바일 메인 언론사"
+            - generic [ref=f18e1177]:
+              - generic [ref=f18e1178]:
+                - generic [ref=f18e1179]:
+                  - generic [ref=f18e1180]:
+                    - link "채널A의 프로필 이미지 새 창 열림" [ref=f18e1182] [cursor=pointer]:
+                      - /url: https://media.naver.com/press/449
+                      - img "채널A의 프로필 이미지" [ref=f18e1185]
+                      - generic [ref=f18e1186]: 새 창 열림
+                    - link "채널A 새 창 열림" [ref=f18e1189] [cursor=pointer]:
+                      - /url: https://media.naver.com/press/449
+                      - generic [ref=f18e1190]: 채널A
+                      - generic [ref=f18e1191]: 새 창 열림
+                    - generic [ref=f18e1192]:
+                      - generic [ref=f18e1194]: 21분 전
+                      - link "네이버뉴스 새 창 열림" [ref=f18e1199] [cursor=pointer]:
+                        - /url: https://n.news.naver.com/mnews/article/449/0000359679?sid=115
+                        - generic [ref=f18e1200]: 네이버뉴스
+                        - generic [ref=f18e1201]: 새 창 열림
+                  - button "옵션 메뉴 열기" [ref=f18e1203] [cursor=pointer]
+                - generic [ref=f18e1208]:
+                  - generic [ref=f18e1209]:
+                    - link "[날씨]‘한낮 29도’ 쾌청한 초가을…동해안 약한 비 새 창 열림" [ref=f18e1210] [cursor=pointer]:
+                      - /url: https://www.ichannela.com/news/main/news_detailPage.do?publishId=000000549047
+                      - generic [ref=f18e1211]:
+                        - text: "["
+                        - mark [ref=f18e1212]: 날씨
+                        - text: "]‘한낮 29도’ 쾌청한 초가을…동해안 약한 비"
+                      - generic [ref=f18e1213]: 새 창 열림
+                    - link "주말에 이어 오늘도 쾌청한 초가을 날씨가 반겨줍니다. 살랑살랑 시원한 가을바람도 불어오는데요. 아침저녁으로는 선선하고 낮에는 반짝 기온이 오르겠습니다. 전국 하늘 대체로 맑은 가운데 서울의 오늘 아침 기온 18.4도로 이맘때 기온 보였고요. 한낮엔 29도까지 올라 평년 기온을 조금 웃돌겠습니다.... 새 창 열림" [ref=f18e1214] [cursor=pointer]:
+                      - /url: https://www.ichannela.com/news/main/news_detailPage.do?publishId=000000549047
+                      - generic [ref=f18e1215]:
+                        - text: 주말에 이어
+                        - mark [ref=f18e1216]: 오늘
+                        - text: 도 쾌청한 초가을
+                        - mark [ref=f18e1217]: 날씨
+                        - text: 가 반겨줍니다. 살랑살랑 시원한 가을바람도 불어오는데요. 아침저녁으로는 선선하고 낮에는 반짝 기온이 오르겠습니다. 전국 하늘 대체로 맑은 가운데 서울의
+                        - mark [ref=f18e1218]: 오늘
+                        - text: 아침 기온 18.4도로 이맘때 기온 보였고요. 한낮엔 29도까지 올라 평년 기온을 조금 웃돌겠습니다....
+                      - generic [ref=f18e1219]: 새 창 열림
+                  - link "[<mark>날씨</mark>]‘한낮 29도’ 쾌청한 초가을…동해안 약한 비의 이미지 새 창 열림" [ref=f18e1220] [cursor=pointer]:
+                    - /url: https://www.ichannela.com/news/main/news_detailPage.do?publishId=000000549047
+                    - img "[<mark>날씨</mark>]‘한낮 29도’ 쾌청한 초가을…동해안 약한 비의 이미지" [ref=f18e1222]
+                    - generic [ref=f18e1226]: 새 창 열림
+              - generic [ref=f18e1228]:
+                - generic [ref=f18e1229]:
+                  - generic [ref=f18e1230]:
+                    - link "YTN사이언스의 프로필 이미지 새 창 열림" [ref=f18e1232] [cursor=pointer]:
+                      - /url: https://science.ytn.co.kr/
+                      - img "YTN사이언스의 프로필 이미지" [ref=f18e1236]
+                      - generic [ref=f18e1237]: 새 창 열림
+                    - link "YTN사이언스 새 창 열림" [ref=f18e1240] [cursor=pointer]:
+                      - /url: https://science.ytn.co.kr/
+                      - generic [ref=f18e1241]: YTN사이언스
+                      - generic [ref=f18e1242]: 새 창 열림
+                    - generic [ref=f18e1243]: 38분 전
+                  - button "옵션 메뉴 열기" [ref=f18e1249] [cursor=pointer]
+                - generic [ref=f18e1254]:
+                  - generic [ref=f18e1255]:
+                    - link "[날씨] 오늘(월) 전국 대체로 맑아…동해안 흐리고 일부 아침까지 비 새 창 열림" [ref=f18e1256] [cursor=pointer]:
+                      - /url: https://science.ytn.co.kr/weather/weather_view.php?s_mcd=1000&key=202609070612120001
+                      - generic [ref=f18e1257]:
+                        - text: "["
+                        - mark [ref=f18e1258]: 날씨
+                        - text: "]"
+                        - mark [ref=f18e1259]: 오늘
+                        - text: (월) 전국 대체로 맑아…동해안 흐리고 일부 아침까지 비
+                      - generic [ref=f18e1260]: 새 창 열림
+                    - link "오늘(7일·월)은 전국이 대체로 맑겠으나, 동해안은 흐리고 경북남부동해안과 울산에는 아침까지 비가 내리겠다. 민간기상기업 케이웨더에 따르면, 중국 북동지방에서 동쪽으로 이동하는 고기압의 가장자리에 들겠다. 전국이 대체로 맑겠고, 제주도는 흐리다가 차차 개겠다. 동해안은 대체로 흐린... 새 창 열림" [ref=f18e1261] [cursor=pointer]:
+                      - /url: https://science.ytn.co.kr/weather/weather_view.php?s_mcd=1000&key=202609070612120001
+                      - generic [ref=f18e1262]:
+                        - mark [ref=f18e1263]: 오늘
+                        - text: (7일·월)은 전국이 대체로 맑겠으나, 동해안은 흐리고 경북남부동해안과 울산에는 아침까지 비가 내리겠다. 민간기상기업 케이웨더에 따르면, 중국 북동지방에서 동쪽으로 이동하는 고기압의 가장자리에 들겠다. 전국이 대체로 맑겠고, 제주도는 흐리다가 차차 개겠다. 동해안은 대체로 흐린...
+                      - generic [ref=f18e1264]: 새 창 열림
+                  - link "[<mark>날씨</mark>] <mark>오늘</mark>(월) 전국 대체로 맑아…동해안 흐리고 일부 아침까지 비의 이미지 새 창 열림" [ref=f18e1265] [cursor=pointer]:
+                    - /url: https://science.ytn.co.kr/weather/weather_view.php?s_mcd=1000&key=202609070612120001
+                    - img "[<mark>날씨</mark>] <mark>오늘</mark>(월) 전국 대체로 맑아…동해안 흐리고 일부 아침까지 비의 이미지" [ref=f18e1267]
+                    - generic [ref=f18e1269]: 새 창 열림
+              - generic [ref=f18e1271]:
+                - generic [ref=f18e1272]:
+                  - generic [ref=f18e1273]:
+                    - link "연합뉴스TV의 프로필 이미지 새 창 열림" [ref=f18e1275] [cursor=pointer]:
+                      - /url: https://media.naver.com/press/422
+                      - img "연합뉴스TV의 프로필 이미지" [ref=f18e1278]
+                      - generic [ref=f18e1279]: 새 창 열림
+                    - link "연합뉴스TV 새 창 열림" [ref=f18e1282] [cursor=pointer]:
+                      - /url: https://media.naver.com/press/422
+                      - generic [ref=f18e1283]: 연합뉴스TV
+                      - generic [ref=f18e1284]: 새 창 열림
+                    - generic [ref=f18e1287]:
+                      - generic [ref=f18e1289]: 7시간 전
+                      - link "네이버뉴스 새 창 열림" [ref=f18e1294] [cursor=pointer]:
+                        - /url: https://n.news.naver.com/mnews/article/422/0000903417?sid=103
+                        - generic [ref=f18e1295]: 네이버뉴스
+                        - generic [ref=f18e1296]: 새 창 열림
+                  - button "옵션 메뉴 열기" [ref=f18e1298] [cursor=pointer]
+                - generic [ref=f18e1303]:
+                  - generic [ref=f18e1304]:
+                    - link "[날씨클릭] 절기 '백로', 선선한 가을…강풍 속 동해안·제주 비 새 창 열림" [ref=f18e1305] [cursor=pointer]:
+                      - /url: http://www.yonhapnewstv.co.kr/news/MYH20260907061946lNH
+                      - generic [ref=f18e1306]:
+                        - text: "["
+                        - mark [ref=f18e1307]: 날씨
+                        - text: 클릭] 절기 '백로', 선선한 가을…강풍 속 동해안·제주 비
+                      - generic [ref=f18e1308]: 새 창 열림
+                    - link "자세한 날씨 기상캐스터와 함께 알아보겠습니다. 양윤진 캐스터, 이제 더위 걱정은 없는 건가요? [캐스터] 네, 그렇습니다. 오늘은 밤 기온이 내려가 풀잎에 하얀 이슬이 맺힌다는 절기 '백로' 인데요. 아침저녁으로 선선하고 한낮에는 온화해 가을이 더욱 깊어지고 있습니다. 다만, 10도 안팎 벌어지는... 새 창 열림" [ref=f18e1309] [cursor=pointer]:
+                      - /url: http://www.yonhapnewstv.co.kr/news/MYH20260907061946lNH
+                      - generic [ref=f18e1310]:
+                        - text: 자세한
+                        - mark [ref=f18e1311]: 날씨
+                        - text: 기상캐스터와 함께 알아보겠습니다. 양윤진 캐스터, 이제 더위 걱정은 없는 건가요? [캐스터] 네, 그렇습니다.
+                        - mark [ref=f18e1312]: 오늘
+                        - text: 은 밤 기온이 내려가 풀잎에 하얀 이슬이 맺힌다는 절기 '백로' 인데요. 아침저녁으로 선선하고 한낮에는 온화해 가을이 더욱 깊어지고 있습니다. 다만, 10도 안팎 벌어지는...
+                      - generic [ref=f18e1313]: 새 창 열림
+                  - link "[<mark>날씨</mark>클릭] 절기 '백로', 선선한 가을…강풍 속 동해안·제주 비의 이미지 새 창 열림" [ref=f18e1314] [cursor=pointer]:
+                    - /url: http://www.yonhapnewstv.co.kr/news/MYH20260907061946lNH
+                    - img "[<mark>날씨</mark>클릭] 절기 '백로', 선선한 가을…강풍 속 동해안·제주 비의 이미지" [ref=f18e1316]
+                    - generic [ref=f18e1320]: 새 창 열림
+                - generic [ref=f18e1323]:
+                  - generic [ref=f18e1324]:
+                    - link "[날씨] 맑고 선선한 초가을 날씨…오후까지 강한 바람 새 창 열림" [ref=f18e1325] [cursor=pointer]:
+                      - /url: http://www.yonhapnewstv.co.kr/news/MYH20260907080952UcS
+                      - generic [ref=f18e1326]:
+                        - text: "["
+                        - mark [ref=f18e1327]: 날씨
+                        - text: "] 맑고 선선한 초가을"
+                        - mark [ref=f18e1328]: 날씨
+                        - text: …오후까지 강한 바람
+                      - generic [ref=f18e1329]: 새 창 열림
+                    - generic [ref=f18e1331]:
+                      - generic [ref=f18e1332]: 연합뉴스TV
+                      - generic [ref=f18e1336]:
+                        - generic [ref=f18e1338]: 5시간 전
+                        - link "네이버뉴스 새 창 열림" [ref=f18e1343] [cursor=pointer]:
+                          - /url: https://n.news.naver.com/mnews/article/422/0000903433?sid=103
+                          - generic [ref=f18e1344]: 네이버뉴스
+                          - generic [ref=f18e1345]: 새 창 열림
+                  - generic [ref=f18e1346]:
+                    - link "[날씨] 절기 '백로' 맑고 선선…동해안·제주 가끔 비 새 창 열림" [ref=f18e1347] [cursor=pointer]:
+                      - /url: http://www.yonhapnewstv.co.kr/news/MYH20260907072239jem
+                      - generic [ref=f18e1348]:
+                        - text: "["
+                        - mark [ref=f18e1349]: 날씨
+                        - text: "] 절기 '백로' 맑고 선선…동해안·제주 가끔 비"
+                      - generic [ref=f18e1350]: 새 창 열림
+                    - generic [ref=f18e1352]:
+                      - generic [ref=f18e1353]: 연합뉴스TV
+                      - generic [ref=f18e1357]:
+                        - generic [ref=f18e1359]: 6시간 전
+                        - link "네이버뉴스 새 창 열림" [ref=f18e1364] [cursor=pointer]:
+                          - /url: https://n.news.naver.com/mnews/article/422/0000903423?sid=103
+                          - generic [ref=f18e1365]: 네이버뉴스
+                          - generic [ref=f18e1366]: 새 창 열림
+                - link "관련뉴스 전체보기" [ref=f18e1369] [cursor=pointer]:
+                  - /url: "?de=&docid=4220000903417&ds=&field=0&mynews=0&news_office_checked=&nso=so%3Ar%2Cp%3Aall%2Ca%3Aall&office_section_code=0&office_type=0&pd=-1&photo=0&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&related=1&sm=tab_tnw&sort=0&ssc=tab.news.all"
+              - generic [ref=f18e1371]:
+                - generic [ref=f18e1372]:
+                  - generic [ref=f18e1373]:
+                    - link "YTN의 프로필 이미지 새 창 열림" [ref=f18e1375] [cursor=pointer]:
+                      - /url: https://media.naver.com/press/052
+                      - img "YTN의 프로필 이미지" [ref=f18e1378]
+                      - generic [ref=f18e1379]: 새 창 열림
+                    - link "YTN 새 창 열림" [ref=f18e1382] [cursor=pointer]:
+                      - /url: https://media.naver.com/press/052
+                      - generic [ref=f18e1383]: YTN
+                      - generic [ref=f18e1384]: 새 창 열림
+                    - generic [ref=f18e1385]:
+                      - generic [ref=f18e1387]: 51분 전
+                      - link "네이버뉴스 새 창 열림" [ref=f18e1392] [cursor=pointer]:
+                        - /url: https://n.news.naver.com/mnews/article/052/0002403742?sid=103
+                        - generic [ref=f18e1393]: 네이버뉴스
+                        - generic [ref=f18e1394]: 새 창 열림
+                  - button "옵션 메뉴 열기" [ref=f18e1396] [cursor=pointer]
+                - generic [ref=f18e1401]:
+                  - generic [ref=f18e1402]:
+                    - link "[날씨] 절기 '백로', 쾌청한 가을 하늘...해상엔 '풍랑특보' 새 창 열림" [ref=f18e1403] [cursor=pointer]:
+                      - /url: https://www.ytn.co.kr/_ln/0108_202609071303249879
+                      - generic [ref=f18e1404]:
+                        - text: "["
+                        - mark [ref=f18e1405]: 날씨
+                        - text: "] 절기 '백로', 쾌청한 가을 하늘...해상엔 '풍랑특보'"
+                      - generic [ref=f18e1406]: 새 창 열림
+                    - link "절기 '백로'인 오늘, 일교차 큰 초가을 날씨가 이어지고 있습니다. 다만 전국적으로 바람이 강하게 부는 가운데, 해상에는 풍랑특보가 발효 중인데요. 자세한 날씨 기상 캐스터 연결해 알아보겠습니다. 윤수빈 캐스터! 오늘 아침 공기는 선선했는데, 낮 동안 기온이 좀 올랐습니까? [캐스터] 네, 오늘은 가을의 세... 새 창 열림" [ref=f18e1407] [cursor=pointer]:
+                      - /url: https://www.ytn.co.kr/_ln/0108_202609071303249879
+                      - generic [ref=f18e1408]:
+                        - text: 절기 '백로'인
+                        - mark [ref=f18e1409]: 오늘
+                        - text: ", 일교차 큰 초가을"
+                        - mark [ref=f18e1410]: 날씨
+                        - text: 가 이어지고 있습니다. 다만 전국적으로 바람이 강하게 부는 가운데, 해상에는 풍랑특보가 발효 중인데요. 자세한
+                        - mark [ref=f18e1411]: 날씨
+                        - text: 기상 캐스터 연결해 알아보겠습니다. 윤수빈 캐스터!
+                        - mark [ref=f18e1412]: 오늘
+                        - text: 아침 공기는 선선했는데, 낮 동안 기온이 좀 올랐습니까? [캐스터] 네,
+                        - mark [ref=f18e1413]: 오늘
+                        - text: 은 가을의 세...
+                      - generic [ref=f18e1414]: 새 창 열림
+                  - link "[<mark>날씨</mark>] 절기 '백로', 쾌청한 가을 하늘...해상엔 '풍랑특보'의 이미지 새 창 열림" [ref=f18e1415] [cursor=pointer]:
+                    - /url: https://www.ytn.co.kr/_ln/0108_202609071303249879
+                    - img "[<mark>날씨</mark>] 절기 '백로', 쾌청한 가을 하늘...해상엔 '풍랑특보'의 이미지" [ref=f18e1417]
+                    - generic [ref=f18e1421]: 새 창 열림
+              - link "언론사가 선정한 주요기사 혹은 심층기획 기사입니다. 새 창 열림" [ref=f18e1424] [cursor=pointer]:
+                - /url: https://news.naver.com/main/static/channelPromotion.html
+                - generic [ref=f18e1425]: 언론사가 선정한 주요기사 혹은 심층기획 기사입니다.
+                - generic [ref=f18e1429]: 새 창 열림
+            - link "뉴스 더보기" [ref=f18e1431] [cursor=pointer]:
+              - /url: "?nso=so%3Ar%2Cp%3Aall%2Ca%3Aall&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_smr&sort=0&ssc=tab.news.all"
+              - generic [ref=f18e1436]:
+                - generic [ref=f18e1437]: 뉴스
+                - generic [ref=f18e1438]: 더보기
+          - generic [ref=f18e1442]:
+            - generic [ref=f18e1447]:
+              - generic [ref=f18e1448]:
+                - generic [ref=f18e1449]:
+                  - link "기상청 날씨누리 www.weather.go.kr 새 창 열림" [ref=f18e1450] [cursor=pointer]:
+                    - /url: https://www.weather.go.kr/
+                    - generic [ref=f18e1452]:
+                      - generic [ref=f18e1456]: 기상청 날씨누리
+                      - generic [ref=f18e1458]: www.weather.go.kr
+                    - generic [ref=f18e1462]: 새 창 열림
+                  - button "옵션 메뉴 열기" [ref=f18e1464] [cursor=pointer]
+                - generic [ref=f18e1469]:
+                  - link "기상청 날씨누리 새 창 열림" [ref=f18e1471] [cursor=pointer]:
+                    - /url: https://www.weather.go.kr/
+                    - generic [ref=f18e1472]:
+                      - mark [ref=f18e1473]: 기상
+                      - text: 청
+                      - mark [ref=f18e1474]: 날씨
+                      - text: 누리
+                    - generic [ref=f18e1475]: 새 창 열림
+                  - generic [ref=f18e1476]:
+                    - link "레이더·낙뢰 새 창 열림" [ref=f18e1477] [cursor=pointer]:
+                      - /url: https://www.weather.go.kr/w/weather/radar/radar.do
+                      - generic [ref=f18e1478]: 레이더·낙뢰
+                      - generic [ref=f18e1479]: 새 창 열림
+                    - link "예보 종합 새 창 열림" [ref=f18e1480] [cursor=pointer]:
+                      - /url: https://www.weather.go.kr/w/forecast/overall/short-term.do
+                      - generic [ref=f18e1481]: 예보 종합
+                      - generic [ref=f18e1482]: 새 창 열림
+                    - link "현재날씨 새 창 열림" [ref=f18e1483] [cursor=pointer]:
+                      - /url: https://www.weather.go.kr/w/weather/land.do
+                      - generic [ref=f18e1484]: 현재날씨
+                      - generic [ref=f18e1485]: 새 창 열림
+                    - link "특보·예보 새 창 열림" [ref=f18e1486] [cursor=pointer]:
+                      - /url: https://www.weather.go.kr/w/special-report/overall.do
+                      - generic [ref=f18e1487]: 특보·예보
+                      - generic [ref=f18e1488]: 새 창 열림
+                    - link "위험기상 새 창 열림" [ref=f18e1489] [cursor=pointer]:
+                      - /url: https://www.weather.go.kr/w/hazard/typhoon.do
+                      - generic [ref=f18e1490]: 위험기상
+                      - generic [ref=f18e1491]: 새 창 열림
+                    - link "위성 새 창 열림" [ref=f18e1492] [cursor=pointer]:
+                      - /url: https://www.weather.go.kr/w/weather/satellite.do
+                      - generic [ref=f18e1493]: 위성
+                      - generic [ref=f18e1494]: 새 창 열림
+                  - link "지역별 기온, 강수, 바람, 폭염, 태풍, 미세먼지 등 날씨 정보 제공. 새 창 열림" [ref=f18e1496] [cursor=pointer]:
+                    - /url: https://www.weather.go.kr/
+                    - generic [ref=f18e1497]:
+                      - text: 지역별 기온, 강수, 바람, 폭염, 태풍, 미세먼지 등
+                      - mark [ref=f18e1498]: 날씨
+                      - text: 정보 제공.
+                    - generic [ref=f18e1499]: 새 창 열림
+              - generic [ref=f18e1500]:
+                - generic [ref=f18e1502]:
+                  - link "예보 종합 - 단기예보 새 창 열림" [ref=f18e1503] [cursor=pointer]:
+                    - /url: https://www.weather.go.kr/w/forecast/overall/short-term.do
+                    - generic [ref=f18e1504]: 예보 종합 - 단기예보
+                    - generic [ref=f18e1505]: 새 창 열림
+                  - generic [ref=f18e1507]:
+                    - text: □ (종합) 내일~모레 동해안 중심 가끔 비, 당분간 강풍과 풍랑, 너울 유의 ○ (
+                    - mark [ref=f18e1508]: 오늘
+                    - text: ", 7일) 전국 대체로 맑겠으나, 강원동해안.산지와 경상권해안 구름많고, 제주도 대체로 흐림, 낮(12~15시)까지 강원동해안.산지 곳에 따라 0.1mm 미만 빗방울 ○ (내일~모레, 8~9일) 전국 대체로 맑겠으나, 수도권과 강원내륙 가끔 구름많겠고, 강원동해안.산지와 경북동해안.북동산지 대체로 흐림, 내일...."
+                - link "관련문서 더보기" [ref=f18e1510] [cursor=pointer]:
+                  - /url: "?page=2&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8+site%3Awww.weather.go.kr&qvt=0&ssc=tab.ur.all"
+            - generic [ref=f18e1518]:
+              - generic [ref=f18e1519]:
+                - generic [ref=f18e1520]:
+                  - link "네이버 날씨 weather.naver.com 새 창 열림" [ref=f18e1521] [cursor=pointer]:
+                    - /url: https://weather.naver.com/
+                    - generic [ref=f18e1523]:
+                      - generic [ref=f18e1527]: 네이버 날씨
+                      - generic [ref=f18e1529]: weather.naver.com
+                    - generic [ref=f18e1533]: 새 창 열림
+                  - button "옵션 메뉴 열기" [ref=f18e1535] [cursor=pointer]
+                - generic [ref=f18e1540]:
+                  - link "네이버 날씨 홈 새 창 열림" [ref=f18e1542] [cursor=pointer]:
+                    - /url: https://weather.naver.com/
+                    - generic [ref=f18e1543]:
+                      - text: 네이버
+                      - mark [ref=f18e1544]: 날씨
+                      - text: 홈
+                    - generic [ref=f18e1545]: 새 창 열림
+                  - generic [ref=f18e1546]:
+                    - link "초단기강수예측 새 창 열림" [ref=f18e1547] [cursor=pointer]:
+                      - /url: https://weather.naver.com/map?visualMapType=maple
+                      - generic [ref=f18e1548]: 초단기강수예측
+                      - generic [ref=f18e1549]: 새 창 열림
+                    - link "제보톡 새 창 열림" [ref=f18e1550] [cursor=pointer]:
+                      - /url: https://weather.naver.com/today/talk
+                      - generic [ref=f18e1551]: 제보톡
+                      - generic [ref=f18e1552]: 새 창 열림
+                    - link "예보비교 새 창 열림" [ref=f18e1553] [cursor=pointer]:
+                      - /url: https://weather.naver.com/compare/02135580
+                      - generic [ref=f18e1554]: 예보비교
+                      - generic [ref=f18e1555]: 새 창 열림
+                    - link "세이프티 새 창 열림" [ref=f18e1556] [cursor=pointer]:
+                      - /url: https://weather.naver.com/safety
+                      - generic [ref=f18e1557]: 세이프티
+                      - generic [ref=f18e1558]: 새 창 열림
+                    - link "미세먼지 새 창 열림" [ref=f18e1559] [cursor=pointer]:
+                      - /url: https://weather.naver.com/air/02135580
+                      - generic [ref=f18e1560]: 미세먼지
+                      - generic [ref=f18e1561]: 새 창 열림
+                    - link "지도 새 창 열림" [ref=f18e1562] [cursor=pointer]:
+                      - /url: https://weather.naver.com/map/02135580
+                      - generic [ref=f18e1563]: 지도
+                      - generic [ref=f18e1564]: 새 창 열림
+                    - link "영상 새 창 열림" [ref=f18e1565] [cursor=pointer]:
+                      - /url: https://weather.naver.com/video/02135580
+                      - generic [ref=f18e1566]: 영상
+                      - generic [ref=f18e1567]: 새 창 열림
+                  - link "전국 모든 읍・면・동의 현재 날씨와 시간별 예보, 주간 예보를 제공합니다. 새 창 열림" [ref=f18e1569] [cursor=pointer]:
+                    - /url: https://weather.naver.com/
+                    - generic [ref=f18e1570]:
+                      - text: 전국 모든 읍・면・동의 현재
+                      - mark [ref=f18e1571]: 날씨
+                      - text: 와 시간별 예보, 주간 예보를 제공합니다.
+                    - generic [ref=f18e1572]: 새 창 열림
+              - generic [ref=f18e1573]:
+                - generic [ref=f18e1575]:
+                  - link "대구CC - 네이버 날씨 홈 새 창 열림" [ref=f18e1576] [cursor=pointer]:
+                    - /url: https://weather.naver.com/today/LSGF0256
+                    - generic [ref=f18e1577]:
+                      - text: 대구CC - 네이버
+                      - mark [ref=f18e1578]: 날씨
+                      - text: 홈
+                    - generic [ref=f18e1579]: 새 창 열림
+                  - generic [ref=f18e1581]:
+                    - text: 전국 모든 읍・면・동의 현재
+                    - mark [ref=f18e1582]: 날씨
+                    - text: 와 시간별 예보, 주간 예보를 제공합니다.
+                - link "관련문서 더보기" [ref=f18e1584] [cursor=pointer]:
+                  - /url: "?page=2&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8+site%3Aweather.naver.com&qvt=0&ssc=tab.ur.all"
+            - generic [ref=f18e1593]:
+              - generic [ref=f18e1594]:
+                - generic [ref=f18e1595]:
+                  - link "OBS뉴스 새 창 열림" [ref=f18e1597] [cursor=pointer]:
+                    - /url: https://www.youtube.com/channel/UComhAmtkBwTPF_PvwN8Gc6w
+                    - img "OBS뉴스" [ref=f18e1600]
+                    - generic [ref=f18e1601]: 새 창 열림
+                  - link "OBS뉴스 새 창 열림" [ref=f18e1604] [cursor=pointer]:
+                    - /url: https://www.youtube.com/channel/UComhAmtkBwTPF_PvwN8Gc6w
+                    - generic [ref=f18e1605]: OBS뉴스
+                    - generic [ref=f18e1606]: 새 창 열림
+                  - generic [ref=f18e1609]:
+                    - link "YouTube 새 창 열림" [ref=f18e1612] [cursor=pointer]:
+                      - /url: https://www.youtube.com
+                      - generic [ref=f18e1613]: YouTube
+                      - generic [ref=f18e1614]: 새 창 열림
+                    - generic [ref=f18e1616]: 22시간 전
+                - button "옵션 메뉴 열기" [ref=f18e1619] [cursor=pointer]
+              - generic [ref=f18e1624]:
+                - generic [ref=f18e1625]:
+                  - link "[9월 6일 날씨] 일요일 맑고 청명한 초가을 하늘... 영남권·제주 강풍주의보..비 조심 (문지영 기상.... 새 창 열림" [ref=f18e1626] [cursor=pointer]:
+                    - /url: https://www.youtube.com/watch?v=yVqg4gvRwbs
+                    - generic [ref=f18e1627]:
+                      - text: "[9월 6일"
+                      - mark [ref=f18e1628]: 날씨
+                      - text: "] 일요일 맑고 청명한 초가을 하늘... 영남권·제주 강풍주의보..비 조심 (문지영"
+                      - mark [ref=f18e1629]: 기상
+                      - text: ....
+                    - generic [ref=f18e1630]: 새 창 열림
+                  - 'link "#오늘의날씨 #문지영기상캐스터 #비 #바람 #기온 【기상캐스터】 휴일인 오늘 맑고 청명한 초가을 하늘을 보이고 있습니다. 다만 강원동해안과 산지, 영남과 제주도는 흐린 가운데 곳곳으로 비가 내리겠는데요. 동해안과 제주도에는 내일 오전까지 이어지겠고, 강수량은 동해안과 제주도해안에 5~10mm, 제주산간으로는 10~40mm가 예상됩니다. 현재... 새 창 열림" [ref=f18e1631] [cursor=pointer]':
+                    - /url: https://www.youtube.com/watch?v=yVqg4gvRwbs
+                    - generic [ref=f18e1632]:
+                      - text: "#"
+                      - mark [ref=f18e1633]: 오늘
+                      - text: 의
+                      - mark [ref=f18e1634]: 날씨
+                      - text: "#문지영"
+                      - mark [ref=f18e1635]: 기상
+                      - text: "캐스터 #비 #바람 #기온 【"
+                      - mark [ref=f18e1636]: 기상
+                      - text: 캐스터】 휴일인
+                      - mark [ref=f18e1637]: 오늘
+                      - text: 맑고 청명한 초가을 하늘을 보이고 있습니다. 다만 강원동해안과 산지, 영남과 제주도는 흐린 가운데 곳곳으로 비가 내리겠는데요. 동해안과 제주도에는 내일 오전까지 이어지겠고, 강수량은 동해안과 제주도해안에 5~10mm, 제주산간으로는 10~40mm가 예상됩니다. 현재...
+                    - generic [ref=f18e1638]: 새 창 열림
+                - link "[9월 6일 날씨] 일요일 맑고 청명한 초가을 하늘... 영남권·제주 강풍주의보..비 조심 (문지영 기상.... 01:28" [ref=f18e1641] [cursor=pointer]:
+                  - /url: https://www.youtube.com/watch?v=yVqg4gvRwbs
+                  - img "[9월 6일 날씨] 일요일 맑고 청명한 초가을 하늘... 영남권·제주 강풍주의보..비 조심 (문지영 기상...." [ref=f18e1642]
+                  - generic [ref=f18e1643]: 01:28
+          - generic [ref=f18e2882]:
+            - generic [ref=f18e2885]:
+              - generic [ref=f18e2886]: 함께 많이 찾는
+              - button "정보 확인 도움말" [ref=f18e2887] [cursor=pointer]
+            - generic [ref=f18e2894]:
+              - generic [ref=f18e2896]:
+                - generic [ref=f18e2899]:
+                  - generic [ref=f18e2900]:
+                    - link "오늘 서울 날씨" [ref=f18e2902] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%20%EC%84%9C%EC%9A%B8%20%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e2905]:
+                        - text: 오늘
+                        - mark [ref=f18e2906]: 서울
+                        - text: 날씨
+                    - link "오늘 전국 날씨" [ref=f18e2913] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%20%EC%A0%84%EA%B5%AD%20%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e2916]:
+                        - text: 오늘
+                        - mark [ref=f18e2917]: 전국
+                        - text: 날씨
+                  - generic [ref=f18e2922]:
+                    - link "오늘부산날씨" [ref=f18e2924] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%EB%B6%80%EC%82%B0%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e2927]:
+                        - text: 오늘
+                        - mark [ref=f18e2928]: 부산
+                        - text: 날씨
+                    - link "오늘 인천 날씨" [ref=f18e2934] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%20%EC%9D%B8%EC%B2%9C%20%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e2937]:
+                        - text: 오늘
+                        - mark [ref=f18e2938]: 인천
+                        - text: 날씨
+                  - generic [ref=f18e2943]:
+                    - link "오늘 대전 날씨" [ref=f18e2945] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%20%EB%8C%80%EC%A0%84%20%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e2948]:
+                        - text: 오늘
+                        - mark [ref=f18e2949]: 대전
+                        - text: 날씨
+                    - link "오늘대구날씨" [ref=f18e2955] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%EB%8C%80%EA%B5%AC%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e2958]:
+                        - text: 오늘
+                        - mark [ref=f18e2959]: 대구
+                        - text: 날씨
+                - generic [ref=f18e2966]:
+                  - generic [ref=f18e2967]:
+                    - link "오늘 수원 날씨" [ref=f18e2969] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%20%EC%88%98%EC%9B%90%20%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e2972]:
+                        - text: 오늘
+                        - mark [ref=f18e2973]: 수원
+                        - text: 날씨
+                    - link "오늘 광주 날씨" [ref=f18e2979] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%20%EA%B4%91%EC%A3%BC%20%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e2982]:
+                        - text: 오늘
+                        - mark [ref=f18e2983]: 광주
+                        - text: 날씨
+                  - generic [ref=f18e2988]:
+                    - link "오늘제주날씨" [ref=f18e2990] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%EC%A0%9C%EC%A3%BC%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e2993]:
+                        - text: 오늘
+                        - mark [ref=f18e2994]: 제주
+                        - text: 날씨
+                    - link "오늘 청주 날씨" [ref=f18e3000] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%20%EC%B2%AD%EC%A3%BC%20%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e3003]:
+                        - text: 오늘
+                        - mark [ref=f18e3004]: 청주
+                        - text: 날씨
+                  - generic [ref=f18e3009]:
+                    - link "오늘창원날씨" [ref=f18e3011] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%EC%B0%BD%EC%9B%90%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e3014]:
+                        - text: 오늘
+                        - mark [ref=f18e3015]: 창원
+                        - text: 날씨
+                    - link "오늘 울산 날씨" [ref=f18e3021] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%20%EC%9A%B8%EC%82%B0%20%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e3024]:
+                        - text: 오늘
+                        - mark [ref=f18e3025]: 울산
+                        - text: 날씨
+                - generic [ref=f18e3032]:
+                  - generic [ref=f18e3033]:
+                    - link "오늘 천안 날씨" [ref=f18e3035] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%20%EC%B2%9C%EC%95%88%20%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e3038]:
+                        - text: 오늘
+                        - mark [ref=f18e3039]: 천안
+                        - text: 날씨
+                    - link "오늘 경주 날씨" [ref=f18e3045] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%20%EA%B2%BD%EC%A3%BC%20%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e3048]:
+                        - text: 오늘
+                        - mark [ref=f18e3049]: 경주
+                        - text: 날씨
+                  - generic [ref=f18e3054]:
+                    - link "오늘 용인 날씨" [ref=f18e3056] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%20%EC%9A%A9%EC%9D%B8%20%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e3059]:
+                        - text: 오늘
+                        - mark [ref=f18e3060]: 용인
+                        - text: 날씨
+                    - link "오늘 전주 날씨" [ref=f18e3066] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%20%EC%A0%84%EC%A3%BC%20%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e3069]:
+                        - text: 오늘
+                        - mark [ref=f18e3070]: 전주
+                        - text: 날씨
+                  - generic [ref=f18e3075]:
+                    - link "오늘 포항 날씨" [ref=f18e3077] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%20%ED%8F%AC%ED%95%AD%20%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e3080]:
+                        - text: 오늘
+                        - mark [ref=f18e3081]: 포항
+                        - text: 날씨
+                    - link "오늘 강릉 날씨" [ref=f18e3087] [cursor=pointer]:
+                      - /url: "?where=nexearch&sm=tab_clk.ndT&query=%EC%98%A4%EB%8A%98%20%EA%B0%95%EB%A6%89%20%EB%82%A0%EC%94%A8"
+                      - generic [ref=f18e3090]:
+                        - text: 오늘
+                        - mark [ref=f18e3091]: 강릉
+                        - text: 날씨
+              - navigation [ref=f18e3096]:
+                - generic [ref=f18e3097]:
+                  - button "이전 페이지로 가기" [disabled] [ref=f18e3098]
+                  - generic [ref=f18e3102]:
+                    - generic [ref=f18e3103]: "1"
+                    - generic [ref=f18e3107]: "3"
+                  - button "다음 페이지로 가기" [ref=f18e3109] [cursor=pointer]
+          - generic [ref=f18e1649]:
+            - generic [ref=f18e1655]:
+              - generic [ref=f18e1656]:
+                - generic [ref=f18e1657]:
+                  - link "새 창 열림" [ref=f18e1659] [cursor=pointer]:
+                    - /url: https://blog.naver.com/urimalo_
+                  - link "줌줌투어 공식 블로그 ⎮ ZoomZoomTour 새 창 열림" [ref=f18e1665] [cursor=pointer]:
+                    - /url: https://blog.naver.com/urimalo_
+                    - generic [ref=f18e1666]: 줌줌투어 공식 블로그 ⎮ ZoomZoomTour
+                    - generic [ref=f18e1667]: 새 창 열림
+                  - generic [ref=f18e1671]: 1일 전
+                - button "옵션 메뉴 열기" [ref=f18e1675] [cursor=pointer]
+              - generic [ref=f18e1681]:
+                - generic [ref=f18e1682]:
+                  - link "뉴질랜드 남섬 여행 | 9월 10월 날씨, 퀸스타운·밀포드사운드 새 창 열림" [ref=f18e1683] [cursor=pointer]:
+                    - /url: https://blog.naver.com/urimalo_/224402899084
+                    - generic [ref=f18e1684]:
+                      - text: 뉴질랜드 남섬 여행 | 9월 10월
+                      - mark [ref=f18e1685]: 날씨
+                      - text: ", 퀸스타운·밀포드사운드"
+                    - generic [ref=f18e1686]: 새 창 열림
+                  - link "뉴질랜드 남섬 여행 9월 10월 날씨 퀸스타운·밀포드사운드 뉴질랜드 남섬을 처음 여행한다면 여행의 중심을 퀸스타운에 두고 일정을 짜보는 것도 좋아요. 호수와 설산으로 둘러싸인... 대신 하루에도 맑음·비·추위가 오갈 만큼 날씨 변화가 커 옷차림과 일정 준비가 중요한 계절이기도 해요. 그래서 이번 글에서는 뉴질랜드 남섬 9월·10월 날씨와 옷차림, 퀸스타운을... 새 창 열림" [ref=f18e1688] [cursor=pointer]:
+                    - /url: https://blog.naver.com/urimalo_/224402899084
+                    - generic [ref=f18e1689]:
+                      - text: 뉴질랜드 남섬 여행 9월 10월
+                      - mark [ref=f18e1690]: 날씨
+                      - text: 퀸스타운·밀포드사운드 뉴질랜드 남섬을 처음 여행한다면 여행의 중심을 퀸스타운에 두고 일정을 짜보는 것도 좋아요. 호수와 설산으로 둘러싸인... 대신 하루에도 맑음·비·추위가 오갈 만큼
+                      - mark [ref=f18e1691]: 날씨
+                      - text: 변화가 커 옷차림과 일정 준비가 중요한 계절이기도 해요. 그래서 이번 글에서는 뉴질랜드 남섬 9월·10월
+                      - mark [ref=f18e1692]: 날씨
+                      - text: 와 옷차림, 퀸스타운을...
+                    - generic [ref=f18e1693]: 새 창 열림
+                - generic [ref=f18e1694]:
+                  - link "새 창 열림" [ref=f18e1695] [cursor=pointer]:
+                    - /url: https://blog.naver.com/urimalo_/224402899084
+                  - link "새 창 열림" [ref=f18e1700] [cursor=pointer]:
+                    - /url: https://blog.naver.com/urimalo_/224402899084
+                  - link "새 창 열림" [ref=f18e1705] [cursor=pointer]:
+                    - /url: https://blog.naver.com/urimalo_/224402899084
+                  - link "새 창 열림" [ref=f18e1710] [cursor=pointer]:
+                    - /url: https://blog.naver.com/urimalo_/224402899084
+                  - link "새 창 열림" [ref=f18e1715] [cursor=pointer]:
+                    - /url: https://blog.naver.com/urimalo_/224402899084
+                  - generic [ref=f18e1720]: "35"
+            - generic [ref=f18e1726]:
+              - generic [ref=f18e1727]:
+                - generic [ref=f18e1728]:
+                  - link "새 창 열림" [ref=f18e1730] [cursor=pointer]:
+                    - /url: https://in.naver.com/u_jin_u
+                  - link "유징유는 여행 중 새 창 열림" [ref=f18e1736] [cursor=pointer]:
+                    - /url: https://in.naver.com/u_jin_u
+                    - generic [ref=f18e1737]: 유징유는 여행 중
+                    - generic [ref=f18e1738]: 새 창 열림
+                  - generic [ref=f18e1739]: 6시간 전
+                - button "옵션 메뉴 열기" [ref=f18e1743] [cursor=pointer]
+              - generic [ref=f18e1749]:
+                - generic [ref=f18e1750]:
+                  - link "일본 삿포로 자유여행 어딜갈까? 삿포로 10월 날씨 옷차림 새 창 열림" [ref=f18e1751] [cursor=pointer]:
+                    - /url: https://blog.naver.com/dmgk32/224403197143
+                    - generic [ref=f18e1752]:
+                      - text: 일본 삿포로 자유여행 어딜갈까? 삿포로 10월
+                      - mark [ref=f18e1753]: 날씨
+                      - text: 옷차림
+                    - generic [ref=f18e1754]: 새 창 열림
+                  - 'link "삿포로 호텔 솔직 비교 3 삿포로 근교 자유여행 필수 코스 4 삿포로 미식 탐방: 추천 vs 솔직 비추천 오늘 리뷰 3초 요약 10월 날씨 & 옷차림: 한국의 11월 초중순 날씨 (평균 7~16°C). 얇은 이너 여러 겹 + 트렌치코트나 경량패딩 필수. 삿포로 10월 날씨와 추천 옷차림 10월 삿포로는 본격적인 가을의 정점을 지나 늦가을로 접어드는 시기입니다. 평균 기온은 최저 7°C에서... 새 창 열림" [ref=f18e1756] [cursor=pointer]':
+                    - /url: https://blog.naver.com/dmgk32/224403197143
+                    - generic [ref=f18e1757]:
+                      - text: "삿포로 호텔 솔직 비교 3 삿포로 근교 자유여행 필수 코스 4 삿포로 미식 탐방: 추천 vs 솔직 비추천"
+                      - mark [ref=f18e1758]: 오늘
+                      - text: 리뷰 3초 요약 10월
+                      - mark [ref=f18e1759]: 날씨
+                      - text: "& 옷차림: 한국의 11월 초중순"
+                      - mark [ref=f18e1760]: 날씨
+                      - text: (평균 7~16°C). 얇은 이너 여러 겹 + 트렌치코트나 경량패딩 필수. 삿포로 10월
+                      - mark [ref=f18e1761]: 날씨
+                      - text: 와 추천 옷차림 10월 삿포로는 본격적인 가을의 정점을 지나 늦가을로 접어드는 시기입니다. 평균 기온은 최저 7°C에서...
+                    - generic [ref=f18e1762]: 새 창 열림
+                - link "28 새 창 열림" [ref=f18e1763] [cursor=pointer]:
+                  - /url: https://blog.naver.com/dmgk32/224403197143
+                  - generic [ref=f18e1764]: "28"
+                  - generic [ref=f18e1771]: 새 창 열림
+            - generic [ref=f18e1777]:
+              - generic [ref=f18e1778]:
+                - generic [ref=f18e1779]:
+                  - link "새 창 열림" [ref=f18e1781] [cursor=pointer]:
+                    - /url: https://blog.naver.com/to9293
+                  - link "그럼에도 불구하고 새 창 열림" [ref=f18e1787] [cursor=pointer]:
+                    - /url: https://blog.naver.com/to9293
+                    - generic [ref=f18e1788]: 그럼에도 불구하고
+                    - generic [ref=f18e1789]: 새 창 열림
+                  - generic [ref=f18e1790]: 12시간 전
+                - button "옵션 메뉴 열기" [ref=f18e1794] [cursor=pointer]
+              - generic [ref=f18e1800]:
+                - generic [ref=f18e1801]:
+                  - link "오늘 날씨만큼 새 창 열림" [ref=f18e1802] [cursor=pointer]:
+                    - /url: https://blog.naver.com/to9293/224403101749
+                    - generic [ref=f18e1803]:
+                      - mark [ref=f18e1804]: 오늘 날씨
+                      - text: 만큼
+                    - generic [ref=f18e1805]: 새 창 열림
+                  - link "오늘 날씨 진짜 좋았다. 올해 봤던 것 중 가장 예쁜 하늘이었던 것 같음. 보통 친구들끼리 일본 하늘보고 차원이 다르다고 우스갯소리로 말하곤 하는데 오늘만큼은 차원이 같은 하늘이었던 것 같다. 그래놓고 사진을 안 찍었네.. 암튼 아침에 일어나자마자 방이 훤하고 놀이터에서 노는 아이들 목소리가 들리는데 기분 좋아서 눈만 뜬 그대로 몇 분 누워 있었다. 의식이... 새 창 열림" [ref=f18e1807] [cursor=pointer]:
+                    - /url: https://blog.naver.com/to9293/224403101749
+                    - generic [ref=f18e1808]:
+                      - mark [ref=f18e1809]: 오늘 날씨
+                      - text: 진짜 좋았다. 올해 봤던 것 중 가장 예쁜 하늘이었던 것 같음. 보통 친구들끼리 일본 하늘보고 차원이 다르다고 우스갯소리로 말하곤 하는데
+                      - mark [ref=f18e1810]: 오늘
+                      - text: 만큼은 차원이 같은 하늘이었던 것 같다. 그래놓고 사진을 안 찍었네.. 암튼 아침에 일어나자마자 방이 훤하고 놀이터에서 노는 아이들 목소리가 들리는데 기분 좋아서 눈만 뜬 그대로 몇 분 누워 있었다. 의식이...
+                    - generic [ref=f18e1811]: 새 창 열림
+                - link "2 새 창 열림" [ref=f18e1812] [cursor=pointer]:
+                  - /url: https://blog.naver.com/to9293/224403101749
+                  - generic [ref=f18e1813]: "2"
+                  - generic [ref=f18e1820]: 새 창 열림
+            - generic [ref=f18e1826]:
+              - generic [ref=f18e1827]:
+                - generic [ref=f18e1828]:
+                  - link "새 창 열림" [ref=f18e1830] [cursor=pointer]:
+                    - /url: https://blog.naver.com/today_traveller
+                  - link "오늘여기 새 창 열림" [ref=f18e1836] [cursor=pointer]:
+                    - /url: https://blog.naver.com/today_traveller
+                    - generic [ref=f18e1837]: 오늘여기
+                    - generic [ref=f18e1838]: 새 창 열림
+                  - generic [ref=f18e1839]: 5시간 전
+                - button "옵션 메뉴 열기" [ref=f18e1843] [cursor=pointer]
+              - generic [ref=f18e1849]:
+                - generic [ref=f18e1850]:
+                  - link "돌로미티 투어 베네치아 당일치기 1박 2일 비교 날씨 9월 10월 11월 새 창 열림" [ref=f18e1851] [cursor=pointer]:
+                    - /url: https://blog.naver.com/today_traveller/224402615517
+                    - generic [ref=f18e1852]:
+                      - text: 돌로미티 투어 베네치아 당일치기 1박 2일 비교
+                      - mark [ref=f18e1853]: 날씨
+                      - text: 9월 10월 11월
+                    - generic [ref=f18e1854]: 새 창 열림
+                  - link "돌로미티 투어 베네치아 당일치기 1박 2일 비교 날씨 9월 10월 11월 베네치아 하면 곤돌라와 산마르코 광장, 운하 위로 지는 노을부터 떠올리게 되잖아요. 그런데 베네치아를 출발지... 돌로미티 날씨 돌로미티를 언제 갈지 정할 때는 계절별 분위기 차이를 알아두면 도움이 돼요. 9월은 여름 성수기가 끝나가면서 인파는 줄고 맑은 날이 많아 하이킹하기 좋은 시기로... 새 창 열림" [ref=f18e1856] [cursor=pointer]:
+                    - /url: https://blog.naver.com/today_traveller/224402615517
+                    - generic [ref=f18e1857]:
+                      - text: 돌로미티 투어 베네치아 당일치기 1박 2일 비교
+                      - mark [ref=f18e1858]: 날씨
+                      - text: 9월 10월 11월 베네치아 하면 곤돌라와 산마르코 광장, 운하 위로 지는 노을부터 떠올리게 되잖아요. 그런데 베네치아를 출발지... 돌로미티
+                      - mark [ref=f18e1859]: 날씨
+                      - text: 돌로미티를 언제 갈지 정할 때는 계절별 분위기 차이를 알아두면 도움이 돼요. 9월은 여름 성수기가 끝나가면서 인파는 줄고 맑은 날이 많아 하이킹하기 좋은 시기로...
+                    - generic [ref=f18e1860]: 새 창 열림
+                - link "19 새 창 열림" [ref=f18e1861] [cursor=pointer]:
+                  - /url: https://blog.naver.com/today_traveller/224402615517
+                  - generic [ref=f18e1862]: "19"
+                  - generic [ref=f18e1869]: 새 창 열림
+            - generic [ref=f18e1875]:
+              - generic [ref=f18e1876]:
+                - generic [ref=f18e1877]:
+                  - link "새 창 열림" [ref=f18e1879] [cursor=pointer]:
+                    - /url: https://in.naver.com/effy
+                  - link "에피 새 창 열림" [ref=f18e1885] [cursor=pointer]:
+                    - /url: https://in.naver.com/effy
+                    - generic [ref=f18e1886]: 에피
+                    - generic [ref=f18e1887]: 새 창 열림
+                  - generic [ref=f18e1888]: 12시간 전
+                - button "옵션 메뉴 열기" [ref=f18e1892] [cursor=pointer]
+              - generic [ref=f18e1898]:
+                - generic [ref=f18e1899]:
+                  - link "일본 후쿠오카 여행 주간일기 후쿠오카 9월 날씨 옷차림 신선산도 새 창 열림" [ref=f18e1900] [cursor=pointer]:
+                    - /url: https://blog.naver.com/effy0424/224403094056
+                    - generic [ref=f18e1901]:
+                      - text: 일본 후쿠오카 여행 주간일기 후쿠오카 9월
+                      - mark [ref=f18e1902]: 날씨
+                      - text: 옷차림 신선산도
+                    - generic [ref=f18e1903]: 새 창 열림
+                  - link "어느새 깜깜해졌다 GIGO 스키즈 콜라보 이벤트중인데 인기 많은듯 벌써 품절인게 있더라구 오늘도 즐거웠어~ 그리고 다시 아침 9월 후쿠오카 날씨 맑음 화창한 하늘을 뒤로하고 오늘은 벳푸 가는날 토리타에서 토리탄탄멘을 먹고 3~4년? 만에 갑자기 땡겨서 먹었는데 맛있지만 역시 난 닭보다는 돼지 베이스가 좋아 버스를 타고 벳푸로~ 벳푸까지 3시간이지만 차 안에... 새 창 열림" [ref=f18e1905] [cursor=pointer]:
+                    - /url: https://blog.naver.com/effy0424/224403094056
+                    - generic [ref=f18e1906]:
+                      - text: 어느새 깜깜해졌다 GIGO 스키즈 콜라보 이벤트중인데 인기 많은듯 벌써 품절인게 있더라구
+                      - mark [ref=f18e1907]: 오늘
+                      - text: 도 즐거웠어~ 그리고 다시 아침 9월 후쿠오카
+                      - mark [ref=f18e1908]: 날씨
+                      - text: 맑음 화창한 하늘을 뒤로하고
+                      - mark [ref=f18e1909]: 오늘
+                      - text: 은 벳푸 가는날 토리타에서 토리탄탄멘을 먹고 3~4년? 만에 갑자기 땡겨서 먹었는데 맛있지만 역시 난 닭보다는 돼지 베이스가 좋아 버스를 타고 벳푸로~ 벳푸까지 3시간이지만 차 안에...
+                    - generic [ref=f18e1910]: 새 창 열림
+                - link "100 새 창 열림" [ref=f18e1911] [cursor=pointer]:
+                  - /url: https://blog.naver.com/effy0424/224403094056
+                  - generic [ref=f18e1912]: "100"
+                  - generic [ref=f18e1919]: 새 창 열림
+          - generic [ref=f18e1923]:
+            - generic [ref=f18e1925]:
+              - heading "이미지" [level=2] [ref=f18e1927]
+              - button "이미지 신고하기" [ref=f18e1930] [cursor=pointer]
+            - generic [ref=f18e1932]:
+              - generic [ref=f18e1933]:
+                - generic [ref=f18e1934]:
+                  - link "서울" [ref=f18e1935] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EC%84%9C%EC%9A%B8+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "전국" [ref=f18e1942] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EC%A0%84%EA%B5%AD+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "대구" [ref=f18e1949] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%8C%80%EA%B5%AC+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "부산" [ref=f18e1956] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%B6%80%EC%82%B0+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "대전" [ref=f18e1963] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%8C%80%EC%A0%84+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "인천" [ref=f18e1970] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EC%9D%B8%EC%B2%9C+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "광주" [ref=f18e1977] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EA%B4%91%EC%A3%BC+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "경기도" [ref=f18e1984] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EA%B2%BD%EA%B8%B0%EB%8F%84+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "수원" [ref=f18e1991] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EC%88%98%EC%9B%90+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "창원" [ref=f18e1998] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EC%B0%BD%EC%9B%90+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "제주" [ref=f18e2005] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EC%A0%9C%EC%A3%BC+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "청주" [ref=f18e2012] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EC%B2%AD%EC%A3%BC+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "시간별" [ref=f18e2019] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EC%8B%9C%EA%B0%84%EB%B3%84+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "포항" [ref=f18e2026] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%ED%8F%AC%ED%95%AD+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "강릉" [ref=f18e2033] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EA%B0%95%EB%A6%89+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "김해" [ref=f18e2040] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EA%B9%80%ED%95%B4+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "경주" [ref=f18e2047] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EA%B2%BD%EC%A3%BC+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "구미" [ref=f18e2054] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EA%B5%AC%EB%AF%B8+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "비" [ref=f18e2061] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8+%EB%B9%84&sm=tab_imt&where=image"
+                  - link "평택" [ref=f18e2068] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%ED%8F%89%ED%83%9D+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "용인" [ref=f18e2075] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EC%9A%A9%EC%9D%B8+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "당진" [ref=f18e2082] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EB%8B%B9%EC%A7%84+%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "하남" [ref=f18e2089] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8+%ED%95%98%EB%82%A8&sm=tab_imt&where=image"
+                  - link "강화도" [ref=f18e2096] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%EA%B0%95%ED%99%94%EB%8F%84+%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                  - link "통영" [ref=f18e2103] [cursor=pointer]:
+                    - /url: "?pq=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&qdt=0&query=%ED%86%B5%EC%98%81+%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_imt&where=image"
+                - button [ref=f18e2110] [cursor=pointer]
+              - generic [ref=f18e2113]:
+                - generic:
+                  - button "오늘 날씨, 아침 최저 16~23도…제주 최대 40mm·강원 동해안 10mm 비":
+                    - img "오늘 날씨, 아침 최저 16~23도…제주 최대 40mm·강원 동해안 10mm 비"
+                - generic:
+                  - button "[오늘날씨] 중부 일부 최대 60㎜ 비…남부·제주 체감 33도 안팎 무더위":
+                    - img "[오늘날씨] 중부 일부 최대 60㎜ 비…남부·제주 체감 33도 안팎 무더위"
+                - generic:
+                  - button "[오늘날씨] 9월 첫날, 중부는 비·남부는 체감 33도 늦더위… 곳곳 소나기와 번개 주의":
+                    - img "[오늘날씨] 9월 첫날, 중부는 비·남부는 체감 33도 늦더위… 곳곳 소나기와 번개 주의"
+                - generic:
+                  - button "[전국 오늘~모레 날씨] '변화무쌍'…곳곳 비와 소나기 속 모레까지 흐리고 선선한 날씨":
+                    - img "[전국 오늘~모레 날씨] '변화무쌍'…곳곳 비와 소나기 속 모레까지 흐리고 선선한 날씨"
+                - generic:
+                  - button "[오늘 날씨] 전라서해안 시간당 80mm 넘는 폭우…중부·호남 호우특보, 침수·산사태 주의":
+                    - img "[오늘 날씨] 전라서해안 시간당 80mm 넘는 폭우…중부·호남 호우특보, 침수·산사태 주의"
+                - generic:
+                  - button "[오늘의 날씨] 제주산지 10~40mm 비·순간풍속 70km/h 강풍…동해안 중심 당분간 비 이어진다":
+                    - img "[오늘의 날씨] 제주산지 10~40mm 비·순간풍속 70km/h 강풍…동해안 중심 당분간 비 이어진다"
+                - generic:
+                  - button "[오늘의 날씨] 절기 '백로' 전국 대체로 맑고 일교차 큰 초가을… 낮 최고 30도 안팎":
+                    - img "[오늘의 날씨] 절기 '백로' 전국 대체로 맑고 일교차 큰 초가을… 낮 최고 30도 안팎"
+                - generic:
+                  - button "[수도권 오늘날씨] 오전 시간당 20~30㎜ 강한 비…서해 먼바다 강풍·높은 물결":
+                    - img "[수도권 오늘날씨] 오전 시간당 20~30㎜ 강한 비…서해 먼바다 강풍·높은 물결"
+                - generic:
+                  - button "[오늘 날씨] \"아직 더워요\" 일요일 전국 대부분 맑음…낮 최고 30도":
+                    - img "[오늘 날씨] \"아직 더워요\" 일요일 전국 대부분 맑음…낮 최고 30도"
+                - generic:
+                  - button "[오늘날씨] 낮 최고 7~15도 '포근'…미세먼지는 '나쁨'":
+                    - img "[오늘날씨] 낮 최고 7~15도 '포근'…미세먼지는 '나쁨'"
+            - link "이미지 더보기" [ref=f18e2115] [cursor=pointer]:
+              - /url: "?nso=so%3Ar%2Cp%3Aall&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_nmr&ssc=tab.image.all&where=image"
+              - generic [ref=f18e2120]:
+                - generic [ref=f18e2121]: 이미지
+                - generic [ref=f18e2122]: 더보기
+          - generic [ref=f18e2126]:
+            - generic [ref=f18e2131]:
+              - generic [ref=f18e2132]:
+                - generic [ref=f18e2133]:
+                  - link "웨더닷컴 weather.com›ko-KR›kr›city 새 창 열림" [ref=f18e2134] [cursor=pointer]:
+                    - /url: https://weather.com/ko-KR/kr/city/incheon/today
+                    - generic [ref=f18e2136]:
+                      - generic [ref=f18e2140]: 웨더닷컴
+                      - generic [ref=f18e2142]: weather.com›ko-KR›kr›city
+                    - generic [ref=f18e2146]: 새 창 열림
+                  - button "옵션 메뉴 열기" [ref=f18e2148] [cursor=pointer]
+                - generic [ref=f18e2153]:
+                  - link "인천광역시 일기예보 및 날씨 - The Weather Channel 새 창 열림" [ref=f18e2155] [cursor=pointer]:
+                    - /url: https://weather.com/ko-KR/kr/city/incheon/today
+                    - generic [ref=f18e2156]:
+                      - text: 인천광역시 일기예보 및
+                      - mark [ref=f18e2157]: 날씨
+                      - text: "- The Weather Channel"
+                    - generic [ref=f18e2158]: 새 창 열림
+                  - link "The Weather Channel 및 Weather.com이 제공하는 오늘과 오늘 밤 인천광역시 일기예보, 날씨 상태 및 도플러 레이더 새 창 열림" [ref=f18e2160] [cursor=pointer]:
+                    - /url: https://weather.com/ko-KR/kr/city/incheon/today
+                    - generic [ref=f18e2161]:
+                      - text: The Weather Channel 및 Weather.com이 제공하는
+                      - mark [ref=f18e2162]: 오늘
+                      - text: 과
+                      - mark [ref=f18e2163]: 오늘
+                      - text: 밤 인천광역시 일기예보,
+                      - mark [ref=f18e2164]: 날씨
+                      - text: 상태 및 도플러 레이더
+                    - generic [ref=f18e2165]: 새 창 열림
+              - generic [ref=f18e2166]:
+                - generic [ref=f18e2168]:
+                  - link "서울특별시 일기예보 및 날씨 - The Weather Channel 새 창 열림" [ref=f18e2169] [cursor=pointer]:
+                    - /url: https://weather.com/ko-KR/kr/city/seoul/today
+                    - generic [ref=f18e2170]:
+                      - text: 서울특별시 일기예보 및
+                      - mark [ref=f18e2171]: 날씨
+                      - text: "- The Weather Channel"
+                    - generic [ref=f18e2172]: 새 창 열림
+                  - generic [ref=f18e2174]:
+                    - text: The Weather Channel 및 Weather.com이 제공하는
+                    - mark [ref=f18e2175]: 오늘
+                    - text: 과
+                    - mark [ref=f18e2176]: 오늘
+                    - text: 밤 서울특별시 일기예보,
+                    - mark [ref=f18e2177]: 날씨
+                    - text: 상태 및 도플러 레이더
+                - link "관련문서 더보기" [ref=f18e2179] [cursor=pointer]:
+                  - /url: "?page=2&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8+site%3Aweather.com&qvt=0&ssc=tab.ur.all"
+            - generic [ref=f18e2188]:
+              - generic [ref=f18e2189]:
+                - generic [ref=f18e2190]:
+                  - link "새 창 열림" [ref=f18e2192] [cursor=pointer]:
+                    - /url: https://in.naver.com/day3737
+                  - generic [ref=f18e2196]:
+                    - link "이탈리아 여행연구소 새 창 열림" [ref=f18e2198] [cursor=pointer]:
+                      - /url: https://in.naver.com/day3737
+                      - generic [ref=f18e2199]: 이탈리아 여행연구소
+                      - generic [ref=f18e2200]: 새 창 열림
+                    - generic [ref=f18e2201]: 19.1만 인용
+                  - generic [ref=f18e2206]: 1일 전
+                - button "옵션 메뉴 열기" [ref=f18e2210] [cursor=pointer]
+              - generic [ref=f18e2216]:
+                - generic [ref=f18e2217]:
+                  - link "[이탈리아 여행 - 날씨] 9월 첫째주, 여름의 끝자락 / 베네치아 낮 최고기온 31도 / 베니스 주말산책 .... 새 창 열림" [ref=f18e2218] [cursor=pointer]:
+                    - /url: https://blog.naver.com/day3737/224402781284
+                    - generic [ref=f18e2219]:
+                      - text: "[이탈리아 여행 -"
+                      - mark [ref=f18e2220]: 날씨
+                      - text: "] 9월 첫째주, 여름의 끝자락 / 베네치아 낮 최고기온 31도 / 베니스 주말산책 ...."
+                    - generic [ref=f18e2221]: 새 창 열림
+                  - link "베네치아는 맑은 날씨가 이어지고 있습니다. 그늘과 바람은 시원하지만 햇살은 여전히 뜨겁네요. 부채 들고 다니는 여행객분들의 모습을 보니 그 마음이 이해가 갑니다. ㅎㅎ 여름이 언제 끝나려나 생각 중이었는데 일기예보를 보니 다음 주 수요일(9/9) 소나기 1~2차례 내리고 나면 기온이 한풀꺾이면서 가을로 전환 될 것 같습니다. 늘 그렇듯이 돌로미티 동부지역도... 새 창 열림" [ref=f18e2223] [cursor=pointer]:
+                    - /url: https://blog.naver.com/day3737/224402781284
+                    - generic [ref=f18e2224]:
+                      - text: 베네치아는 맑은
+                      - mark [ref=f18e2225]: 날씨
+                      - text: 가 이어지고 있습니다. 그늘과 바람은 시원하지만 햇살은 여전히 뜨겁네요. 부채 들고 다니는 여행객분들의 모습을 보니 그 마음이 이해가 갑니다. ㅎㅎ 여름이 언제 끝나려나 생각 중이었는데 일기예보를 보니 다음 주 수요일(9/9) 소나기 1~2차례 내리고 나면 기온이 한풀꺾이면서 가을로 전환 될 것 같습니다. 늘 그렇듯이 돌로미티 동부지역도...
+                    - generic [ref=f18e2226]: 새 창 열림
+                - link "2 새 창 열림" [ref=f18e2227] [cursor=pointer]:
+                  - /url: https://blog.naver.com/day3737/224402781284
+                  - generic [ref=f18e2228]: "2"
+                  - generic [ref=f18e2235]: 새 창 열림
+            - generic [ref=f18e2241]:
+              - generic [ref=f18e2242]:
+                - generic [ref=f18e2243]:
+                  - link "새 창 열림" [ref=f18e2245] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/happyibook
+                  - link "다낭 도깨비 - 베트남 다낭자유여행 ,다낭여행,맛집,호텔리조트 새 창 열림" [ref=f18e2251] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/happyibook
+                    - generic [ref=f18e2252]: 다낭 도깨비 - 베트남 다낭자유여행 ,다낭여행,맛집,호텔리조트
+                    - generic [ref=f18e2253]: 새 창 열림
+                  - generic [ref=f18e2257]: 1일 전
+                - button "옵션 메뉴 열기" [ref=f18e2261] [cursor=pointer]
+              - generic [ref=f18e2268]:
+                - link "오늘 날씨 어떤가요? 새 창 열림" [ref=f18e2269] [cursor=pointer]:
+                  - /url: https://cafe.naver.com/happyibook/6275456?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6ImhhcHB5aWJvb2siLCJhcnRpY2xlSWQiOjYyNzU0NTYsImlzc3VlZEF0IjoxNzg4NzU2ODkyNzEzfQ.2mpjBFOsB1mU9niAQGAHnDQge1SGF8jdXMKVLpxXnww
+                  - generic [ref=f18e2270]:
+                    - mark [ref=f18e2271]: 오늘 날씨
+                    - text: 어떤가요?
+                  - generic [ref=f18e2272]: 새 창 열림
+                - link "오늘 날씨 어떤가요? 새 창 열림" [ref=f18e2274] [cursor=pointer]:
+                  - /url: https://cafe.naver.com/happyibook/6275456?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6ImhhcHB5aWJvb2siLCJhcnRpY2xlSWQiOjYyNzU0NTYsImlzc3VlZEF0IjoxNzg4NzU2ODkyNzEzfQ.2mpjBFOsB1mU9niAQGAHnDQge1SGF8jdXMKVLpxXnww
+                  - generic [ref=f18e2275]:
+                    - mark [ref=f18e2276]: 오늘 날씨
+                    - text: 어떤가요?
+                  - generic [ref=f18e2277]: 새 창 열림
+            - generic [ref=f18e2283]:
+              - generic [ref=f18e2284]:
+                - generic [ref=f18e2285]:
+                  - link "새 창 열림" [ref=f18e2287] [cursor=pointer]:
+                    - /url: https://blog.naver.com/jumh119
+                  - link "제주살이 브이로그 공식 블로그 새 창 열림" [ref=f18e2293] [cursor=pointer]:
+                    - /url: https://blog.naver.com/jumh119
+                    - generic [ref=f18e2294]: 제주살이 브이로그 공식 블로그
+                    - generic [ref=f18e2295]: 새 창 열림
+                  - generic [ref=f18e2296]: 1일 전
+                - button "옵션 메뉴 열기" [ref=f18e2300] [cursor=pointer]
+              - generic [ref=f18e2306]:
+                - generic [ref=f18e2307]:
+                  - link "2026.9.6 일요일 제주날씨영상(강풍) 새 창 열림" [ref=f18e2308] [cursor=pointer]:
+                    - /url: https://blog.naver.com/jumh119/224402643938
+                    - generic [ref=f18e2309]:
+                      - text: 2026.9.6 일요일 제주
+                      - mark [ref=f18e2310]: 날씨
+                      - text: 영상(강풍)
+                    - generic [ref=f18e2311]: 새 창 열림
+                  - 'link "2026.9.6 일요일 제주날씬 시원합니다. 단, 강풍이 넘나 심하게 불고 있어요. 이젠 가을날씨개 된 듯 합니다. #제주날씨 #강풍부는날 #제주살이 #브이로그 #가을날씨 https://cctv.jejudoin.co.kr 새 창 열림" [ref=f18e2313] [cursor=pointer]':
+                    - /url: https://blog.naver.com/jumh119/224402643938
+                    - generic [ref=f18e2314]:
+                      - text: 2026.9.6 일요일 제주날씬 시원합니다. 단, 강풍이 넘나 심하게 불고 있어요. 이젠 가을
+                      - mark [ref=f18e2315]: 날씨
+                      - text: "개 된 듯 합니다. #제주"
+                      - mark [ref=f18e2316]: 날씨
+                      - text: "#강풍부는날 #제주살이 #브이로그 #가을"
+                      - mark [ref=f18e2317]: 날씨
+                      - text: https://cctv.jejudoin.co.kr
+                    - generic [ref=f18e2318]: 새 창 열림
+                - link "새 창 열림" [ref=f18e2319] [cursor=pointer]:
+                  - /url: https://blog.naver.com/jumh119/224402643938
+            - generic [ref=f18e2332]:
+              - generic [ref=f18e2333]:
+                - generic [ref=f18e2334]:
+                  - link "새 창 열림" [ref=f18e2336] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/skybluezw4rh
+                  - link "맘이베베 (핫딜, 육아, 놀이) 새 창 열림" [ref=f18e2342] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/skybluezw4rh
+                    - generic [ref=f18e2343]: 맘이베베 (핫딜, 육아, 놀이)
+                    - generic [ref=f18e2344]: 새 창 열림
+                  - generic [ref=f18e2348]: 2시간 전
+                - button "옵션 메뉴 열기" [ref=f18e2352] [cursor=pointer]
+              - generic [ref=f18e2359]:
+                - link "오늘 날씨가 선선해요 새 창 열림" [ref=f18e2360] [cursor=pointer]:
+                  - /url: https://cafe.naver.com/skybluezw4rh/14867813?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6InNreWJsdWV6dzRyaCIsImFydGljbGVJZCI6MTQ4Njc4MTMsImlzc3VlZEF0IjoxNzg4NzU2ODkyNzEzfQ.4-vOeSdDj9IfNCAzJO-bXcyBNMq1d3VlTK0U7swgIyE
+                  - generic [ref=f18e2361]:
+                    - mark [ref=f18e2362]: 오늘 날씨
+                    - text: 가 선선해요
+                  - generic [ref=f18e2363]: 새 창 열림
+                - link "오늘 날씨가 덥지않고 살짞 가을느낌나서 좋으네여 밖에나가서 산책해야겠어요 새 창 열림" [ref=f18e2365] [cursor=pointer]:
+                  - /url: https://cafe.naver.com/skybluezw4rh/14867813?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6InNreWJsdWV6dzRyaCIsImFydGljbGVJZCI6MTQ4Njc4MTMsImlzc3VlZEF0IjoxNzg4NzU2ODkyNzEzfQ.4-vOeSdDj9IfNCAzJO-bXcyBNMq1d3VlTK0U7swgIyE
+                  - generic [ref=f18e2366]:
+                    - mark [ref=f18e2367]: 오늘 날씨
+                    - text: 가 덥지않고 살짞 가을느낌나서 좋으네여 밖에나가서 산책해야겠어요
+                  - generic [ref=f18e2368]: 새 창 열림
+          - generic [ref=f18e2369]:
+            - generic [ref=f18e2375]:
+              - generic [ref=f18e2376]:
+                - link "기상청 날씨누리 www.kma.go.kr›metropolitan 새 창 열림" [ref=f18e2377] [cursor=pointer]:
+                  - /url: https://www.kma.go.kr/metropolitan/html/main/index.jsp
+                  - generic [ref=f18e2379]:
+                    - generic [ref=f18e2383]: 기상청 날씨누리
+                    - generic [ref=f18e2385]: www.kma.go.kr›metropolitan
+                  - generic [ref=f18e2389]: 새 창 열림
+                - button "옵션 메뉴 열기" [ref=f18e2391] [cursor=pointer]
+              - generic [ref=f18e2396]:
+                - link "수도권기상청 새 창 열림" [ref=f18e2398] [cursor=pointer]:
+                  - /url: https://www.kma.go.kr/metropolitan/html/main/index.jsp
+                  - generic [ref=f18e2399]:
+                    - text: 수도권
+                    - mark [ref=f18e2400]: 기상
+                    - text: 청
+                  - generic [ref=f18e2401]: 새 창 열림
+                - generic [ref=f18e2402]:
+                  - link "인천기상대 새 창 열림" [ref=f18e2403] [cursor=pointer]:
+                    - /url: https://www.kma.go.kr/metropolitan/html/info/affiliated1.jsp
+                    - generic [ref=f18e2404]: 인천기상대
+                    - generic [ref=f18e2405]: 새 창 열림
+                  - link "채용 새 창 열림" [ref=f18e2406] [cursor=pointer]:
+                    - /url: https://www.kma.go.kr/metropolitan/html/news/notice_list.jsp?boardId=recruit
+                    - generic [ref=f18e2407]: 채용
+                    - generic [ref=f18e2408]: 새 창 열림
+                  - link "예보업무 새 창 열림" [ref=f18e2409] [cursor=pointer]:
+                    - /url: https://www.kma.go.kr/metropolitan/html/info/business02.jsp
+                    - generic [ref=f18e2410]: 예보업무
+                    - generic [ref=f18e2411]: 새 창 열림
+                  - link "조직·직원 새 창 열림" [ref=f18e2412] [cursor=pointer]:
+                    - /url: https://www.kma.go.kr/metropolitan/html/info/organization.jsp
+                    - generic [ref=f18e2413]: 조직·직원
+                    - generic [ref=f18e2414]: 새 창 열림
+                  - link "관측업무 새 창 열림" [ref=f18e2415] [cursor=pointer]:
+                    - /url: https://www.kma.go.kr/metropolitan/html/info/business01.jsp
+                    - generic [ref=f18e2416]: 관측업무
+                    - generic [ref=f18e2417]: 새 창 열림
+                  - link "덕적도 해양기상기지 새 창 열림" [ref=f18e2418] [cursor=pointer]:
+                    - /url: https://www.kma.go.kr/metropolitan/html/info/business05.jsp
+                    - generic [ref=f18e2419]: 덕적도 해양기상기지
+                    - generic [ref=f18e2420]: 새 창 열림
+                - link "기상정보, 날씨예보, 계절별 특이사항, 공항날씨 등 제공. 새 창 열림" [ref=f18e2422] [cursor=pointer]:
+                  - /url: https://www.kma.go.kr/metropolitan/html/main/index.jsp
+                  - generic [ref=f18e2423]:
+                    - mark [ref=f18e2424]: 기상
+                    - text: 정보,
+                    - mark [ref=f18e2425]: 날씨
+                    - text: 예보, 계절별 특이사항, 공항
+                    - mark [ref=f18e2426]: 날씨
+                    - text: 등 제공.
+                  - generic [ref=f18e2427]: 새 창 열림
+            - generic [ref=f18e2433]:
+              - generic [ref=f18e2434]:
+                - link "다음날씨 weather.daum.net 새 창 열림" [ref=f18e2435] [cursor=pointer]:
+                  - /url: https://weather.daum.net/
+                  - generic [ref=f18e2437]:
+                    - generic [ref=f18e2441]: 다음날씨
+                    - generic [ref=f18e2443]: weather.daum.net
+                  - generic [ref=f18e2447]: 새 창 열림
+                - button "옵션 메뉴 열기" [ref=f18e2449] [cursor=pointer]
+              - generic [ref=f18e2454]:
+                - link "다음날씨 | 동네날씨 새 창 열림" [ref=f18e2456] [cursor=pointer]:
+                  - /url: https://weather.daum.net/
+                  - generic [ref=f18e2457]:
+                    - text: 다음
+                    - mark [ref=f18e2458]: 날씨
+                    - text: "| 동네"
+                    - mark [ref=f18e2459]: 날씨
+                  - generic [ref=f18e2460]: 새 창 열림
+                - generic [ref=f18e2461]:
+                  - link "기상특보 새 창 열림" [ref=f18e2462] [cursor=pointer]:
+                    - /url: https://weather.daum.net/weather/specialreport
+                    - generic [ref=f18e2463]: 기상특보
+                    - generic [ref=f18e2464]: 새 창 열림
+                  - link "전국 새 창 열림" [ref=f18e2465] [cursor=pointer]:
+                    - /url: https://weather.daum.net/weather/nation
+                    - generic [ref=f18e2466]: 전국
+                    - generic [ref=f18e2467]: 새 창 열림
+                  - link "영상 새 창 열림" [ref=f18e2468] [cursor=pointer]:
+                    - /url: https://weather.daum.net/weather/video
+                    - generic [ref=f18e2469]: 영상
+                    - generic [ref=f18e2470]: 새 창 열림
+                  - link "태풍 새 창 열림" [ref=f18e2471] [cursor=pointer]:
+                    - /url: https://issue.daum.net/weather/typhoon
+                    - generic [ref=f18e2472]: 태풍
+                    - generic [ref=f18e2473]: 새 창 열림
+                - link "다음날씨를 확인하고 하루를 계획하세요. 새 창 열림" [ref=f18e2475] [cursor=pointer]:
+                  - /url: https://weather.daum.net/
+                  - generic [ref=f18e2476]:
+                    - text: 다음
+                    - mark [ref=f18e2477]: 날씨
+                    - text: 를 확인하고 하루를 계획하세요.
+                  - generic [ref=f18e2478]: 새 창 열림
+            - generic [ref=f18e2484]:
+              - generic [ref=f18e2485]:
+                - generic [ref=f18e2486]:
+                  - link "새 창 열림" [ref=f18e2488] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/lionsball
+                  - link "사자 사랑방 (삼성라이온즈 팬 커뮤니티) 새 창 열림" [ref=f18e2494] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/lionsball
+                    - generic [ref=f18e2495]: 사자 사랑방 (삼성라이온즈 팬 커뮤니티)
+                    - generic [ref=f18e2496]: 새 창 열림
+                  - generic [ref=f18e2500]: 1일 전
+                - button "옵션 메뉴 열기" [ref=f18e2504] [cursor=pointer]
+              - generic [ref=f18e2510]:
+                - generic [ref=f18e2511]:
+                  - link "오늘 날씨 완전 좋아요! 새 창 열림" [ref=f18e2512] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/lionsball/5626362?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6Imxpb25zYmFsbCIsImFydGljbGVJZCI6NTYyNjM2MiwiaXNzdWVkQXQiOjE3ODg3NTY4OTI3MTN9.QAkpsNRzTPbbky_jVRWu5zzQ4jmSUyqHzzlcom8ZqtM
+                    - generic [ref=f18e2513]:
+                      - mark [ref=f18e2514]: 오늘 날씨
+                      - text: 완전 좋아요!
+                    - generic [ref=f18e2515]: 새 창 열림
+                  - link "날씨만 보면 가을야구 느낌나네요. 삼성 라이온즈 화이팅! 새 창 열림" [ref=f18e2517] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/lionsball/5626362?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6Imxpb25zYmFsbCIsImFydGljbGVJZCI6NTYyNjM2MiwiaXNzdWVkQXQiOjE3ODg3NTY4OTI3MTN9.QAkpsNRzTPbbky_jVRWu5zzQ4jmSUyqHzzlcom8ZqtM
+                    - generic [ref=f18e2518]:
+                      - mark [ref=f18e2519]: 날씨
+                      - text: 만 보면 가을야구 느낌나네요. 삼성 라이온즈 화이팅!
+                    - generic [ref=f18e2520]: 새 창 열림
+                - link "4 새 창 열림" [ref=f18e2521] [cursor=pointer]:
+                  - /url: https://cafe.naver.com/lionsball/5626362?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6Imxpb25zYmFsbCIsImFydGljbGVJZCI6NTYyNjM2MiwiaXNzdWVkQXQiOjE3ODg3NTY4OTI3MTN9.QAkpsNRzTPbbky_jVRWu5zzQ4jmSUyqHzzlcom8ZqtM
+                  - generic [ref=f18e2522]: "4"
+                  - generic [ref=f18e2529]: 새 창 열림
+            - generic [ref=f18e2535]:
+              - generic [ref=f18e2536]:
+                - generic [ref=f18e2537]:
+                  - link "새 창 열림" [ref=f18e2539] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/imsanbu
+                  - link "맘스홀릭 베이비 (360만 엄마들의 임신, 육아 지식in 카페) 새 창 열림" [ref=f18e2545] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/imsanbu
+                    - generic [ref=f18e2546]: 맘스홀릭 베이비 (360만 엄마들의 임신, 육아 지식in 카페)
+                    - generic [ref=f18e2547]: 새 창 열림
+                  - generic [ref=f18e2551]: 4시간 전
+                - button "옵션 메뉴 열기" [ref=f18e2555] [cursor=pointer]
+              - generic [ref=f18e2562]:
+                - link "오늘 날씨 새 창 열림" [ref=f18e2563] [cursor=pointer]:
+                  - /url: https://cafe.naver.com/imsanbu/79998097?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6Imltc2FuYnUiLCJhcnRpY2xlSWQiOjc5OTk4MDk3LCJpc3N1ZWRBdCI6MTc4ODc1Njg5MjcxM30.fXVQ758nAOGwhIidgy15ecwiJqilnUZbR6BNmLqSUfw
+                  - mark [ref=f18e2565]: 오늘 날씨
+                  - generic [ref=f18e2566]: 새 창 열림
+                - link "너무 좋아서 출근길에 퇴근하고 싶어지는 이 마음 다들 오늘도 화이팅하시고 빠른 퇴근 기원해요 새 창 열림" [ref=f18e2568] [cursor=pointer]:
+                  - /url: https://cafe.naver.com/imsanbu/79998097?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6Imltc2FuYnUiLCJhcnRpY2xlSWQiOjc5OTk4MDk3LCJpc3N1ZWRBdCI6MTc4ODc1Njg5MjcxM30.fXVQ758nAOGwhIidgy15ecwiJqilnUZbR6BNmLqSUfw
+                  - generic [ref=f18e2569]:
+                    - text: 너무 좋아서 출근길에 퇴근하고 싶어지는 이 마음 다들
+                    - mark [ref=f18e2570]: 오늘
+                    - text: 도 화이팅하시고 빠른 퇴근 기원해요
+                  - generic [ref=f18e2571]: 새 창 열림
+          - generic [ref=f18e2572]:
+            - generic [ref=f18e2577]:
+              - generic [ref=f18e2578]:
+                - generic [ref=f18e2579]:
+                  - link "웨더아이 www.weatheri.co.kr›forecast 새 창 열림" [ref=f18e2580] [cursor=pointer]:
+                    - /url: https://www.weatheri.co.kr/forecast/forecast01.php
+                    - generic [ref=f18e2582]:
+                      - generic [ref=f18e2586]: 웨더아이
+                      - generic [ref=f18e2588]: www.weatheri.co.kr›forecast
+                    - generic [ref=f18e2592]: 새 창 열림
+                  - button "옵션 메뉴 열기" [ref=f18e2594] [cursor=pointer]
+                - generic [ref=f18e2599]:
+                  - 'link "지역별 <mark>날씨</mark> : 웨더아이 - <mark>날씨</mark> 로부터의 자유, <mark>날씨</mark> 와 함께하는 행복의 이미지 새 창 열림" [ref=f18e2600] [cursor=pointer]':
+                    - /url: https://www.weatheri.co.kr/forecast/forecast01.php
+                    - 'img "지역별 <mark>날씨</mark> : 웨더아이 - <mark>날씨</mark> 로부터의 자유, <mark>날씨</mark> 와 함께하는 행복의 이미지" [ref=f18e2602]'
+                    - generic [ref=f18e2604]: 새 창 열림
+                  - 'link "지역별 날씨 : 웨더아이 - 날씨 로부터의 자유, 날씨 와 함께하는 행복 새 창 열림" [ref=f18e2606] [cursor=pointer]':
+                    - /url: https://www.weatheri.co.kr/forecast/forecast01.php
+                    - generic [ref=f18e2607]:
+                      - text: 지역별
+                      - mark [ref=f18e2608]: 날씨
+                      - text: ": 웨더아이 -"
+                      - mark [ref=f18e2609]: 날씨
+                      - text: 로부터의 자유,
+                      - mark [ref=f18e2610]: 날씨
+                      - text: 와 함께하는 행복
+                    - generic [ref=f18e2611]: 새 창 열림
+                  - 'link "- 2026-09-07 13:00:00 o 풍랑주의보 : 동해남부전해상, 남해동부앞바다(부산앞바다, 거제시동부앞바다), 남해동부안쪽먼바다, 남해동부바깥먼바다, 제주도앞바다(제주도동부앞바다, 제주도남부앞바다), 제주도남쪽바깥먼바다, 제주도남동쪽안쪽먼바다 새 창 열림" [ref=f18e2613] [cursor=pointer]':
+                    - /url: https://www.weatheri.co.kr/forecast/forecast01.php
+                    - generic [ref=f18e2614]: "- 2026-09-07 13:00:00 o 풍랑주의보 : 동해남부전해상, 남해동부앞바다(부산앞바다, 거제시동부앞바다), 남해동부안쪽먼바다, 남해동부바깥먼바다, 제주도앞바다(제주도동부앞바다, 제주도남부앞바다), 제주도남쪽바깥먼바다, 제주도남동쪽안쪽먼바다"
+                    - generic [ref=f18e2615]: 새 창 열림
+              - generic [ref=f18e2616]:
+                - generic [ref=f18e2618]:
+                  - 'link "주간예보 : 웨더아이 새 창 열림" [ref=f18e2619] [cursor=pointer]':
+                    - /url: https://www.weatheri.co.kr/forecast/forecast04.php
+                    - generic [ref=f18e2620]: "주간예보 : 웨더아이"
+                    - generic [ref=f18e2621]: 새 창 열림
+                  - generic [ref=f18e2622]: "- 2026-09-07 05:00:00 o 강풍주의보 : 경상북도(영덕, 포항, 경주동부), 경상남도(거제), 제주도(제주시동부, 서귀포시동부), 부산, 울산, 울릉도독도 o 풍랑주의보 : 동해남부전해상, 동해중부안쪽먼바다, 동해중부바깥먼바다, 남해동부앞바다(부산앞바다, 거제시동부앞바다), 남해동부안쪽먼바다, 남해동부바깥먼바다, 남해서부동쪽먼바다, 제주도앞바다(제주도동부앞바다, 제주도남....."
+                - link "관련문서 더보기" [ref=f18e2625] [cursor=pointer]:
+                  - /url: "?page=2&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8+site%3Awww.weatheri.co.kr&qvt=0&ssc=tab.ur.all"
+            - generic [ref=f18e2634]:
+              - generic [ref=f18e2635]:
+                - generic [ref=f18e2636]:
+                  - link "새 창 열림" [ref=f18e2638] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/hongsam09
+                  - link "광주맘-광주맘수다방(광수방) 새 창 열림" [ref=f18e2644] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/hongsam09
+                    - generic [ref=f18e2645]: 광주맘-광주맘수다방(광수방)
+                    - generic [ref=f18e2646]: 새 창 열림
+                  - generic [ref=f18e2650]: 3시간 전
+                - button "옵션 메뉴 열기" [ref=f18e2654] [cursor=pointer]
+              - generic [ref=f18e2660]:
+                - generic [ref=f18e2661]:
+                  - link "날씨 최고~ 새 창 열림" [ref=f18e2662] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/hongsam09/7278883?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6ImhvbmdzYW0wOSIsImFydGljbGVJZCI6NzI3ODg4MywiaXNzdWVkQXQiOjE3ODg3NTY4OTI3MTN9.tn2ZcnzwWbxVYhyPjvOyFzuUgob7u0yx8RzbLOG3R2Q
+                    - generic [ref=f18e2663]:
+                      - mark [ref=f18e2664]: 날씨
+                      - text: 최고~
+                    - generic [ref=f18e2665]: 새 창 열림
+                  - link "파란페인트 뿌린것마냥 파란하늘이 이쁘네요~ 구름한점없는 날씨네요~~ 새 창 열림" [ref=f18e2667] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/hongsam09/7278883?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6ImhvbmdzYW0wOSIsImFydGljbGVJZCI6NzI3ODg4MywiaXNzdWVkQXQiOjE3ODg3NTY4OTI3MTN9.tn2ZcnzwWbxVYhyPjvOyFzuUgob7u0yx8RzbLOG3R2Q
+                    - generic [ref=f18e2668]:
+                      - text: 파란페인트 뿌린것마냥 파란하늘이 이쁘네요~ 구름한점없는
+                      - mark [ref=f18e2669]: 날씨
+                      - text: 네요~~
+                    - generic [ref=f18e2670]: 새 창 열림
+                - link "5 새 창 열림" [ref=f18e2671] [cursor=pointer]:
+                  - /url: https://cafe.naver.com/hongsam09/7278883?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6ImhvbmdzYW0wOSIsImFydGljbGVJZCI6NzI3ODg4MywiaXNzdWVkQXQiOjE3ODg3NTY4OTI3MTN9.tn2ZcnzwWbxVYhyPjvOyFzuUgob7u0yx8RzbLOG3R2Q
+                  - generic [ref=f18e2672]: "5"
+                  - generic [ref=f18e2679]: 새 창 열림
+              - generic [ref=f18e2680]:
+                - generic [ref=f18e2682]:
+                  - link "RE 아침 출근 하는데 날씨가 너무 좋아서 기분이 좋더라구요~ 새 창 열림" [ref=f18e2683] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/hongsam09/7278883?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6ImhvbmdzYW0wOSIsImFydGljbGVJZCI6NzI3ODg4MywiaXNzdWVkQXQiOjE3ODg3NTY4OTI3MTN9.tn2ZcnzwWbxVYhyPjvOyFzuUgob7u0yx8RzbLOG3R2Q
+                    - generic [ref=f18e2686]:
+                      - generic [ref=f18e2687]: RE
+                      - generic [ref=f18e2688]:
+                        - text: 아침 출근 하는데
+                        - mark [ref=f18e2689]: 날씨
+                        - text: 가 너무 좋아서 기분이 좋더라구요~
+                    - generic [ref=f18e2690]: 새 창 열림
+                  - link "RE 오늘도 만보 걷기 고생 많으셨습니다 ㅋㅋ 커피 맛있게 드시고 푹 쉬세요 :) 새 창 열림" [ref=f18e2691] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/hongsam09/7278883?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6ImhvbmdzYW0wOSIsImFydGljbGVJZCI6NzI3ODg4MywiaXNzdWVkQXQiOjE3ODg3NTY4OTI3MTN9.tn2ZcnzwWbxVYhyPjvOyFzuUgob7u0yx8RzbLOG3R2Q
+                    - generic [ref=f18e2694]:
+                      - generic [ref=f18e2695]: RE
+                      - generic [ref=f18e2696]:
+                        - mark [ref=f18e2697]: 오늘
+                        - text: 도 만보 걷기 고생 많으셨습니다 ㅋㅋ 커피 맛있게 드시고 푹 쉬세요 :)
+                    - generic [ref=f18e2698]: 새 창 열림
+                  - link "RE 출근하면서 일부러 걸었어요~ 날씨 진짜 너무 좋더라구요~^^ 새 창 열림" [ref=f18e2699] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/hongsam09/7278883?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6ImhvbmdzYW0wOSIsImFydGljbGVJZCI6NzI3ODg4MywiaXNzdWVkQXQiOjE3ODg3NTY4OTI3MTN9.tn2ZcnzwWbxVYhyPjvOyFzuUgob7u0yx8RzbLOG3R2Q
+                    - generic [ref=f18e2702]:
+                      - generic [ref=f18e2703]: RE
+                      - generic [ref=f18e2704]:
+                        - text: 출근하면서 일부러 걸었어요~
+                        - mark [ref=f18e2705]: 날씨
+                        - text: 진짜 너무 좋더라구요~^^
+                    - generic [ref=f18e2706]: 새 창 열림
+                  - link "RE 정말 이런날씨 안걸으면 손해이지용 ㅎ 새 창 열림" [ref=f18e2707] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/hongsam09/7278883?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6ImhvbmdzYW0wOSIsImFydGljbGVJZCI6NzI3ODg4MywiaXNzdWVkQXQiOjE3ODg3NTY4OTI3MTN9.tn2ZcnzwWbxVYhyPjvOyFzuUgob7u0yx8RzbLOG3R2Q
+                    - generic [ref=f18e2710]:
+                      - generic [ref=f18e2711]: RE
+                      - generic [ref=f18e2712]:
+                        - text: 정말 이런
+                        - mark [ref=f18e2713]: 날씨
+                        - text: 안걸으면 손해이지용 ㅎ
+                    - generic [ref=f18e2714]: 새 창 열림
+                  - link "RE 맞아요. 저도 밖에 나갔다 오는데 파란 하늘이 너무 예쁘더라고요. 새 창 열림" [ref=f18e2715] [cursor=pointer]:
+                    - /url: https://cafe.naver.com/hongsam09/7278883?art=ZXh0ZXJuYWwtc2VydmljZS1uYXZlci1zZWFyY2gtY2FmZS1wcg.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWZlVHlwZSI6IkNBRkVfVVJMIiwiY2FmZVVybCI6ImhvbmdzYW0wOSIsImFydGljbGVJZCI6NzI3ODg4MywiaXNzdWVkQXQiOjE3ODg3NTY4OTI3MTN9.tn2ZcnzwWbxVYhyPjvOyFzuUgob7u0yx8RzbLOG3R2Q
+                    - generic [ref=f18e2718]:
+                      - generic [ref=f18e2719]: RE
+                      - text: 맞아요. 저도 밖에 나갔다 오는데 파란 하늘이 너무 예쁘더라고요.
+                    - generic [ref=f18e2720]: 새 창 열림
+                - button "다음" [ref=f18e2721] [cursor=pointer]
+            - generic [ref=f18e2730]:
+              - generic [ref=f18e2731]:
+                - link "korea247.kr www.korea247.kr 새 창 열림" [ref=f18e2732] [cursor=pointer]:
+                  - /url: https://www.korea247.kr/
+                  - generic [ref=f18e2734]:
+                    - generic [ref=f18e2738]: korea247.kr
+                    - generic [ref=f18e2740]: www.korea247.kr
+                  - generic [ref=f18e2744]: 새 창 열림
+                - button "옵션 메뉴 열기" [ref=f18e2746] [cursor=pointer]
+              - generic [ref=f18e2751]:
+                - link "대한민국 - 오늘 날씨 및 10일 일기 예보 새 창 열림" [ref=f18e2753] [cursor=pointer]:
+                  - /url: https://www.korea247.kr/
+                  - generic [ref=f18e2754]:
+                    - text: 대한민국 -
+                    - mark [ref=f18e2755]: 오늘 날씨
+                    - text: 및 10일 일기 예보
+                  - generic [ref=f18e2756]: 새 창 열림
+                - generic [ref=f18e2757]:
+                  - link "경기도 새 창 열림" [ref=f18e2758] [cursor=pointer]:
+                    - /url: https://www.korea247.kr/south-korea/gyeonggi-do/
+                    - generic [ref=f18e2759]: 경기도
+                    - generic [ref=f18e2760]: 새 창 열림
+                  - link "서울 새 창 열림" [ref=f18e2761] [cursor=pointer]:
+                    - /url: https://www.korea247.kr/south-korea/seoul/
+                    - generic [ref=f18e2762]: 서울
+                    - generic [ref=f18e2763]: 새 창 열림
+                  - link "경상남도 새 창 열림" [ref=f18e2764] [cursor=pointer]:
+                    - /url: https://www.korea247.kr/south-korea/gyeongsangnam-do/
+                    - generic [ref=f18e2765]: 경상남도
+                    - generic [ref=f18e2766]: 새 창 열림
+                  - link "강원도 새 창 열림" [ref=f18e2767] [cursor=pointer]:
+                    - /url: https://www.korea247.kr/south-korea/gangwon-do/
+                    - generic [ref=f18e2768]: 강원도
+                    - generic [ref=f18e2769]: 새 창 열림
+                  - link "대전광역시 새 창 열림" [ref=f18e2770] [cursor=pointer]:
+                    - /url: https://www.korea247.kr/south-korea/daejeon/
+                    - generic [ref=f18e2771]: 대전광역시
+                    - generic [ref=f18e2772]: 새 창 열림
+                  - link "제주특별자치도 새 창 열림" [ref=f18e2773] [cursor=pointer]:
+                    - /url: https://www.korea247.kr/south-korea/jeju/
+                    - generic [ref=f18e2774]: 제주특별자치도
+                    - generic [ref=f18e2775]: 새 창 열림
+                - link "여기에서 대한민국 날씨를 확인하실 수 있습니다. 대한민국 도시별 오늘 날씨 및 일기 예보. 새 창 열림" [ref=f18e2777] [cursor=pointer]:
+                  - /url: https://www.korea247.kr/
+                  - generic [ref=f18e2778]:
+                    - text: 여기에서 대한민국
+                    - mark [ref=f18e2779]: 날씨
+                    - text: 를 확인하실 수 있습니다. 대한민국 도시별
+                    - mark [ref=f18e2780]: 오늘 날씨
+                    - text: 및 일기 예보.
+                  - generic [ref=f18e2781]: 새 창 열림
+          - complementary "웨일 브라우저 설치 안내" [ref=f18e2782]:
+            - generic [ref=f18e2783]:
+              - img "웨일 브라우저" [ref=f18e2785]
+              - generic [ref=f18e2786]: 브라우저를 업데이트하세요
+              - generic [ref=f18e2787]: 최신 기술을 품은 네이버 웨일에서 빠른 인터넷을 만나보세요
+            - link "웨일 다운로드" [ref=f18e2789] [cursor=pointer]:
+              - /url: https://whale.naver.com/ko/?wpid=searchpopup_theme1
+            - button "배너 닫기" [ref=f18e2790] [cursor=pointer]
+          - generic [ref=f18e2793]:
+            - generic [ref=f18e2794]: 이전
+            - generic "페이지 탐색" [ref=f18e2796]:
+              - link "1 페이지" [ref=f18e2797] [cursor=pointer]:
+                - /url: "?nso=&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_pge&ssc=tab.nx.all"
+                - text: "1"
+                - generic [ref=f18e2798]: 페이지
+              - link "2 페이지" [ref=f18e2799] [cursor=pointer]:
+                - /url: "?nso=&page=2&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_pge&ssc=tab.ur.all&start=1"
+                - text: "2"
+                - generic [ref=f18e2800]: 페이지
+              - link "3 페이지" [ref=f18e2801] [cursor=pointer]:
+                - /url: "?nso=&page=3&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_pge&ssc=tab.ur.all&start=21"
+                - text: "3"
+                - generic [ref=f18e2802]: 페이지
+              - link "4 페이지" [ref=f18e2803] [cursor=pointer]:
+                - /url: "?nso=&page=4&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_pge&ssc=tab.ur.all&start=41"
+                - text: "4"
+                - generic [ref=f18e2804]: 페이지
+              - link "5 페이지" [ref=f18e2805] [cursor=pointer]:
+                - /url: "?nso=&page=5&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_pge&ssc=tab.ur.all&start=61"
+                - text: "5"
+                - generic [ref=f18e2806]: 페이지
+              - link "6 페이지" [ref=f18e2807] [cursor=pointer]:
+                - /url: "?nso=&page=6&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_pge&ssc=tab.ur.all&start=81"
+                - text: "6"
+                - generic [ref=f18e2808]: 페이지
+              - link "7 페이지" [ref=f18e2809] [cursor=pointer]:
+                - /url: "?nso=&page=7&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_pge&ssc=tab.ur.all&start=101"
+                - text: "7"
+                - generic [ref=f18e2810]: 페이지
+              - link "8 페이지" [ref=f18e2811] [cursor=pointer]:
+                - /url: "?nso=&page=8&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_pge&ssc=tab.ur.all&start=121"
+                - text: "8"
+                - generic [ref=f18e2812]: 페이지
+              - link "9 페이지" [ref=f18e2813] [cursor=pointer]:
+                - /url: "?nso=&page=9&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_pge&ssc=tab.ur.all&start=141"
+                - text: "9"
+                - generic [ref=f18e2814]: 페이지
+              - link "10 페이지" [ref=f18e2815] [cursor=pointer]:
+                - /url: "?nso=&page=10&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_pge&ssc=tab.ur.all&start=161"
+                - text: "10"
+                - generic [ref=f18e2816]: 페이지
+            - link "다음" [ref=f18e2817] [cursor=pointer]:
+              - /url: "?nso=&page=2&qdt=0&query=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&sm=tab_pge&ssc=tab.ur.all&start=1"
+        - generic [ref=f18e2822]:
+          - link [ref=f18e2823] [cursor=pointer]:
+            - /url: https://mkt.naver.com/p1/atrb?channel_id=naver_pcsearchmktbanner&campaign_id=2603-naverclip-001&target=https%3A%2F%2Fclipcreators.naver.com%2Fpromotion%2Ftoday%3Fdtm_source%3Dnaver_pcsearchmktbanner%26dtm_medium%3Dmktatrb_etc%26dtm_campaign%3D2603-naverclip-001
+            - generic [ref=f18e2825]:
+              - strong [ref=f18e2826]: 태그 하나로, 기록은 더 멀리
+              - paragraph [ref=f18e2827]: 오늘의 경험을 기록하고 포인트 적립
+          - link [ref=f18e2828] [cursor=pointer]:
+            - /url: https://mkt.naver.com/p1/atrb?channel_id=naver_pcsearchmktbanner&campaign_id=2609-shopping-002&target=https%3A%2F%2Fshopping.naver.com%2Ffesta%2Fgift%2F6a4f0fb8e73d32500f261a71%3FlayerId%3DL_260811143826330%26dtm_source%3Dnaver_pcsearchmktbanner%26dtm_medium%3Dmktatrb_etc%26dtm_campaign%3D2609-shopping-002
+            - generic [ref=f18e2830]:
+              - strong [ref=f18e2831]: 추석+세일
+              - paragraph [ref=f18e2832]: 선물핫딜부터 선착순 쿠폰까지!
+          - link [ref=f18e2833] [cursor=pointer]:
+            - /url: https://mkt.naver.com/naverhyundaicard3?eventCode=NAVHJ&dtm_source=naver_pcsearchmktbanner&dtm_medium=display&dtm_campaign=hyundaicard3mkt
+            - generic [ref=f18e2835]:
+              - strong [ref=f18e2836]: 적립적인 멤버십 전용카드
+              - paragraph [ref=f18e2837]: 네이버 현대카드 Ed.3
+          - link [ref=f18e2838] [cursor=pointer]:
+            - /url: https://mkt.naver.com/p1/atrb?channel_id=naver_pcsearchmktbanner&campaign_id=2607-naverAI-001&target=https%3A%2F%2Fmkt.naver.com%2Faitab%3Fdtm_source%3Dnaver_pcsearchmktbanner%26dtm_medium%3Dmktatrb_etc%26dtm_campaign%3D2607-naverAI-001
+            - generic [ref=f18e2840]:
+              - strong [ref=f18e2841]: 끝까지 끝내주는 AI, 네이버 AI탭
+              - paragraph [ref=f18e2842]: 검색이 대화가 되다
+    - generic [ref=f18e2843]:
+      - link "맨위로" [ref=f18e2845] [cursor=pointer]:
+        - /url: "#"
+      - generic [ref=f18e2848]:
+        - link "전체서비스 새 창 열림" [ref=f18e2850] [cursor=pointer]:
+          - /url: https://www.naver.com/more.html
+          - text: 전체서비스
+          - generic [ref=f18e2851]: 새 창 열림
+        - link "이용약관 새 창 열림" [ref=f18e2853] [cursor=pointer]:
+          - /url: https://policy.naver.com/policy/service.html
+          - text: 이용약관
+          - generic [ref=f18e2854]: 새 창 열림
+        - link "개인정보처리방침 새 창 열림" [ref=f18e2856] [cursor=pointer]:
+          - /url: https://policy.naver.com/policy/privacy.html
+          - strong [ref=f18e2857]: 개인정보처리방침
+          - generic [ref=f18e2858]: 새 창 열림
+        - link "검색 고객센터 새 창 열림" [ref=f18e2860] [cursor=pointer]:
+          - /url: https://help.naver.com/alias/search/integration/main.naver
+          - text: 검색 고객센터
+          - generic [ref=f18e2861]: 새 창 열림
+        - link "© NAVER Corp. 새 창 열림" [ref=f18e2863] [cursor=pointer]:
+          - /url: https://www.navercorp.com/
+          - text: © NAVER Corp.
+          - generic [ref=f18e2864]: 새 창 열림

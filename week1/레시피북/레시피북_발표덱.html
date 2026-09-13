@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15분 주방 · 레시피북 발표덱</title>
+
+<!-- CDN 버전 고정 (Babel 은 반드시 7.x) -->
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.25.9/babel.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+<style>
+  /* ========================================
+     Tailwind 유틸리티로 표현 불가한 것만 (폰트 스택 · 키프레임)
+     ======================================== */
+  :root {
+    --font-title: 'Gowun Batang', 'Nanum Myeongjo', serif;
+    --font-body: 'Gowun Dodum', system-ui, -apple-system, sans-serif;
+  }
+  html, body, #root { height: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    background: #0d0a07;
+    color: #f5efe6;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  .font-title { font-family: var(--font-title); }
+
+  @keyframes enterNext {
+    from { opacity: 0; transform: translateX(38px) scale(.985); }
+    to   { opacity: 1; transform: translateX(0) scale(1); }
+  }
+  @keyframes enterPrev {
+    from { opacity: 0; transform: translateX(-38px) scale(.985); }
+    to   { opacity: 1; transform: translateX(0) scale(1); }
+  }
+  @keyframes floatSoft {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+  @keyframes glowPulse {
+    0%, 100% { opacity: .35; }
+    50%      { opacity: .6; }
+  }
+  .enter-next { animation: enterNext .42s cubic-bezier(.22,.75,.3,1) both; }
+  .enter-prev { animation: enterPrev .42s cubic-bezier(.22,.75,.3,1) both; }
+  .float-soft { animation: floatSoft 6s ease-in-out infinite; }
+  .glow-pulse { animation: glowPulse 7s ease-in-out infinite; }
+
+  /* 장식 애니메이션은 접근성 설정에서 끈다 */
+  @media (prefers-reduced-motion: reduce) {
+    .enter-next, .enter-prev, .float-soft, .glow-pulse { animation: none !important; }
+  }
+
+  .slide-scroll::-webkit-scrollbar { width: 6px; }
+  .slide-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.14); border-radius: 3px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useCallback, useMemo, useRef } = React;
+
+// ========================================
+// 1. 악센트 팔레트 — Tailwind JIT 을 위해 완성된 정적 클래스만 넣는다
+// ========================================
+const ACCENTS = {
+  amber: {
+    text: 'text-amber-200', strong: 'text-amber-300', dot: 'bg-amber-300',
+    line: 'border-amber-400/30', soft: 'bg-amber-400/10', chip: 'bg-amber-400/15 text-amber-100 border-amber-300/30',
+    bar: 'bg-amber-300', glow: 'bg-amber-500/20',
+    sky: 'from-[#3a2410] via-[#1d1409] to-[#0d0a07]',
+  },
+  emerald: {
+    text: 'text-emerald-200', strong: 'text-emerald-300', dot: 'bg-emerald-300',
+    line: 'border-emerald-400/30', soft: 'bg-emerald-400/10', chip: 'bg-emerald-400/15 text-emerald-100 border-emerald-300/30',
+    bar: 'bg-emerald-300', glow: 'bg-emerald-500/20',
+    sky: 'from-[#12332a] via-[#0f1c18] to-[#0d0a07]',
+  },
+  rose: {
+    text: 'text-rose-200', strong: 'text-rose-300', dot: 'bg-rose-300',
+    line: 'border-rose-400/30', soft: 'bg-rose-400/10', chip: 'bg-rose-400/15 text-rose-100 border-rose-300/30',
+    bar: 'bg-rose-300', glow: 'bg-rose-500/20',
+    sky: 'from-[#3d1620] via-[#221016] to-[#0d0a07]',
+  },
+  sky: {
+    text: 'text-sky-200', strong: 'text-sky-300', dot: 'bg-sky-300',
+    line: 'border-sky-400/30', soft: 'bg-sky-400/10', chip: 'bg-sky-400/15 text-sky-100 border-sky-300/30',
+    bar: 'bg-sky-300', glow: 'bg-sky-500/20',
+    sky: 'from-[#12293d] via-[#0f1926] to-[#0d0a07]',
+  },
+  violet: {
+    text: 'text-violet-200', strong: 'text-violet-300', dot: 'bg-violet-300',
+    line: 'border-violet-400/30', soft: 'bg-violet-400/10', chip: 'bg-violet-400/15 text-violet-100 border-violet-300/30',
+    bar: 'bg-violet-300', glow: 'bg-violet-500/20',
+    sky: 'from-[#2c1a3d] via-[#191223] to-[#0d0a07]',
+  },
+};
+
+// ========================================
+// 2. 레시피 데이터 — 1주차/레시피북/*.md 에서 추출 (계량·시간은 원문 그대로)
+// ========================================
+const RECIPES = [
+  {
+    no: 1, accent: 'amber', emoji: '🍳',
+    title: `간장버터 계란밥`,
+    tagline: `버터의 유지방, 간장의 감칠맛, 반숙 노른자. 세 가지 지방·감칠맛 층이 밥알을 코팅하는 구조다. 재료는 단순하지만 불 조절과 소스 붓는 위치에서 맛이 갈린다.`,
+    time: `8분`, timeNote: `준비 2분 + 조리 6분`,
+    serving: `1인분`, level: `하`,
+    technique: `버터 브라우닝 직전에서 멈추기, 반숙 프라이`,
+    groups: [
+      { name: `기본`, items: [
+        { n: `따뜻한 밥`, a: `1공기 (210g)`, note: `찬밥은 금지 — 소스가 흡수되지 않는다` },
+        { n: `계란`, a: `2개`, note: `실온에 5분 두면 흰자가 덜 퍼진다` },
+        { n: `버터`, a: `1큰술 (12g)`, note: `가염이면 간장을 2/3큰술로` },
+        { n: `대파`, a: `5cm`, note: `흰 부분 위주로 송송` },
+      ]},
+      { name: `소스 — 반드시 미리 섞어둘 것`, items: [
+        { n: `진간장`, a: `1큰술` },
+        { n: `설탕`, a: `1/2작은술` },
+        { n: `물`, a: `1큰술` },
+        { n: `참기름`, a: `1/2큰술` },
+      ]},
+    ],
+    extras: [`김가루 한 줌`, `통깨 약간`, `베이컨 1줄 또는 스팸`],
+    magic: {
+      title: `물 1큰술이 왜 들어가나`,
+      body: `간장만 팬에 부으면 순식간에 타서 쓴맛이 난다. 물이 온도를 낮춰주는 완충재 역할을 하고, 졸아들면서 농도가 딱 맞게 잡힌다.`,
+    },
+    steps: [
+      { time: `0:00–2:00`, label: `준비`, body: [
+        `밥부터 데우기 시작. 그 사이 대파를 송송 썬다.`,
+        `종지에 간장·설탕·물·참기름을 섞어 팬 옆에 둔다.`,
+        `건너뛰면 계란 익는 동안 소스를 계량하게 되고, 그 30초에 노른자가 완숙된다.`,
+      ]},
+      { time: `2:00–3:00`, label: `버터에 파향 입히기`, body: [
+        `팬을 중불로 30초 예열한 뒤 버터를 넣는다.`,
+        `다 녹고 잔거품이 잦아들면 대파를 넣고 30초만 볶는다.`,
+        `버터가 갈색이 되기 직전이 향의 정점. 연기가 나면 이미 늦었다.`,
+      ]},
+      { time: `3:00–6:00`, label: `계란 반숙 프라이`, body: [
+        `파를 한쪽으로 밀고 빈 자리에 계란 2개를 깨 넣는다.`,
+        `불을 약불로 낮춘다. 세면 흰자만 타고 노른자가 안 익는다.`,
+        `뚜껑을 덮으면 노른자 표면에 얇은 막이 생긴다. 뒤집지 않는다.`,
+      ]},
+      { time: `6:00–7:00`, label: `소스 졸이기`, body: [
+        `소스를 계란 위가 아니라 팬 바닥 빈 곳에 붓는다.`,
+        `지글거리며 20~30초 졸이면 윤기가 돌고 향이 올라온다.`,
+        `팬을 기울여 소스가 계란 밑으로 흐르게 하고 불을 끈다.`,
+      ]},
+      { time: `7:00–8:00`, label: `담기`, body: [
+        `밥 → 계란 → 팬에 남은 소스를 밥 위에 싹 긁어 붓는다.`,
+        `김가루, 통깨 순으로 올린다.`,
+      ]},
+      { time: `8:00~`, label: `먹기`, body: [
+        `노른자를 터뜨려 비비고, 5초 기다렸다 먹으면 밥알이 소스를 더 머금는다.`,
+      ]},
+    ],
+    secret: {
+      headline: `소스는 왜 팬 바닥에 붓나`,
+      body: `계란 위에 부으면 소스가 흡수되지 않고 흘러내려 밥이 짜지기만 한다. 팬 바닥에서 한 번 졸여야 수분이 날아가고 단맛·감칠맛이 농축된다.`,
+    },
+    troubles: [
+      { s: `간장이 쓰다`, c: `불이 셌거나 물 없이 간장만 넣음`, f: `중불 유지 + 소스에 물 1큰술 필수` },
+      { s: `맛이 밍밍하다`, c: `소스를 계란 위에 부어 흘러내림`, f: `팬 바닥에 붓고 20초 졸이기` },
+      { s: `노른자가 완숙됐다`, c: `계란 넣고 불을 안 낮춤`, f: `계란 투입 직후 약불` },
+    ],
+  },
+
+  {
+    no: 2, accent: 'emerald', emoji: '🍜',
+    title: `들기름 막국수`,
+    tagline: `재료 5개, 불 쓰는 시간 4분. 그런데도 실패가 잦은 이유는 면 헹구기를 대충 하기 때문이다. 이 요리의 90%는 면 삶고 헹구는 데 달려 있다.`,
+    time: `10분`, timeNote: `불 쓰는 시간 4분`,
+    serving: `1인분`, level: `하`,
+    technique: `전분기 완전 제거, 들기름 코팅`,
+    groups: [
+      { name: `기본`, items: [
+        { n: `메밀면 또는 소면`, a: `100g`, note: `메밀 함량 30% 이상이면 향이 다르다` },
+        { n: `들기름`, a: `1.5큰술`, note: `개봉 3개월 이내 — 들기름은 산패가 빠르다` },
+        { n: `진간장`, a: `1큰술`, note: `절반만 먼저 넣고 맛본 뒤 조절` },
+        { n: `김가루`, a: `한 줌 (5g)`, note: `조미김을 손으로 부숴도 된다` },
+        { n: `통깨`, a: `1작은술`, note: `손으로 비벼 넣으면 향이 두 배` },
+      ]},
+    ],
+    extras: [`쪽파 1대`, `달걀 반숙 1개`, `청양고추 1/2개`, `식초 1작은술`],
+    magic: {
+      title: `들기름 vs 참기름`,
+      body: `참기름은 볶은 향이 강해 김·간장을 눌러버린다. 들기름은 풀 향에 가까워 메밀·김과 층이 겹치지 않는다. 이 레시피는 들기름이 맞다.`,
+    },
+    steps: [
+      { time: `0:00`, label: `물부터 올린다`, body: [
+        `물 1.5L를 센 불에. 끓는 3분 동안 나머지를 다 끝낸다.`,
+        `소금은 넣지 않는다 — 어차피 헹구고, 간은 간장으로 맞춘다.`,
+        `면 100g당 물 1L 이상. 적으면 면이 붙고 국물이 걸쭉해진다.`,
+      ]},
+      { time: `0:00–3:00`, label: `물 끓는 동안 준비`, body: [
+        `볼에 들기름 1.5큰술 + 진간장 1/2큰술을 미리 넣어둔다.`,
+        `쪽파를 썰고 김가루를 꺼내둔다.`,
+        `큰 볼에 찬물과 얼음을 받아둔다. 이게 헹구기의 성패를 가른다.`,
+      ]},
+      { time: `3:00–7:00`, label: `면 삶기`, body: [
+        `부챗살처럼 펼쳐 넣고 젓가락으로 한 번 크게 젓는다.`,
+        `포장 표시 시간 −30초에 건진다. 헹구는 동안 여열로 더 익는다.`,
+        `끓어 넘치면 찬물 반 컵. 불을 줄이면 면이 퍼진다.`,
+        `한 가닥을 반으로 잘라 중심에 하얀 심이 실처럼 남으면 지금이다.`,
+      ]},
+      { time: `7:00–9:00`, label: `헹구기 — 이 요리의 핵심`, body: [
+        `흐르는 찬물에서 손으로 박박 주무르며 헹군다. 맑아질 때까지 최소 30초.`,
+        `그다음 얼음물에 10초. 면이 수축하면서 탄력이 생긴다.`,
+        `체에 올려 흔들고, 손으로 꼭 짜서 물기를 뺀다.`,
+      ]},
+      { time: `9:00–10:00`, label: `버무리기`, body: [
+        `젓가락으로 들어 올렸다 놓는 식으로 섞는다. 누르면 면이 끊어진다.`,
+        `10초 버무린 뒤 맛보고, 싱거우면 남은 간장 1/2큰술 추가.`,
+        `김가루는 먹기 직전에 — 미리 넣으면 눅눅해져 종이 맛이 난다.`,
+      ]},
+      { time: `10:00`, label: `담기`, body: [
+        `소복하게 담고 김가루 → 통깨 → 쪽파 순. 반숙 달걀을 올리면 완성도가 올라간다.`,
+      ]},
+    ],
+    secret: {
+      headline: `왜 이렇게까지 헹구나`,
+      body: `표면 전분이 남으면 들기름이 면에 붙지 못하고 겉돈다. 물기가 남으면 간장이 희석돼 아무리 넣어도 밍밍하다. "헹궜는데 맛이 없다"의 99%는 물기를 안 짜서다.`,
+    },
+    troubles: [
+      { s: `밍밍하다`, c: `면 물기를 안 짬`, f: `손으로 꼭 짠다. 간장 추가는 그다음` },
+      { s: `면이 떡졌다`, c: `헹굴 때 전분 제거 부족`, f: `물이 맑아질 때까지 주무르며 헹구기` },
+      { s: `면이 퍼졌다`, c: `표시 시간대로 다 삶음`, f: `표시 시간 −30초에 건지기` },
+    ],
+  },
+
+  {
+    no: 3, accent: 'rose', emoji: '🍅',
+    title: `토마토 마늘 파스타`,
+    tagline: `소스를 따로 만들지 않는다. 방울토마토를 팬에서 터뜨려 그 자리에서 소스가 된다. 15분 안에 끝내는 유일한 방법은 면 삶기와 소스 만들기를 동시에 돌리는 것이다.`,
+    time: `15분`, timeNote: `병렬 진행 기준`,
+    serving: `2인분`, level: `중`,
+    technique: `병렬 진행, 마늘 저온 인퓨징, 면수 유화`,
+    groups: [
+      { name: `기본`, items: [
+        { n: `스파게티 면`, a: `160g (1인 80g)`, note: `1.7mm 기준. 1.9mm면 삶는 시간 +1분` },
+        { n: `방울토마토`, a: `15~18알 (250g)`, note: `완숙일수록 좋다. 단맛이 소스의 전부` },
+        { n: `마늘`, a: `5쪽`, note: `편 썰기. 다지면 탄다` },
+        { n: `올리브유`, a: `3큰술`, note: `엑스트라 버진` },
+        { n: `소금`, a: `면수용 1큰술 + 약간`, note: `간 맞추기용 별도` },
+        { n: `후추`, a: `약간`, note: `마지막에 갓 갈아서` },
+      ]},
+    ],
+    extras: [`파르메산 치즈 2큰술`, `바질 잎 5장`, `페페론치노 2개`, `버터 1작은술`],
+    magic: {
+      title: `면수 소금 1큰술이 왜 필요한가`,
+      body: `파스타에 간이 들어가는 유일한 순간이다. 물 2L에 소금 1큰술이면 "바닷물보다 살짝 싱거운" 정도. 여기서 간을 안 하면 나중에 소스를 아무리 짜게 해도 면 자체는 계속 밍밍하다.`,
+    },
+    parallel: [
+      { t: `0:00–3:00`,   pot: `물 올리기, 소금 투입`,       pan: `마늘 편 썰기, 토마토 반 자르기` },
+      { t: `3:00–4:00`,   pot: `면 투입`,                    pan: `올리브유 + 마늘 약불 시작` },
+      { t: `4:00–7:00`,   pot: `삶는 중`,                    pan: `마늘 향 내기 → 토마토 투입` },
+      { t: `7:00–10:00`,  pot: `삶는 중`,                    pan: `토마토 으깨며 볶기` },
+      { t: `10:00–11:00`, pot: `면 건지기 (표시 −1분)`,      pan: `면수 1국자 투입` },
+      { t: `11:00–13:00`, pot: `—`,                          pan: `면 + 소스 센 불에 볶기` },
+      { t: `13:00–15:00`, pot: `—`,                          pan: `간 맞추고 담기` },
+    ],
+    parallelNote: `면 삶는 시간을 소스에 맞추는 게 아니라, 소스를 면 시간에 맞춘다. 소스가 먼저 완성되는 게 정상이다.`,
+    steps: [
+      { time: `0:00`, label: `물부터 올린다`, body: [`물 2L를 센 불에 올리고 뚜껑을 덮는다. 끓으면 소금 1큰술.`] },
+      { time: `0:00–3:00`, label: `손질`, body: [
+        `마늘 5쪽을 0.2cm 두께로 편 썬다. 두꺼우면 안 익고, 얇으면 탄다.`,
+        `방울토마토를 세로로 반 자른다 — 단면이 팬에 닿아야 즙이 빨리 난다.`,
+      ]},
+      { time: `3:00`, label: `면 투입`, body: [
+        `팔팔 끓으면 면을 넣는다. 여기서부터 시계를 본다.`,
+        `30초간 저어 붙는 걸 막는다. 포장 표시가 8분이면 7분에 건진다.`,
+      ]},
+      { time: `3:00–6:00`, label: `마늘 향 내기`, body: [
+        `차가운 팬에 올리브유 3큰술과 마늘 편을 동시에 넣고 약불을 켠다.`,
+        `잔거품이 올라오며 가장자리가 연한 금색이 되면 끝. 3분 정도.`,
+        `진한 갈색은 쓴맛이다. 금색에서 멈춘다.`,
+      ]},
+      { time: `6:00–10:00`, label: `토마토 볶기`, body: [
+        `중불로 올리고 자른 단면이 아래로 가게 넣는다.`,
+        `처음 1분은 건드리지 않는다. 단면이 지져지며 단맛이 응축된다.`,
+        `국자 뒷면으로 하나씩 눌러 터뜨린다. 소금 한 꼬집.`,
+        `3~4분 후 걸쭉해지고 색이 진해지면 완성.`,
+      ]},
+      { time: `10:00–11:00`, label: `면 건지기 + 면수`, body: [
+        `면수를 먼저 국자로 한 컵 떠둔다. 가장 많이 잊는 단계.`,
+        `체에 받치지 말고 집게로 바로 팬에 옮긴다.`,
+      ]},
+      { time: `11:00–13:00`, label: `마무리 볶기`, body: [
+        `면수 1국자를 붓고 불을 센 불로 올린다.`,
+        `집게로 들었다 놓으며 1~2분. 팬 바닥이 거의 마르면 완성.`,
+        `불을 끄고 버터 1작은술을 넣어 섞으면 광택이 산다.`,
+      ]},
+      { time: `13:00–15:00`, label: `담기`, body: [
+        `소금·후추로 간을 맞추고 집게로 돌려가며 봉긋하게 담는다.`,
+        `파르메산 치즈와 바질을 올린다.`,
+      ]},
+    ],
+    secret: {
+      headline: `면수의 정체`,
+      body: `면에서 빠져나온 전분 + 소금물이다. 이 전분이 기름과 물을 붙여주는 유화제 역할을 한다. 면수 없이는 기름이 겉돌고, 소스가 면에 붙지 않고 접시 바닥에 고인다.`,
+    },
+    troubles: [
+      { s: `소스가 면에 안 붙고 접시에 고인다`, c: `면수를 안 넣었거나 볶는 시간 부족`, f: `면수 1국자 + 센 불 1분 이상` },
+      { s: `마늘이 쓰다`, c: `갈색까지 태움`, f: `차가운 팬 + 약불, 금색에서 정지` },
+      { s: `밍밍하다`, c: `면수에 소금을 안 넣음`, f: `물 2L당 소금 1큰술` },
+    ],
+  },
+
+  {
+    no: 4, accent: 'sky', emoji: '🐟',
+    title: `참치마요 덮밥`,
+    tagline: `불을 쓰는 시간이 계란 부치는 2분뿐이다. 이 책에서 가장 빠른 메뉴. 대신 참치 기름을 얼마나 짜내느냐로 완성도가 통째로 갈린다.`,
+    time: `7분`, timeNote: `불 쓰는 시간 2분`,
+    serving: `1인분`, level: `하`,
+    technique: `참치 탈유, 양파 매운맛 제거`,
+    groups: [
+      { name: `기본`, items: [
+        { n: `따뜻한 밥`, a: `1공기 (210g)` },
+        { n: `참치캔`, a: `1개 (100g, 살코기)`, note: `기름 제거 후 실중량 약 70g` },
+        { n: `마요네즈`, a: `2큰술`, note: `일본식이 산미가 강해 더 어울린다` },
+        { n: `양파`, a: `1/4개`, note: `잘게 다지기` },
+        { n: `진간장`, a: `1작은술` },
+        { n: `설탕`, a: `1/2작은술`, note: `마요네즈의 산미를 잡아준다` },
+        { n: `계란`, a: `1개`, note: `반숙 프라이` },
+        { n: `김가루`, a: `한 줌` },
+      ]},
+    ],
+    extras: [`쪽파 1대`, `스리라차 또는 청양고추`, `슬라이스 치즈 1장`, `참기름 1/2작은술`, `후추`],
+    magic: {
+      title: `양파는 찬물에 딱 30초`,
+      body: `생양파의 매운맛 성분은 물에 녹는다. 30초면 충분하고, 3분 넘게 담그면 단맛까지 빠져나가 아무 맛도 안 나는 아삭함만 남는다. 물기를 안 짜면 참치마요가 묽어진다.`,
+    },
+    steps: [
+      { time: `0:00–1:00`, label: `밥과 양파`, body: [
+        `밥을 데우기 시작. 양파 1/4개를 최대한 잘게 다진다.`,
+        `참치 살보다 크면 양파만 도드라진다. 참치 결과 비슷한 크기가 목표.`,
+      ]},
+      { time: `1:00–2:00`, label: `양파 매운맛 빼기`, body: [
+        `다진 양파를 찬물에 30초 담갔다가 체에 밭쳐 물기를 꼭 짠다.`,
+      ]},
+      { time: `1:00–2:00`, label: `참치 기름 짜기 — 핵심`, body: [
+        `캔 뚜껑을 반쯤 열어 꾹 눌러 기름을 완전히 따라낸다.`,
+        `한 번으로 끝내지 말고 30초 세워 남은 기름을 더 뺀다.`,
+        `기름이 남으면 마요네즈가 겉돌고, 밥이 느끼해지고, 간장이 안 스민다.`,
+      ]},
+      { time: `2:00–3:00`, label: `참치마요 섞기`, body: [
+        `참치 + 물기 짠 양파 + 마요네즈 2큰술 + 간장 1작은술 + 설탕 1/2작은술.`,
+        `참치 결을 살짝 으깨듯 섞는다. 곱게 갈면 식감이 사라진다.`,
+        `후추를 넉넉히 — 비린내를 잡는 건 후추다.`,
+      ]},
+      { time: `3:00–5:00`, label: `계란 반숙 프라이`, body: [
+        `약불에서 계란 1개를 반숙으로. 뚜껑을 덮으면 모양이 예쁘다.`,
+        `흰자 가장자리가 바삭할 정도. 부드러운 참치마요와 대비가 필요하다.`,
+      ]},
+      { time: `5:00–7:00`, label: `담기`, body: [
+        `밥 → 참치마요를 밥 전체에 고르게 펴 바르기 → 계란 → 김가루 → 쪽파.`,
+        `가운데만 쌓으면 가장자리가 맨밥으로 남는다.`,
+      ]},
+      { time: `7:00~`, label: `먹기`, body: [
+        `노른자를 터뜨려 비빈다. 스리라차를 지그재그로 뿌리면 느끼함이 잡힌다.`,
+      ]},
+    ],
+    secret: {
+      headline: `기름 참치 vs 물 참치`,
+      body: `물 참치를 쓰면 탈유 과정이 훨씬 쉽지만 고소함이 줄어든다. 기름 참치를 쓰고 확실히 짜는 쪽이 맛있다. 더 확실하게 하려면 체에 받쳐 숟가락으로 눌러 짜고, 기름진 게 싫으면 뜨거운 물을 한 번 끼얹는다.`,
+    },
+    troubles: [
+      { s: `느끼하다`, c: `참치 기름을 덜 짬`, f: `캔을 눌러 따라내고 30초 더 세워두기` },
+      { s: `묽어서 흘러내린다`, c: `양파 물기를 안 짬`, f: `찬물에서 건진 뒤 손으로 꼭 짜기` },
+      { s: `양파가 맵다`, c: `물에 안 담금`, f: `찬물 30초` },
+    ],
+  },
+
+  {
+    no: 5, accent: 'violet', emoji: '🍌',
+    title: `버터 캐러멜 바나나`,
+    tagline: `설탕이 녹아 호박색으로 변하는 그 1분이 이 레시피의 전부다. 뜨거운 캐러멜과 차가운 아이스크림의 온도 대비가 핵심이라, 담자마자 바로 먹어야 한다.`,
+    time: `10분`, timeNote: `준비 3분 + 조리 7분`,
+    serving: `2인분`, level: `중`,
+    technique: `설탕을 젓지 않고 캐러멜화, 잔열 계산해서 불 끄기`,
+    groups: [
+      { name: `기본`, items: [
+        { n: `바나나`, a: `2개`, note: `갈색 반점이 이제 막 생긴 것. 무르면 뭉개진다` },
+        { n: `버터`, a: `2큰술 (24g)`, note: `무염 권장. 가염이면 마지막 소금을 뺀다` },
+        { n: `설탕`, a: `3큰술 (36g)`, note: `흑설탕이면 풍미가 깊어진다` },
+        { n: `생크림`, a: `3큰술`, note: `실온에 꺼내둘 것 — 차가우면 캐러멜이 굳는다` },
+        { n: `소금`, a: `한 꼬집`, note: `단맛을 또렷하게 만든다` },
+      ]},
+      { name: `곁들임`, items: [
+        { n: `바닐라 아이스크림`, a: `2스쿱` },
+      ]},
+    ],
+    extras: [`계핏가루 약간`, `피칸 또는 호두 한 줌`, `레몬즙 2~3방울`],
+    magic: {
+      title: `생크림을 왜 실온에 두나`,
+      body: `180도 가까이 올라간 캐러멜에 찬 생크림을 부으면 온도 차 때문에 설탕이 순식간에 다시 굳어 팬 바닥에 사탕처럼 눌어붙는다. 실온 생크림은 이 충격을 줄여 소스가 부드럽게 섞인다.`,
+    },
+    steps: [
+      { time: `0:00–3:00`, label: `준비`, body: [
+        `바나나를 1.5cm 두께로 어슷하게 썬다. 1cm 미만이면 뒤집을 때 부서진다.`,
+        `설탕과 생크림을 계량해 팬 옆에. 아이스크림은 냉동실에서 꺼내지 않는다.`,
+        `캐러멜화는 시작되면 10초 단위로 색이 변한다 — 미장플라스는 선택이 아니다.`,
+      ]},
+      { time: `3:00–4:00`, label: `버터 녹이기`, body: [
+        `팬을 중불로 30초 예열하고 버터를 넣는다. 다 녹고 잔거품이 잦아들면 다음.`,
+      ]},
+      { time: `4:00–6:00`, label: `설탕 캐러멜화 — 핵심`, body: [
+        `설탕을 팬 전체에 고르게 흩뿌린다. 한곳에 쌓아 붓지 않는다.`,
+        `절대 젓지 않는다. 섞고 싶으면 팬 손잡이를 잡고 천천히 돌린다.`,
+        `30초쯤 아무 일이 없어도 불을 올리지 않는다.`,
+        `전체가 녹고 맑은 호박색이 되면 즉시 다음 단계.`,
+      ]},
+      { time: `6:00–8:00`, label: `바나나 굽기`, body: [
+        `단면이 아래로 가게 한 겹으로 깔고 90초간 건드리지 않는다.`,
+        `90초 후 한 번만 뒤집어 30초 더. 뒤집는 건 딱 한 번이다.`,
+        `계핏가루나 견과류를 넣는다면 뒤집은 직후에.`,
+      ]},
+      { time: `8:00–9:00`, label: `소스 완성`, body: [
+        `불을 끄고 실온 생크림을 붓는다. 소금 한 꼬집.`,
+        `크게 지글거리는 게 정상이다. 놀라서 다시 불을 켜지 않는다.`,
+        `묽으면 약불에 30초만 더 졸인다. 레몬즙은 가장 마지막에.`,
+      ]},
+      { time: `9:00–10:00`, label: `담기`, body: [
+        `아이스크림을 먼저 담고, 소스를 30초쯤 식힌 뒤 바나나와 함께 붓는다.`,
+        `바로 부으면 아이스크림이 국물이 된다. 30초면 겉면만 살짝 녹는다.`,
+      ]},
+    ],
+    secret: {
+      headline: `왜 젓지 않나 — 재결정화`,
+      body: `설탕은 녹는 도중에 저으면 결정 구조가 다시 만들어진다. 한 알갱이가 굳으면 주변까지 연쇄적으로 굳어 팬 전체가 하얗게 서걱거린다. 한번 일어나면 되돌릴 방법이 없다. 그리고 불을 꺼도 잔열로 색이 한 단계 더 진해지니, "딱 좋다" 싶은 색보다 반 박자 이른 색에서 바나나를 넣는다.`,
+    },
+    troubles: [
+      { s: `설탕이 모래처럼 서걱거린다`, c: `녹는 도중에 저었다 (재결정화)`, f: `젓지 말고 팬을 돌린다. 굳었으면 물 1큰술 넣고 약불에서 다시` },
+      { s: `캐러멜이 쓰다`, c: `색이 진한 갈색까지 갔다`, f: `호박색에서 바나나 투입. 잔열을 계산한다` },
+      { s: `생크림 넣자 돌처럼 굳었다`, c: `찬 생크림 / 불을 켠 채로 부음`, f: `실온 생크림, 불을 끄고 투입` },
+    ],
+  },
+];
+
+// ========================================
+// 3. 피날레 — 다섯 레시피에서 반복되는 공통 원칙
+// ========================================
+const PRINCIPLES = [
+  { icon: `📐`, title: `불을 켜기 전에 다 계량한다`, body: `소스를 미리 섞어 팬 옆에 두고(01), 설탕·생크림을 계량해 두고(05), 밥 데우는 동안 손질을 끝낸다(04). 조리 중에 계량하러 가면 그 30초에 노른자가 완숙되고 캐러멜이 탄다.` },
+  { icon: `💧`, title: `물기를 짜야 간이 산다`, body: `면 물기를 안 짜면 간장이 희석돼 밍밍하고(02), 양파 물기를 안 짜면 참치마요가 묽어진다(04). "싱겁다"의 원인은 대개 양념이 아니라 수분이다.` },
+  { icon: `🔥`, title: `멈춰야 할 색이 정해져 있다`, body: `버터는 갈색 되기 직전(01), 마늘은 연한 금색(03), 캐러멜은 맑은 호박색(05). 그 다음 단계는 전부 쓴맛이다.` },
+  { icon: `⏱️`, title: `여열을 계산해 덜 익힌 채로 뺀다`, body: `면은 표시 시간 −30초(02), 파스타는 −1분(03), 캐러멜은 불을 꺼도 한 단계 더 진해진다(05). 완성된 상태로 불을 끄면 이미 지나친 것이다.` },
+  { icon: `🥢`, title: `마지막 한 겹은 먹기 직전에`, body: `김가루는 먹기 직전(02), 소스는 30초 식혀서(05), 비빈 뒤 5초 기다렸다가(01). 완성과 먹는 시점 사이의 몇 초가 식감을 바꾼다.` },
+];
+
+// ========================================
+// 4. 슬라이드 목록 — 표지 + 목차 + (레시피당 4장) + 피날레 = 23장
+// ========================================
+const SLIDES = [
+  { kind: 'cover', label: `표지`, accent: 'amber' },
+  { kind: 'toc',   label: `목차`, accent: 'amber' },
+  ...RECIPES.flatMap(r => [
+    { kind: 'chapter',     label: `${r.no}. ${r.title}`, accent: r.accent, recipe: r },
+    { kind: 'ingredients', label: `${r.no}. 재료`,        accent: r.accent, recipe: r },
+    { kind: 'steps',       label: `${r.no}. 타임라인`,    accent: r.accent, recipe: r },
+    { kind: 'secret',      label: `${r.no}. 마법의 비결`, accent: r.accent, recipe: r },
+  ]),
+  { kind: 'finale', label: `피날레`, accent: 'amber' },
+];
+
+// ========================================
+// 5. 공용 UI 조각
+// ========================================
+function Backdrop({ a }) {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div className={`absolute inset-0 bg-gradient-to-br ${a.sky}`} />
+      <div className={`absolute -top-40 -left-32 h-[28rem] w-[28rem] rounded-full blur-3xl glow-pulse ${a.glow}`} />
+      <div className={`absolute -bottom-48 -right-24 h-[32rem] w-[32rem] rounded-full blur-3xl glow-pulse ${a.glow}`} />
+      <div className="absolute inset-0 opacity-[0.35] bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,.08),transparent_60%)]" />
+    </div>
+  );
+}
+
+function SlideFrame({ children }) {
+  return (
+    <div className="slide-scroll relative z-10 h-full w-full overflow-y-auto px-6 py-10 sm:px-12 md:px-20 lg:px-28">
+      <div className="mx-auto flex min-h-full max-w-6xl flex-col justify-center">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function Eyebrow({ a, children }) {
+  return (
+    <div className={`mb-3 flex items-center gap-2 text-xs tracking-[0.35em] ${a.text}`}>
+      <span className={`h-1.5 w-1.5 rounded-full ${a.dot}`} />
+      {children}
+    </div>
+  );
+}
+
+function MetaBox({ a, k, v, sub }) {
+  return (
+    <div className={`rounded-xl border ${a.line} ${a.soft} px-4 py-3`}>
+      <div className="text-[11px] tracking-widest text-white/45">{k}</div>
+      <div className="mt-1 font-title text-xl text-white">{v}</div>
+      {sub && <div className="mt-0.5 text-[11px] text-white/45">{sub}</div>}
+    </div>
+  );
+}
+
+// ========================================
+// 6. 슬라이드 종류별 렌더
+// ========================================
+function CoverSlide({ a }) {
+  return (
+    <SlideFrame>
+      <div className="text-center">
+        <div className="mb-6 flex justify-center gap-3 text-4xl float-soft">
+          {RECIPES.map(r => <span key={r.no}>{r.emoji}</span>)}
+        </div>
+        <div className={`text-xs tracking-[0.5em] ${a.text}`}>1주차 · 레시피북</div>
+        <h1 className="mt-4 font-title text-5xl leading-tight text-white sm:text-6xl md:text-7xl">
+          15분 주방
+        </h1>
+        <p className="mx-auto mt-6 max-w-2xl font-title text-lg leading-relaxed text-white/70 sm:text-xl">
+          재료는 적고 시간은 짧다. 맛을 가르는 건 <span className={a.strong}>불 조절과 순서</span>다.
+        </p>
+        <div className={`mx-auto mt-10 inline-flex items-center gap-6 rounded-full border ${a.line} ${a.soft} px-8 py-3`}>
+          <span className="font-title text-2xl text-white">{RECIPES.length}<span className="ml-1 text-sm text-white/50">편</span></span>
+          <span className="h-6 w-px bg-white/15" />
+          <span className="font-title text-2xl text-white">23<span className="ml-1 text-sm text-white/50">장</span></span>
+        </div>
+        <p className="mt-10 text-xs text-white/35">
+          ← → 이동 · <span className="text-white/55">O</span> 목차 · <span className="text-white/55">F</span> 전체화면
+        </p>
+      </div>
+    </SlideFrame>
+  );
+}
+
+function TocSlide({ a, go }) {
+  return (
+    <SlideFrame>
+      <Eyebrow a={a}>목차</Eyebrow>
+      <h2 className="font-title text-4xl text-white sm:text-5xl">다섯 편의 구성</h2>
+      <div className="mt-8 grid gap-3">
+        {RECIPES.map(r => {
+          const ra = ACCENTS[r.accent];
+          const target = SLIDES.findIndex(s => s.kind === 'chapter' && s.recipe && s.recipe.no === r.no);
+          return (
+            <button
+              key={r.no}
+              onClick={() => go(target)}
+              className={`group flex items-center gap-4 rounded-2xl border ${ra.line} ${ra.soft} px-5 py-4 text-left transition hover:bg-white/10`}
+            >
+              <span className="text-3xl">{r.emoji}</span>
+              <span className={`font-title text-2xl ${ra.text} w-8`}>{String(r.no).padStart(2, '0')}</span>
+              <span className="flex-1">
+                <span className="block font-title text-xl text-white">{r.title}</span>
+                <span className="mt-0.5 block text-xs text-white/45">{r.technique}</span>
+              </span>
+              <span className="hidden shrink-0 text-right text-xs text-white/50 sm:block">
+                {r.time} · {r.serving} · 난이도 {r.level}
+              </span>
+              <span className={`text-lg opacity-0 transition group-hover:opacity-100 ${ra.text}`}>→</span>
+            </button>
+          );
+        })}
+      </div>
+    </SlideFrame>
+  );
+}
+
+function ChapterSlide({ a, r }) {
+  return (
+    <SlideFrame>
+      <div className="text-center">
+        <div className="text-7xl float-soft sm:text-8xl">{r.emoji}</div>
+        <div className={`mt-6 text-xs tracking-[0.45em] ${a.text}`}>CHAPTER {String(r.no).padStart(2, '0')}</div>
+        <h2 className="mt-3 font-title text-5xl text-white sm:text-6xl">{r.title}</h2>
+        <p className="mx-auto mt-6 max-w-3xl font-title text-base leading-relaxed text-white/65 sm:text-lg">
+          {r.tagline}
+        </p>
+        <div className="mx-auto mt-10 grid max-w-2xl grid-cols-3 gap-3">
+          <MetaBox a={a} k="조리 시간" v={r.time} sub={r.timeNote} />
+          <MetaBox a={a} k="분량" v={r.serving} />
+          <MetaBox a={a} k="난이도" v={r.level} />
+        </div>
+        <div className={`mt-6 inline-flex max-w-full items-center gap-2 rounded-full border px-5 py-2 text-sm ${a.chip}`}>
+          <span className="opacity-60">핵심 기술</span>
+          <span className="font-title">{r.technique}</span>
+        </div>
+      </div>
+    </SlideFrame>
+  );
+}
+
+function IngredientsSlide({ a, r }) {
+  return (
+    <SlideFrame>
+      <Eyebrow a={a}>{r.no}. 재료</Eyebrow>
+      <h2 className="font-title text-4xl text-white sm:text-5xl">계량이 절반이다</h2>
+
+      <div className="mt-7 grid gap-6 md:grid-cols-5">
+        <div className="md:col-span-3 space-y-5">
+          {r.groups.map(g => (
+            <div key={g.name}>
+              <div className={`mb-2 text-xs tracking-[0.25em] ${a.text}`}>{g.name}</div>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {g.items.map(it => (
+                  <div key={it.n} className="rounded-xl border border-white/10 bg-white/[.04] px-4 py-3">
+                    <div className="flex items-baseline justify-between gap-3">
+                      <span className="font-title text-base text-white">{it.n}</span>
+                      <span className={`shrink-0 font-title text-sm ${a.strong}`}>{it.a}</span>
+                    </div>
+                    {it.note && <div className="mt-1 text-[11px] leading-relaxed text-white/45">{it.note}</div>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          {r.extras && r.extras.length > 0 && (
+            <div>
+              <div className="mb-2 text-xs tracking-[0.25em] text-white/40">있으면 좋은 것</div>
+              <div className="flex flex-wrap gap-2">
+                {r.extras.map(e => (
+                  <span key={e} className="rounded-full border border-white/12 bg-white/[.04] px-3 py-1 text-xs text-white/60">{e}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="md:col-span-2">
+          <div className={`h-full rounded-2xl border ${a.line} ${a.soft} p-6`}>
+            <div className={`text-xs tracking-[0.3em] ${a.text}`}>왜 이 재료인가</div>
+            <h3 className="mt-3 font-title text-2xl text-white">{r.magic.title}</h3>
+            <p className="mt-4 text-sm leading-relaxed text-white/70">{r.magic.body}</p>
+          </div>
+        </div>
+      </div>
+    </SlideFrame>
+  );
+}
+
+function StepsSlide({ a, r }) {
+  return (
+    <SlideFrame>
+      <Eyebrow a={a}>{r.no}. 타임라인</Eyebrow>
+      <h2 className="font-title text-4xl text-white sm:text-5xl">
+        {r.time} <span className="text-white/40">안에</span>
+      </h2>
+
+      {r.parallel && (
+        <div className={`mt-6 overflow-x-auto rounded-2xl border ${a.line} ${a.soft} p-4`}>
+          <div className={`mb-3 text-xs tracking-[0.3em] ${a.text}`}>병렬 진행 — 냄비와 팬을 동시에</div>
+          <table className="w-full min-w-[540px] text-left text-xs">
+            <thead className="text-white/40">
+              <tr>
+                <th className="pb-2 pr-4 font-normal">시간</th>
+                <th className="pb-2 pr-4 font-normal">냄비 (면)</th>
+                <th className="pb-2 font-normal">팬 (소스)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {r.parallel.map(p => (
+                <tr key={p.t} className="border-t border-white/8">
+                  <td className={`py-1.5 pr-4 font-title ${a.strong} whitespace-nowrap`}>{p.t}</td>
+                  <td className="py-1.5 pr-4 text-white/70">{p.pot}</td>
+                  <td className="py-1.5 text-white/70">{p.pan}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="mt-3 text-[11px] leading-relaxed text-white/45">{r.parallelNote}</p>
+        </div>
+      )}
+
+      <ol className="mt-7 space-y-4">
+        {r.steps.map((s, i) => (
+          <li key={i} className="flex gap-4">
+            <div className="flex w-24 shrink-0 flex-col items-end pt-1 sm:w-28">
+              <span className={`rounded-md border px-2 py-0.5 font-title text-xs ${a.chip} whitespace-nowrap`}>{s.time}</span>
+              <span className="mt-1 text-[10px] text-white/30">STEP {i + 1}</span>
+            </div>
+            <div className="relative flex-1 border-l border-white/12 pb-1 pl-5">
+              <span className={`absolute -left-[5px] top-2 h-2.5 w-2.5 rounded-full ${a.dot}`} />
+              <div className="font-title text-lg text-white">{s.label}</div>
+              <ul className="mt-1.5 space-y-1">
+                {s.body.map((b, j) => (
+                  <li key={j} className="flex gap-2 text-sm leading-relaxed text-white/65">
+                    <span className={`mt-[9px] h-1 w-1 shrink-0 rounded-full ${a.dot} opacity-60`} />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </SlideFrame>
+  );
+}
+
+function SecretSlide({ a, r }) {
+  return (
+    <SlideFrame>
+      <Eyebrow a={a}>{r.no}. 마법의 비결</Eyebrow>
+
+      <div className={`rounded-3xl border ${a.line} ${a.soft} p-8 sm:p-10`}>
+        <div className={`font-title text-6xl leading-none ${a.text} opacity-40`}>&ldquo;</div>
+        <h2 className="-mt-4 font-title text-3xl text-white sm:text-4xl">{r.secret.headline}</h2>
+        <p className="mt-5 font-title text-base leading-relaxed text-white/75 sm:text-lg">{r.secret.body}</p>
+      </div>
+
+      <div className="mt-8">
+        <div className="mb-3 text-xs tracking-[0.3em] text-white/40">이럴 때는 이렇게</div>
+        <div className="grid gap-3 md:grid-cols-3">
+          {r.troubles.map(t => (
+            <div key={t.s} className="rounded-2xl border border-white/10 bg-white/[.04] p-5">
+              <div className="font-title text-base text-white">{t.s}</div>
+              <div className="mt-2 text-[11px] leading-relaxed text-white/40">원인 · {t.c}</div>
+              <div className={`mt-3 border-t border-white/10 pt-3 text-sm leading-relaxed ${a.text}`}>{t.f}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </SlideFrame>
+  );
+}
+
+function FinaleSlide({ a }) {
+  return (
+    <SlideFrame>
+      <Eyebrow a={a}>피날레</Eyebrow>
+      <h2 className="font-title text-4xl text-white sm:text-5xl">다섯 편이 말하는 같은 것</h2>
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/50">
+        메뉴는 달라도 실패의 이유는 겹친다. 다섯 레시피의 진단표에서 반복된 원칙만 모았다.
+      </p>
+
+      <div className="mt-8 grid gap-3 md:grid-cols-2">
+        {PRINCIPLES.map((p, i) => (
+          <div
+            key={p.title}
+            className={`rounded-2xl border ${a.line} ${a.soft} p-5 ${i === PRINCIPLES.length - 1 ? 'md:col-span-2' : ''}`}
+          >
+            <div className="flex items-start gap-3">
+              <span className="text-2xl">{p.icon}</span>
+              <div>
+                <div className="font-title text-lg text-white">{p.title}</div>
+                <p className="mt-1.5 text-sm leading-relaxed text-white/60">{p.body}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-10 text-center">
+        <p className={`font-title text-xl ${a.text}`}>불을 켜기 전에 이미 절반은 끝나 있다.</p>
+      </div>
+    </SlideFrame>
+  );
+}
+
+function renderSlide(slide, go) {
+  const a = ACCENTS[slide.accent];
+  switch (slide.kind) {
+    case 'cover':       return <CoverSlide a={a} />;
+    case 'toc':         return <TocSlide a={a} go={go} />;
+    case 'chapter':     return <ChapterSlide a={a} r={slide.recipe} />;
+    case 'ingredients': return <IngredientsSlide a={a} r={slide.recipe} />;
+    case 'steps':       return <StepsSlide a={a} r={slide.recipe} />;
+    case 'secret':      return <SecretSlide a={a} r={slide.recipe} />;
+    case 'finale':      return <FinaleSlide a={a} />;
+    default:            return null;
+  }
+}
+
+// ========================================
+// 7. 목차 모달
+// ========================================
+function TocModal({ open, onClose, index, go }) {
+  if (!open) return null;
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6 backdrop-blur-sm"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="전체 목차"
+    >
+      <div
+        className="slide-scroll max-h-[80vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-white/12 bg-[#141009] p-6"
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="mb-4 flex items-center justify-between">
+          <h3 className="font-title text-2xl text-white">전체 목차 <span className="text-sm text-white/40">{SLIDES.length}장</span></h3>
+          <button onClick={onClose} className="rounded-lg border border-white/15 px-3 py-1 text-xs text-white/60 hover:bg-white/10">
+            닫기 (Esc)
+          </button>
+        </div>
+        <div className="grid gap-1.5 sm:grid-cols-2">
+          {SLIDES.map((s, i) => {
+            const sa = ACCENTS[s.accent];
+            const cur = i === index;
+            return (
+              <button
+                key={i}
+                onClick={() => { go(i); onClose(); }}
+                className={`flex items-center gap-3 rounded-xl px-3 py-2 text-left text-sm transition ${cur ? `${sa.soft} border ${sa.line} text-white` : 'border border-transparent text-white/60 hover:bg-white/5'}`}
+              >
+                <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${sa.dot}`} />
+                <span className="w-6 shrink-0 text-[11px] text-white/30">{i + 1}</span>
+                <span className="truncate">{s.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ========================================
+// 8. 앱 — 인덱스와 방향을 한 덩어리로 관리
+// ========================================
+function App() {
+  const total = SLIDES.length;
+  const [state, setState] = useState({ index: 0, dir: 'next' });
+  const [tocOpen, setTocOpen] = useState(false);
+  const touchX = useRef(null);
+
+  const next = useCallback(() => setState(p => ({ index: Math.min(total - 1, p.index + 1), dir: 'next' })), [total]);
+  const prev = useCallback(() => setState(p => ({ index: Math.max(0, p.index - 1), dir: 'prev' })), []);
+  const go = useCallback((i) => setState(p => ({ index: Math.max(0, Math.min(total - 1, i)), dir: i >= p.index ? 'next' : 'prev' })), [total]);
+
+  // 키보드 — 한글 자판(ㅐ=o, ㄹ=f)도 함께 받는다
+  useEffect(() => {
+    const onKey = (e) => {
+      const k = e.key;
+      if (k === 'Escape') { setTocOpen(false); return; }
+      if (k === 'o' || k === 'O' || k === 'ㅐ') { e.preventDefault(); setTocOpen(v => !v); return; }
+      if (k === 'f' || k === 'F' || k === 'ㄹ') {
+        e.preventDefault();
+        if (document.fullscreenElement) document.exitFullscreen();
+        else document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+        return;
+      }
+      if (tocOpen) return;
+      if (k === 'ArrowRight' || k === ' ' || k === 'PageDown') { e.preventDefault(); next(); }
+      else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); prev(); }
+      else if (k === 'Home') { e.preventDefault(); go(0); }
+      else if (k === 'End') { e.preventDefault(); go(total - 1); }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [next, prev, go, total, tocOpen]);
+
+  const onTouchStart = (e) => { touchX.current = e.changedTouches[0].clientX; };
+  const onTouchEnd = (e) => {
+    if (touchX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchX.current;
+    if (Math.abs(dx) > 50) { dx < 0 ? next() : prev(); }
+    touchX.current = null;
+  };
+
+  const slide = SLIDES[state.index];
+  const a = ACCENTS[slide.accent];
+  const pct = ((state.index + 1) / total) * 100;
+
+  return (
+    <div className="relative h-full w-full overflow-hidden" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <Backdrop a={a} />
+
+      {/* 좌우 가장자리 클릭 영역 */}
+      <button aria-label="이전 슬라이드" onClick={prev}
+        className="absolute left-0 top-0 z-20 h-full w-[10%] cursor-w-resize opacity-0" />
+      <button aria-label="다음 슬라이드" onClick={next}
+        className="absolute right-0 top-0 z-20 h-full w-[10%] cursor-e-resize opacity-0" />
+
+      {/* 현재 장만 렌더 — key 로 진입 애니메이션 재실행 */}
+      <div key={state.index} className={`h-full w-full ${state.dir === 'next' ? 'enter-next' : 'enter-prev'}`}>
+        {renderSlide(slide, go)}
+      </div>
+
+      {/* 하단 진행 바 */}
+      <div className="absolute inset-x-0 bottom-0 z-30">
+        <div className="h-[3px] w-full bg-white/8">
+          <div className={`h-full transition-all duration-500 ${a.bar}`} style={{ width: `${pct}%` }} />
+        </div>
+        <div className="flex items-center justify-between px-5 py-3 text-[11px] text-white/40 sm:px-8">
+          <span className="truncate">{slide.label}</span>
+          <div className="flex items-center gap-4">
+            <button onClick={() => setTocOpen(true)} className="rounded border border-white/12 px-2 py-0.5 hover:bg-white/10">
+              목차 O
+            </button>
+            <span className="font-title text-white/60">{state.index + 1} / {total}</span>
+          </div>
+        </div>
+      </div>
+
+      <TocModal open={tocOpen} onClose={() => setTocOpen(false)} index={state.index} go={go} />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

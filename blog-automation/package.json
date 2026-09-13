@@ -1,0 +1,24 @@
+{
+  "name": "blog-automation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "블로그 자동화 — 자료수집 + 이미지생성",
+  "scripts": {
+    "collect": "node scripts/collect.mjs",
+    "thumb": "node scripts/thumbnail.mjs"
+  },
+  "dependencies": {
+    "@google/genai": "^2.21.0",
+    "@mozilla/readability": "^0.6.0",
+    "cheerio": "^1.2.0",
+    "jsdom": "^30.0.1",
+    "marked": "^18.0.11",
+    "openai": "^7.10.0",
+    "p-limit": "^7.3.2",
+    "playwright": "^1.62.1",
+    "rss-parser": "^3.13.0",
+    "sharp": "^0.35.4",
+    "turndown": "^7.2.4"
+  }
+}

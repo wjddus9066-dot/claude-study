@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>간장버터 계란밥 · 8분 레시피</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <!-- CDN 버전 고정 (Babel 은 반드시 7.x) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.25.9/babel.min.js"></script>
+  <style>
+    /* Tailwind 유틸리티로 표현 불가한 것만 */
+    html { scroll-behavior: smooth; }
+    body { background-color: #fffdf7; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+    .rise { animation: rise .5s ease-out both; }
+    @keyframes pulse-ring { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+    .pulse-ring { animation: pulse-ring 1.6s ease-in-out infinite; }
+    .ring-progress { transition: stroke-dashoffset .95s linear; }
+  </style>
+</head>
+<body class="text-stone-800 antialiased">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useMemo, useCallback } = React;
+
+    // ========================================
+    // 🎨 Design System Components
+    // ========================================
+
+    function Button({ variant = 'primary', size = 'md', disabled = false, onClick, className = '', children, ...rest }) {
+      const variants = {
+        primary: 'bg-amber-600 text-white hover:bg-amber-700 shadow-sm',
+        secondary: 'bg-white text-stone-700 border border-stone-300 hover:bg-stone-50',
+        danger: 'bg-red-600 text-white hover:bg-red-700 shadow-sm',
+        ghost: 'bg-transparent text-stone-600 hover:bg-stone-100',
+      };
+      const sizes = { sm: 'px-3 py-1.5 text-sm', md: 'px-4 py-2 text-sm', lg: 'px-6 py-3 text-base' };
+      return (
+        <button
+          type="button"
+          onClick={onClick}
+          disabled={disabled}
+          className={`inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${className}`}
+          {...rest}
+        >
+          {children}
+        </button>
+      );
+    }
+
+    function Card({ className = '', children }) {
+      return (
+        <div className={`rounded-2xl bg-white border border-stone-200/80 shadow-sm ${className}`}>
+          {children}
+        </div>
+      );
+    }
+
+    function Badge({ tone = 'amber', className = '', children }) {
+      const tones = {
+        amber: 'bg-amber-100 text-amber-800',
+        stone: 'bg-stone-100 text-stone-600',
+        green: 'bg-emerald-100 text-emerald-800',
+        red: 'bg-red-100 text-red-700',
+      };
+      return (
+        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${tones[tone]} ${className}`}>
+          {children}
+        </span>
+      );
+    }
+
+    function CheckItem({ checked, onToggle, className = '', children }) {
+      return (
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-pressed={checked}
+          className={`group flex w-full items-start gap-3 rounded-xl px-3 py-2.5 text-left transition-colors hover:bg-amber-50/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 ${className}`}
+        >
+          <span
+            aria-hidden="true"
+            className={`mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-md border-2 text-white transition-colors ${checked ? 'border-amber-600 bg-amber-600' : 'border-stone-300 group-hover:border-amber-400'}`}
+          >
+            {checked && (
+              <svg viewBox="0 0 20 20" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="3">
+                <path d="M4 10.5l4 4 8-8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
+          </span>
+          <span className={`flex-1 text-sm leading-relaxed transition-colors ${checked ? 'text-stone-400 line-through decoration-stone-300' : 'text-stone-700'}`}>
+            {children}
+          </span>
+        </button>
+      );
+    }
+
+    function Accordion({ title, subtitle, children, defaultOpen = false }) {
+      const [open, setOpen] = useState(defaultOpen);
+      return (
+        <div className="border-b border-stone-200 last:border-b-0">
+          <button
+            type="button"
+            onClick={() => setOpen(o => !o)}
+            aria-expanded={open}
+            className="flex w-full items-center gap-3 px-4 py-4 text-left hover:bg-stone-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 sm:px-5"
+          >
+            <span className="flex-1">
+              <span className="block text-sm font-semibold text-stone-800">{title}</span>
+              {subtitle && <span className="mt-0.5 block text-xs text-stone-500">{subtitle}</span>}
+            </span>
+            <svg
+              viewBox="0 0 20 20" aria-hidden="true"
+              className={`h-4 w-4 flex-none text-stone-400 transition-transform ${open ? 'rotate-180' : ''}`}
+              fill="none" stroke="currentColor" strokeWidth="2"
+            >
+              <path d="M5 8l5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          {open && <div className="px-4 pb-5 sm:px-5">{children}</div>}
+        </div>
+      );
+    }
+
+    function Section({ id, eyebrow, title, description, children }) {
+      return (
+        <section id={id} className="scroll-mt-20 py-10 sm:py-14">
+          <div className="mb-6">
+            {eyebrow && <p className="mb-1.5 text-xs font-bold uppercase tracking-[0.18em] text-amber-600">{eyebrow}</p>}
+            <h2 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl">{title}</h2>
+            {description && <p className="mt-2 max-w-2xl text-sm leading-relaxed text-stone-600">{description}</p>}
+          </div>
+          {children}
+        </section>
+      );
+    }
+
+    function Note({ children }) {
+      return (
+        <div className="rounded-xl border-l-4 border-amber-400 bg-amber-50/80 px-4 py-3 text-sm leading-relaxed text-stone-700">
+          {children}
+        </div>
+      );
+    }
+
+    // ========================================
+    // 📊 Recipe Data
+    // ========================================
+
+    const META = [
+      { label: '조리 시간', value: '8분', hint: '준비 2분 + 조리 6분' },
+      { label: '분량', value: '1인분', hint: '밥 1공기 기준' },
+      { label: '난이도', value: '하', hint: '팬 하나면 끝' },
+      { label: '핵심 기술', value: '반숙 프라이', hint: '버터 브라우닝 직전에서 멈추기' },
+    ];
+
+    const INGREDIENT_GROUPS = [
+      {
+        id: 'base',
+        title: '기본',
+        note: null,
+        items: [
+          { name: '따뜻한 밥', amount: '1공기 (210g)', memo: '갓 지은 밥 또는 전자레인지 2분. 찬밥은 금지 — 소스가 흡수되지 않는다' },
+          { name: '계란', amount: '2개', memo: '실온에 5분 꺼내두면 흰자가 팬에 덜 퍼진다' },
+          { name: '버터', amount: '1큰술 (12g)', memo: '가염 버터면 간장을 2/3큰술로 줄인다' },
+          { name: '대파', amount: '5cm', memo: '흰 부분 위주로 송송' },
+        ],
+      },
+      {
+        id: 'sauce',
+        title: '소스',
+        note: '반드시 미리 섞어둘 것',
+        items: [
+          { name: '진간장', amount: '1큰술', memo: null },
+          { name: '설탕', amount: '1/2작은술', memo: null },
+          { name: '물', amount: '1큰술', memo: null },
+          { name: '참기름', amount: '1/2큰술', memo: null },
+        ],
+      },
+      {
+        id: 'optional',
+        title: '있으면 좋은 것',
+        note: null,
+        items: [
+          { name: '김가루', amount: '한 줌', memo: null },
+          { name: '통깨', amount: '약간', memo: null },
+          { name: '베이컨 또는 스팸', amount: '1줄', memo: '2단계에서 함께' },
+        ],
+      },
+    ];
+
+    const TOOLS = ['20cm 프라이팬 (코팅 팬 권장)', '작은 종지 (소스용)', '뒤집개'];
+
+    // start / end 는 조리 시작(0:00) 기준 초. 타이머와 단계 카드가 함께 쓴다.
+    const STEPS = [
+      {
+        n: 1, start: 0, end: 120, title: '준비',
+        summary: '밥 데우기 · 대파 썰기 · 소스 미리 섞기',
+        body: [
+          '밥부터 데우기 시작한다. 그 사이 대파를 송송 썬다.',
+          '종지에 간장·설탕·물·참기름을 섞어 팬 옆에 둔다.',
+        ],
+        note: '이 단계를 건너뛰면 3단계에서 계란이 익는 동안 소스를 계량하게 되고, 그 30초 사이에 노른자가 완숙이 된다.',
+      },
+      {
+        n: 2, start: 120, end: 180, title: '버터에 파향 입히기',
+        summary: '중불 예열 30초 → 버터 → 대파 30초',
+        body: [
+          '팬을 중불로 30초 예열한 뒤 버터를 넣는다.',
+          '버터가 다 녹고 잔거품이 잦아들면 대파를 넣고 30초만 볶는다.',
+          '버터가 갈색이 되기 직전이 향의 정점이다. 연기가 나면 이미 늦었다.',
+          '베이컨·스팸을 쓸 거면 버터 넣기 전에 먼저 바삭하게 굽고, 그 기름에 버터를 더한다.',
+        ],
+        note: null,
+      },
+      {
+        n: 3, start: 180, end: 360, title: '계란 반숙 프라이',
+        summary: '약불로 낮추고 뚜껑 덮기 · 뒤집지 않는다',
+        body: [
+          '파를 팬 한쪽으로 밀고, 빈 자리에 계란 2개를 깨 넣는다.',
+          '불을 약불로 낮춘다. 여기서 세면 흰자만 타고 노른자가 안 익는다.',
+          '뚜껑을 덮으면 노른자 표면에 얇은 막이 생겨 흐르지 않고 예쁘게 익는다.',
+          '흰자 가장자리가 레이스처럼 바삭해지고 노른자가 아직 찰랑거릴 때가 완성.',
+          '뒤집지 않는다.',
+        ],
+        note: null,
+      },
+      {
+        n: 4, start: 360, end: 420, title: '소스 졸이기',
+        summary: '계란 위가 아니라 팬 바닥 빈 곳에 붓는다',
+        body: [
+          '섞어둔 소스를 계란 위가 아니라 팬 바닥 빈 곳에 붓는다.',
+          '지글거리며 20~30초 졸이면 표면에 윤기가 돌고 향이 확 올라온다.',
+          '팬을 살짝 기울여 소스가 계란 밑으로 흐르게 한다.',
+          '불을 끈다.',
+        ],
+        note: '계란 위에 부으면 소스가 흡수되지 않고 흘러내려 밥이 짜지기만 한다. 팬 바닥에서 한 번 졸여야 수분이 날아가고 단맛·감칠맛이 농축된다.',
+      },
+      {
+        n: 5, start: 420, end: 480, title: '담고 먹기',
+        summary: '밥 → 계란 → 남은 소스 → 김가루 → 통깨',
+        body: [
+          '그릇에 밥을 담고 계란을 올린 뒤, 팬에 남은 소스를 밥 위에 싹 긁어 붓는다.',
+          '김가루, 통깨 순으로 올린다.',
+          '노른자를 터뜨려 밥 전체에 비빈다. 비비고 나서 5초 기다렸다 먹으면 밥알이 소스를 더 머금는다.',
+        ],
+        note: null,
+      },
+    ];
+
+    const TOTAL_SECONDS = STEPS[STEPS.length - 1].end;
+
+    const TROUBLES = [
+      { symptom: '간장이 쓰다', cause: '불이 셌거나 물 없이 간장만 넣음', fix: '중불 유지 + 소스에 물 1큰술 필수' },
+      { symptom: '맛이 밍밍하다', cause: '소스를 계란 위에 부어서 흘러내림', fix: '팬 바닥에 붓고 20초 졸이기' },
+      { symptom: '노른자가 완숙됐다', cause: '계란 넣고 불을 안 낮춤', fix: '계란 투입 직후 약불' },
+      { symptom: '밥이 질척하다', cause: '소스를 한 번에 다 부음', fix: '절반만 붓고 맛보고 추가' },
+      { symptom: '버터 향이 안 난다', cause: '버터를 너무 일찍/늦게 넣음', fix: '팬 예열 30초 후 투입, 거품 잦아들면 바로 다음 단계' },
+      { symptom: '흰자가 팬에 눌어붙는다', cause: '팬 예열 부족', fix: '버터 넣기 전 팬을 먼저 달군다' },
+    ];
+
+    const VARIATIONS = [
+      { title: '면으로', body: '밥 대신 라면사리·우동면을 삶아 물기 빼고 동일하게. 소스는 1.5배.' },
+      { title: '매콤하게', body: '소스에 고춧가루 1/2작은술 또는 고추기름 1작은술.' },
+      { title: '더 든든하게', body: '2단계에서 베이컨 1줄을 먼저 바삭하게.' },
+      { title: '일본식으로', body: '설탕 대신 맛술 1큰술, 마지막에 가쓰오부시 한 줌.' },
+      { title: '치즈 버전', body: '4단계 후 슬라이스 치즈 1장을 계란 위에 올려 잔열로 녹인다.' },
+    ];
+
+    const SUBSTITUTES = [
+      { missing: '버터', instead: '식용유 1큰술 + 마요네즈 1작은술 (고소함 보충)' },
+      { missing: '진간장', instead: '국간장은 짜므로 2/3큰술만' },
+      { missing: '대파', instead: '쪽파, 양파 1/8개' },
+      { missing: '설탕', instead: '올리고당·물엿 1작은술' },
+    ];
+
+    const NAV = [
+      { id: 'ingredients', label: '재료' },
+      { id: 'timer', label: '타이머' },
+      { id: 'steps', label: '만드는 법' },
+      { id: 'trouble', label: '실패 진단' },
+      { id: 'more', label: '응용 · 보관' },
+    ];
+
+    // ========================================
+    // 🛠 Utils & Custom Hooks
+    // ========================================
+
+    function formatTime(sec) {
+      const total = Math.max(0, sec);
+      const m = Math.floor(total / 60);
+      const s = total % 60;
+      return `${m}:${String(s).padStart(2, '0')}`;
+    }
+
+    /** 조리 타이머 — 1초 간격 카운트업, 총 시간에 도달하면 자동 정지 */
+    function useCookTimer(total) {
+      const [elapsed, setElapsed] = useState(0);
+      const [running, setRunning] = useState(false);
+
+      useEffect(() => {
+        if (!running) return;
+        const id = setInterval(() => {
+          setElapsed(prev => {
+            if (prev + 1 >= total) {
+              setRunning(false);
+              return total;
+            }
+            return prev + 1;
+          });
+        }, 1000);
+        return () => clearInterval(id);
+      }, [running, total]);
+
+      const start = useCallback(() => setRunning(true), []);
+      const pause = useCallback(() => setRunning(false), []);
+      const reset = useCallback(() => { setRunning(false); setElapsed(0); }, []);
+
+      return { elapsed, running, start, pause, reset, done: elapsed >= total };
+    }
+
+    /** 체크리스트 상태를 Set 으로 관리 */
+    function useCheckSet() {
+      const [set, setSet] = useState(() => new Set());
+      const toggle = useCallback(key => {
+        setSet(prev => {
+          const next = new Set(prev);
+          if (next.has(key)) next.delete(key); else next.add(key);
+          return next;
+        });
+      }, []);
+      const clear = useCallback(() => setSet(new Set()), []);
+      return { set, toggle, clear };
+    }
+
+    // ========================================
+    // 🧩 Common / Layout Components
+    // ========================================
+
+    function Header({ activeId }) {
+      return (
+        <header className="sticky top-0 z-30 border-b border-stone-200/80 bg-[#fffdf7]/90 backdrop-blur">
+          <div className="mx-auto flex max-w-4xl items-center gap-4 px-4 py-3 sm:px-6">
+            <a href="#top" className="flex flex-none items-center gap-2 font-bold tracking-tight text-stone-900">
+              <span aria-hidden="true" className="text-lg">🍳</span>
+              <span className="hidden text-sm sm:inline">간장버터 계란밥</span>
+            </a>
+            <nav aria-label="섹션 이동" className="no-scrollbar -mx-1 flex flex-1 items-center gap-1 overflow-x-auto px-1">
+              {NAV.map(item => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  aria-current={activeId === item.id ? 'true' : undefined}
+                  className={`flex-none rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+                    activeId === item.id ? 'bg-amber-600 text-white' : 'text-stone-500 hover:bg-stone-100 hover:text-stone-800'
+                  }`}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+          </div>
+        </header>
+      );
+    }
+
+    function Hero() {
+      const scrollTo = id => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView();
+      };
+
+      return (
+        <div id="top" className="rise pt-10 sm:pt-16">
+          <Badge tone="amber">1주차 · 레시피북 01</Badge>
+          <h1 className="mt-4 text-4xl font-black leading-tight tracking-tight text-stone-900 sm:text-5xl">
+            간장버터 계란밥
+          </h1>
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-stone-600 sm:text-lg">
+            버터의 유지방, 간장의 감칠맛, 반숙 노른자. 세 가지 지방·감칠맛 층이 밥알을 코팅하는 구조다.
+            재료는 단순하지만 <strong className="font-semibold text-stone-800">불 조절과 소스 붓는 위치</strong>에서 맛이 갈린다.
+          </p>
+
+          <dl className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {META.map(m => (
+              <Card key={m.label} className="p-4">
+                <dt className="text-xs font-semibold uppercase tracking-wide text-stone-400">{m.label}</dt>
+                <dd className="mt-1.5 text-lg font-bold text-stone-900">{m.value}</dd>
+                <dd className="mt-1 text-xs leading-snug text-stone-500">{m.hint}</dd>
+              </Card>
+            ))}
+          </dl>
+
+          <div className="mt-6 flex flex-wrap gap-2">
+            <Button size="lg" onClick={() => scrollTo('timer')}>8분 타이머로 시작하기</Button>
+            <Button variant="secondary" size="lg" onClick={() => scrollTo('ingredients')}>재료부터 보기</Button>
+          </div>
+        </div>
+      );
+    }
+
+    function Footer() {
+      return (
+        <footer className="border-t border-stone-200 py-8 text-center text-xs text-stone-400">
+          1주차 · 레시피북 — 맛있는 15분 요리
+        </footer>
+      );
+    }
+
+    // ========================================
+    // 📄 Page Sections
+    // ========================================
+
+    function IngredientsSection() {
+      const { set, toggle, clear } = useCheckSet();
+      const total = useMemo(
+        () => INGREDIENT_GROUPS.reduce((sum, g) => sum + g.items.length, 0),
+        []
+      );
+
+      return (
+        <Section
+          id="ingredients"
+          eyebrow="Step 0"
+          title="재료 준비"
+          description="불을 켜기 전에 여기 있는 것을 전부 팬 옆에 늘어놓는다. 체크하며 확인해 보세요."
+        >
+          <div className="mb-4 flex items-center gap-3">
+            <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-stone-200">
+              <div
+                className="h-full rounded-full bg-amber-500 transition-all duration-300"
+                style={{ width: `${(set.size / total) * 100}%` }}
+              />
+            </div>
+            <span className="flex-none text-xs font-semibold tabular-nums text-stone-500">{set.size} / {total}</span>
+            <Button variant="ghost" size="sm" onClick={clear} disabled={set.size === 0}>초기화</Button>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            {INGREDIENT_GROUPS.map(group => (
+              <Card key={group.id} className={`p-4 sm:p-5 ${group.id === 'sauce' ? 'ring-1 ring-amber-200' : ''}`}>
+                <div className="mb-2 flex flex-wrap items-center gap-2">
+                  <h3 className="text-sm font-bold text-stone-900">{group.title}</h3>
+                  {group.note && <Badge tone="red">{group.note}</Badge>}
+                </div>
+                <ul className="-mx-2">
+                  {group.items.map(item => {
+                    const key = `${group.id}:${item.name}`;
+                    return (
+                      <li key={key}>
+                        <CheckItem checked={set.has(key)} onToggle={() => toggle(key)}>
+                          <span className="flex flex-wrap items-baseline gap-x-2">
+                            <span className="font-semibold">{item.name}</span>
+                            <span className="text-amber-700">{item.amount}</span>
+                          </span>
+                          {item.memo && <span className="mt-0.5 block text-xs text-stone-500">{item.memo}</span>}
+                        </CheckItem>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </Card>
+            ))}
+
+            <Card className="p-4 sm:p-5">
+              <h3 className="mb-3 text-sm font-bold text-stone-900">도구</h3>
+              <ul className="space-y-2 text-sm text-stone-600">
+                {TOOLS.map(tool => (
+                  <li key={tool} className="flex items-start gap-2">
+                    <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-amber-400" />
+                    {tool}
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          </div>
+
+          <div className="mt-4">
+            <Note>
+              <strong className="font-semibold">물 1큰술이 왜 들어가나:</strong> 간장만 팬에 부으면 순식간에 타서 쓴맛이 난다.
+              물이 온도를 낮춰주는 완충재 역할을 하고, 졸아들면서 농도가 딱 맞게 잡힌다.
+            </Note>
+          </div>
+        </Section>
+      );
+    }
+
+    function TimerSection({ timer, activeStep }) {
+      const { elapsed, running, start, pause, reset, done } = timer;
+      const progress = elapsed / TOTAL_SECONDS;
+      const R = 78;
+      const C = 2 * Math.PI * R;
+
+      return (
+        <Section
+          id="timer"
+          eyebrow="Timeline"
+          title="8분 타이머"
+          description="시작을 누르면 지금 어느 단계에 있어야 하는지 실시간으로 알려줍니다. 준비(2분)부터 함께 셉니다."
+        >
+          <Card className="overflow-hidden">
+            <div className="grid gap-6 p-5 sm:p-7 md:grid-cols-[auto_1fr] md:items-center">
+              {/* 진행 링 */}
+              <div className="relative mx-auto h-48 w-48 flex-none">
+                <svg viewBox="0 0 180 180" className="h-full w-full -rotate-90" aria-hidden="true">
+                  <circle cx="90" cy="90" r={R} fill="none" stroke="#e7e5e4" strokeWidth="12" />
+                  <circle
+                    cx="90" cy="90" r={R} fill="none"
+                    stroke={done ? '#059669' : '#d97706'}
+                    strokeWidth="12" strokeLinecap="round"
+                    strokeDasharray={C}
+                    strokeDashoffset={C * (1 - progress)}
+                    className="ring-progress"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className={`text-4xl font-black tabular-nums tracking-tight ${done ? 'text-emerald-600' : 'text-stone-900'}`}>
+                    {formatTime(elapsed)}
+                  </span>
+                  <span className="mt-1 text-xs font-semibold text-stone-400">/ {formatTime(TOTAL_SECONDS)}</span>
+                  {running && (
+                    <span className="pulse-ring mt-2 text-[11px] font-bold uppercase tracking-widest text-amber-600">조리 중</span>
+                  )}
+                </div>
+              </div>
+
+              {/* 현재 단계 + 컨트롤 */}
+              <div>
+                <div aria-live="polite" className="min-h-[104px]">
+                  {done ? (
+                    <>
+                      <Badge tone="green">완성</Badge>
+                      <h3 className="mt-2 text-xl font-bold text-stone-900">8분 완료 — 바로 드세요</h3>
+                      <p className="mt-1 text-sm leading-relaxed text-stone-600">
+                        완성된 계란밥은 보관에 부적합합니다. 노른자를 터뜨려 비빈 뒤 5초 기다렸다 드세요.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <Badge tone={running ? 'amber' : 'stone'}>
+                        {running ? `${activeStep.n}단계 진행 중` : '대기 중'}
+                      </Badge>
+                      <h3 className="mt-2 text-xl font-bold text-stone-900">{activeStep.title}</h3>
+                      <p className="mt-1 text-sm leading-relaxed text-stone-600">{activeStep.summary}</p>
+                      <p className="mt-2 text-xs font-semibold tabular-nums text-amber-700">
+                        이 단계 남은 시간 {formatTime(activeStep.end - elapsed)}
+                      </p>
+                    </>
+                  )}
+                </div>
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {running ? (
+                    <Button variant="secondary" size="lg" onClick={pause}>일시정지</Button>
+                  ) : (
+                    <Button size="lg" onClick={start} disabled={done}>{elapsed === 0 ? '시작' : '이어서'}</Button>
+                  )}
+                  <Button variant="ghost" size="lg" onClick={reset} disabled={elapsed === 0}>초기화</Button>
+                </div>
+
+                {/* 단계별 타임라인 바 */}
+                <ol className="mt-6 flex gap-1" aria-label="단계별 타임라인">
+                  {STEPS.map(step => {
+                    const width = ((step.end - step.start) / TOTAL_SECONDS) * 100;
+                    const isPast = elapsed >= step.end;
+                    const isNow = !done && elapsed >= step.start && elapsed < step.end;
+                    return (
+                      <li key={step.n} style={{ width: `${width}%` }} className="min-w-0">
+                        <div className={`h-2 rounded-full transition-colors ${isPast ? 'bg-amber-600' : isNow ? 'bg-amber-400' : 'bg-stone-200'}`} />
+                        <p className={`mt-1.5 truncate text-[10px] font-semibold ${isNow ? 'text-amber-700' : 'text-stone-400'}`}>
+                          {step.n}. {step.title}
+                        </p>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </div>
+            </div>
+          </Card>
+        </Section>
+      );
+    }
+
+    function StepsSection({ activeStep, running }) {
+      const { set, toggle } = useCheckSet();
+
+      return (
+        <Section
+          id="steps"
+          eyebrow="How to"
+          title="만드는 법"
+          description="한 단계씩 체크하며 따라가세요. 타이머가 돌아가는 중이면 지금 해야 할 단계가 강조됩니다."
+        >
+          <ol className="space-y-4">
+            {STEPS.map(step => {
+              const isNow = running && activeStep.n === step.n;
+              const isDone = set.has(step.n);
+              return (
+                <li key={step.n}>
+                  <Card className={`overflow-hidden transition-shadow ${isNow ? 'ring-2 ring-amber-400 shadow-md' : ''} ${isDone ? 'opacity-70' : ''}`}>
+                    <div className="flex items-start gap-4 p-5">
+                      <button
+                        type="button"
+                        onClick={() => toggle(step.n)}
+                        aria-pressed={isDone}
+                        aria-label={`${step.n}단계 ${step.title} 완료 표시`}
+                        className={`flex h-10 w-10 flex-none items-center justify-center rounded-full text-base font-black transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 ${
+                          isDone
+                            ? 'bg-emerald-500 text-white'
+                            : isNow
+                              ? 'bg-amber-500 text-white'
+                              : 'bg-stone-100 text-stone-500 hover:bg-amber-100 hover:text-amber-700'
+                        }`}
+                      >
+                        {isDone ? '✓' : step.n}
+                      </button>
+
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className={`text-lg font-bold ${isDone ? 'text-stone-400 line-through' : 'text-stone-900'}`}>{step.title}</h3>
+                          <Badge tone={isNow ? 'amber' : 'stone'}>
+                            {formatTime(step.start)}–{formatTime(step.end)}
+                          </Badge>
+                        </div>
+                        <p className="mt-1 text-sm text-stone-500">{step.summary}</p>
+
+                        <ul className="mt-3 space-y-2">
+                          {step.body.map((line, i) => (
+                            <li key={i} className="flex items-start gap-2.5 text-sm leading-relaxed text-stone-700">
+                              <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-amber-400" />
+                              <span>{line}</span>
+                            </li>
+                          ))}
+                        </ul>
+
+                        {step.note && <div className="mt-3"><Note>{step.note}</Note></div>}
+                      </div>
+                    </div>
+                  </Card>
+                </li>
+              );
+            })}
+          </ol>
+        </Section>
+      );
+    }
+
+    function TroubleSection() {
+      return (
+        <Section
+          id="trouble"
+          eyebrow="Troubleshooting"
+          title="실패 진단표"
+          description="맛이 이상하다면 증상부터 찾으세요. 원인은 대부분 불 세기와 소스 붓는 위치입니다."
+        >
+          <Card className="overflow-hidden">
+            {TROUBLES.map(t => (
+              <Accordion key={t.symptom} title={t.symptom} subtitle={`원인 · ${t.cause}`}>
+                <div className="rounded-xl bg-emerald-50 px-4 py-3 text-sm leading-relaxed text-emerald-900">
+                  <span className="font-bold">해결 </span>{t.fix}
+                </div>
+              </Accordion>
+            ))}
+          </Card>
+
+          <div className="mt-4">
+            <Note>
+              공통 실패 원인 톱 3 — ① 물기를 안 뺐다 ② 불이 셌다 ③ 양념을 한 번에 다 넣었다.
+              절반만 넣고 맛보는 습관 하나로 실패가 절반 줄어듭니다.
+            </Note>
+          </div>
+        </Section>
+      );
+    }
+
+    function MoreSection() {
+      return (
+        <Section
+          id="more"
+          eyebrow="Beyond"
+          title="응용 · 대체 · 보관"
+          description="기본을 익혔다면 여기서부터가 진짜입니다."
+        >
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card className="p-5">
+              <h3 className="mb-3 text-sm font-bold text-stone-900">응용</h3>
+              <ul className="space-y-3">
+                {VARIATIONS.map(v => (
+                  <li key={v.title} className="text-sm leading-relaxed">
+                    <span className="font-semibold text-amber-700">{v.title}</span>
+                    <span className="text-stone-600"> — {v.body}</span>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+
+            <div className="space-y-4">
+              <Card className="overflow-hidden">
+                <h3 className="px-5 pt-5 text-sm font-bold text-stone-900">재료 대체</h3>
+                <div className="mt-3 overflow-x-auto">
+                  <table className="w-full min-w-[320px] text-left text-sm">
+                    <thead>
+                      <tr className="border-y border-stone-200 bg-stone-50 text-xs uppercase tracking-wide text-stone-400">
+                        <th scope="col" className="px-5 py-2 font-semibold">없으면</th>
+                        <th scope="col" className="px-5 py-2 font-semibold">대신</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-stone-100">
+                      {SUBSTITUTES.map(s => (
+                        <tr key={s.missing}>
+                          <th scope="row" className="whitespace-nowrap px-5 py-3 text-left font-semibold text-stone-800">{s.missing}</th>
+                          <td className="px-5 py-3 text-stone-600">{s.instead}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Card>
+
+              <Card className="p-5">
+                <h3 className="mb-2 text-sm font-bold text-stone-900">보관</h3>
+                <p className="text-sm leading-relaxed text-stone-600">
+                  소스만 따로 <strong className="font-semibold text-stone-800">3~4배로 만들어 밀폐용기</strong>에 넣으면 냉장 2주.
+                  계란밥·볶음밥·두부덮밥에 그대로 쓸 수 있습니다.
+                  완성된 계란밥은 보관에 부적합하니 바로 드세요.
+                </p>
+              </Card>
+            </div>
+          </div>
+        </Section>
+      );
+    }
+
+    // ========================================
+    // 🚀 App Component
+    // ========================================
+
+    function App() {
+      const timer = useCookTimer(TOTAL_SECONDS);
+      const [activeId, setActiveId] = useState(NAV[0].id);
+
+      const activeStep = useMemo(
+        () => STEPS.find(s => timer.elapsed >= s.start && timer.elapsed < s.end) || STEPS[STEPS.length - 1],
+        [timer.elapsed]
+      );
+
+      // 스크롤 위치에 따라 상단 내비게이션 활성 항목을 갱신
+      useEffect(() => {
+        const observer = new IntersectionObserver(
+          entries => {
+            const visible = entries
+              .filter(e => e.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+            if (visible.length > 0) setActiveId(visible[0].target.id);
+          },
+          { rootMargin: '-72px 0px -60% 0px', threshold: 0 }
+        );
+        NAV.forEach(item => {
+          const el = document.getElementById(item.id);
+          if (el) observer.observe(el);
+        });
+        return () => observer.disconnect();
+      }, []);
+
+      return (
+        <div className="min-h-screen">
+          <Header activeId={activeId} />
+          <main className="mx-auto max-w-4xl px-4 pb-4 sm:px-6">
+            <Hero />
+            <IngredientsSection />
+            <TimerSection timer={timer} activeStep={activeStep} />
+            <StepsSection activeStep={activeStep} running={timer.running} />
+            <TroubleSection />
+            <MoreSection />
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    // ========================================
+    // Rendering
+    // ========================================
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

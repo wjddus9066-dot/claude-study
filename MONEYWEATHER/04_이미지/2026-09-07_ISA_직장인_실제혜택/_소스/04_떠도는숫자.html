@@ -1,0 +1,89 @@
+<!doctype html>
+<meta charset="utf-8">
+<!-- @출력 04_이미지/2026-09-07_ISA_직장인_실제혜택/04_떠도는숫자.png -->
+<!-- @크기 1600x900 -->
+<!--
+  검색하면 나오는 숫자와 실제로 지금 적용되는 숫자를 나란히 놓는다.
+  왼쪽(떠도는 숫자)은 흐리게, 오른쪽(현행)은 또렷하게.
+  아래에 시간 순서를 한 줄로 깐다.
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1600px; height:900px; overflow:hidden; background:var(--ivory);
+    font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif; color:var(--navy);
+    padding:48px 90px 0;
+  }
+  h2 { font-size:48px; font-weight:800; letter-spacing:-1.5px; }
+  .sub { font-size:27px; color:var(--muted); margin-top:12px; }
+
+  .cols { display:flex; gap:44px; margin-top:30px; }
+  .col { flex:1; border:3px solid var(--line); border-radius:22px; padding:26px 34px 28px; }
+  .col.old { background:var(--cream); border-style:dashed; }
+  .col.now { background:var(--gold-bg); border-color:var(--gold); }
+  .tag { font-size:24px; font-weight:700; color:var(--muted); }
+  .col h3 { font-size:34px; font-weight:800; letter-spacing:-1px; margin-top:8px; }
+  .col.old h3 { color:var(--muted); }
+  .line { border-top:2px solid var(--line); margin:20px 0 6px; }
+  .row { display:flex; justify-content:space-between; align-items:baseline; padding:10px 0; border-bottom:1px solid var(--line); }
+  .row:last-child { border-bottom:0; }
+  .row .k { font-size:25px; color:var(--muted); }
+  .row .v { font-size:37px; font-weight:800; letter-spacing:-1px; }
+  .col.old .row .v { color:var(--muted-l); }
+  .col.now .row .v { color:var(--navy-d); }
+
+  .foot { margin-top:24px; background:var(--cream); border:2px solid var(--line); border-radius:18px; padding:18px 32px 20px; }
+  .foot .t { font-size:25px; font-weight:800; color:var(--navy-d); }
+  .foot .steps { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:12px; flex-wrap:nowrap; }
+  .st { font-size:21px; color:var(--muted); line-height:1.45; white-space:nowrap; }
+  .st b { color:var(--navy); }
+  .ar { color:var(--faint); font-size:26px; font-weight:800; }
+
+  .src { margin-top:14px; font-size:21px; color:var(--muted-l); line-height:1.55; }
+  .src b { color:var(--muted); }
+</style>
+
+<h2>검색하면 나오는 숫자, 그대로 믿으면 안 됩니다</h2>
+<div class="sub">확대안은 2024년에 나왔지만 국회를 통과하지 못했습니다</div>
+
+<div class="cols">
+  <div class="col old">
+    <div class="tag">인터넷에서 자주 보이는</div>
+    <h3>시행된 적 없는 숫자</h3>
+    <div class="line"></div>
+    <div class="row"><span class="k">연간 납입한도</span><span class="v">4,000만원</span></div>
+    <div class="row"><span class="k">전체 한도</span><span class="v">2억원</span></div>
+    <div class="row"><span class="k">비과세 한도</span><span class="v">500만원</span></div>
+    <div class="row"><span class="k">서민형 비과세</span><span class="v">1,000만원</span></div>
+  </div>
+
+  <div class="col now">
+    <div class="tag">2026년 9월 현재</div>
+    <h3>실제로 적용되는 숫자</h3>
+    <div class="line"></div>
+    <div class="row"><span class="k">연간 납입한도</span><span class="v">2,000만원</span></div>
+    <div class="row"><span class="k">전체 한도</span><span class="v">1억원</span></div>
+    <div class="row"><span class="k">비과세 한도</span><span class="v">200만원</span></div>
+    <div class="row"><span class="k">서민형 비과세</span><span class="v">400만원</span></div>
+  </div>
+</div>
+
+<div class="foot">
+  <div class="t">그동안 있었던 일</div>
+  <div class="steps">
+    <div class="st"><b>2024년</b><br>정부가 확대안을 냄</div>
+    <div class="ar">→</div>
+    <div class="st"><b>국회 심사</b><br>반영되지 않음</div>
+    <div class="ar">→</div>
+    <div class="st"><b>2026년 8월 3일</b><br>이번엔 축소안</div>
+    <div class="ar">→</div>
+    <div class="st"><b>2026년 9월 1일</b><br>현행 유지로 확정</div>
+    <div class="ar">→</div>
+    <div class="st"><b>지금</b><br>국회 심사가 남음</div>
+  </div>
+</div>
+
+<div class="src">
+  국회예산정책처 「개인종합자산관리계좌(ISA)의 국내외 현황 및 쟁점」(2026.4.30.) 각주 11 /
+  2026년 세제개편안 정부안 국무회의 확정(2026.9.1.)
+</div>

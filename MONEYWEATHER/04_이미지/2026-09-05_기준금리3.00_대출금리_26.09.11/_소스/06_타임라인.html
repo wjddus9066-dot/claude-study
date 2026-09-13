@@ -1,0 +1,95 @@
+<!doctype html>
+<meta charset="utf-8">
+<!-- @출력 04_이미지/2026-09-05_기준금리3.00_대출금리_26.09.11/06_타임라인.png -->
+<!-- @크기 1600x900 -->
+<!--
+  내 이자가 실제로 바뀌는 날까지 — 이 글의 결론에 해당하는 그림.
+
+  원래 본문에서 ```text 코드블록의 ASCII 화살표로 그려져 있었다.
+  모바일에서 줄이 밀리고, 글씨가 작아지고, 무엇보다 못생겼다.
+  이 글의 답에 해당하는 부분이라 제대로 된 그림으로 바꿨다.
+
+  11월 20일은 「예를 들어」에 해당하는 가정이다. 그렇게 표시했다.
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1600px; height:900px; overflow:hidden; background:var(--ivory);
+    font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif; color:var(--navy);
+    padding:62px 90px 0;
+  }
+  h2 { font-size:50px; font-weight:800; letter-spacing:-1.5px; }
+  .sub { font-size:27px; color:var(--muted); margin-top:12px; }
+
+  .line { margin-top:64px; display:flex; align-items:stretch; }
+  .step { flex:1; position:relative; padding-right:20px; }
+  .step:last-child { padding-right:0; }
+
+  .bar { height:12px; border-radius:6px; background:var(--line); }
+  .step.on .bar { background:var(--pink); }
+  .step.last .bar { background:var(--navy-d); }
+
+  .when { margin-top:24px; font-size:34px; font-weight:800; color:var(--navy-d); }
+  .what { margin-top:12px; font-size:27px; font-weight:700; line-height:1.4; }
+  .why  { margin-top:10px; font-size:23px; color:var(--muted); line-height:1.5; }
+
+  .step.last .what { color:var(--rose); }
+
+  .wait {
+    margin-top:52px; display:flex; gap:22px;
+  }
+  .w {
+    flex:1; background:var(--cream); border:1px solid var(--line);
+    border-radius:14px; padding:22px 26px; font-size:25px; line-height:1.5;
+    color:var(--muted);
+  }
+  .w b { color:var(--navy-d); font-weight:800; }
+
+  .note {
+    margin-top:38px; background:var(--pink-bg); border-left:6px solid var(--pink);
+    padding:22px 30px; font-size:28px; line-height:1.55;
+  }
+  .note b { font-weight:800; }
+  .src { margin-top:18px; font-size:21px; color:var(--muted-l); }
+</style>
+
+<h2>내 이자가 실제로 바뀌는 날까지</h2>
+<div class="sub">변동금리 대출, 금리 변경 주기가 6개월이고 다음 변경일이 11월 20일인 경우를 가정</div>
+
+<div class="line">
+  <div class="step on">
+    <div class="bar"></div>
+    <div class="when">8월 27일</div>
+    <div class="what">기준금리 인상</div>
+    <div class="why">2.75% → 3.00%<br>여기서는 아직 내 이자 그대로</div>
+  </div>
+  <div class="step">
+    <div class="bar"></div>
+    <div class="when">9월 15일</div>
+    <div class="what">8월분 코픽스 발표</div>
+    <div class="why">인상이 닷새만 들어감</div>
+  </div>
+  <div class="step">
+    <div class="bar"></div>
+    <div class="when">10월 15일</div>
+    <div class="what">9월분 코픽스 발표</div>
+    <div class="why">인상이 한 달 내내 들어감</div>
+  </div>
+  <div class="step last">
+    <div class="bar"></div>
+    <div class="when">11월 20일</div>
+    <div class="what">내 대출금리 변경</div>
+    <div class="why">이때부터 이자가 오릅니다</div>
+  </div>
+</div>
+
+<div class="wait">
+  <div class="w">첫 번째 기다림 &nbsp;·&nbsp; <b>코픽스는 한 달에 한 번만 나온다</b></div>
+  <div class="w">두 번째 기다림 &nbsp;·&nbsp; <b>내 대출의 금리 바뀌는 날이 와야 한다</b></div>
+</div>
+
+<div class="note">
+  변경일은 대출마다 다릅니다. <b>내 날짜는 은행 앱이나 약정서에서 확인하세요.</b>
+</div>
+
+<div class="src">자료: 한국은행, 전국은행연합회 | 2026-09-06 기준 | 오늘의 재테크온도</div>
