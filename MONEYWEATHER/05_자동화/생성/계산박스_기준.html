@@ -1,0 +1,73 @@
+<!--
+  계산 박스 디자인 기준 — 사용자가 티스토리 발행본에서 직접 고친 HTML (2026-09-11 발행, https://moneyweather.tistory.com/5)
+
+  고정폭 코드블록(<pre>)으로 계산을 보여주면 「안 예쁘다」는 사용자 판단으로, 발행 직전 세 곳을 전부 이 모양으로 바꿨다.
+  앞으로 md2html.js 의 ```calc 블록은 이 파일과 같은 모양을 낸다. 모양을 바꾸려면 이 파일부터 고친다.
+
+  1. 카드 비교형   — 여러 경우를 카드로 나누고 줄마다 「계산식 ··· 세금 금액」, 아래에 요약 박스
+  2. 흐름형        — 「라벨·값 − 라벨·값 = 라벨·값」 가로 흐름 + 아래 한 줄 결론
+  3. 한 줄형       — 카드 하나에 「계산식 ··· 세금 금액」 한 줄
+
+  아래 HTML은 발행본에서 잘라낸 그대로다 (티스토리 편집기가 소문자·공백을 바꾼 흔적 포함).
+-->
+
+<!-- ========== 1. 카드 비교형 (2장) ========== -->
+<!-- ISA 세금 비교 -->
+<div style="margin: 28px 0 24px;"><!-- 그냥 계좌 -->
+<div style="background: #F8F5F1; border: 1px solid #E8E0D7; border-radius: 12px; padding: 18px 20px; margin-bottom: 12px;">
+<div style="font-size: 15px; font-weight: bold; color: #4a4038; margin-bottom: 12px;">그냥 계좌</div>
+<div style="font-size: 14px; color: #6b625b; line-height: 1.7;">수익 500만원</div>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;"><span style="font-size: 14px; color: #6b625b;"> 500만원 &times; 15.4% </span> <span style="font-size: 14px; color: #8a817a;"> 세금&nbsp;&nbsp; <b>77만원</b> </span></div>
+</div>
+<!-- ISA 일반형 -->
+<div style="background: #F5F0E9; border: 1px solid #E6DCCF; border-radius: 12px; padding: 18px 20px; margin-bottom: 12px;">
+<div style="font-size: 15px; font-weight: bold; color: #4a4038; margin-bottom: 12px;">ISA 일반형</div>
+<div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 9px; border-bottom: 1px solid #E5DDD4;"><span style="font-size: 14px; color: #6b625b;"> 비과세 200만원 </span> <span style="font-size: 14px; color: #8a817a;"> 세금&nbsp;&nbsp; <b>0원</b> </span></div>
+<div style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px;"><span style="font-size: 14px; color: #6b625b;"> 300만원 &times; 9.9% </span> <span style="font-size: 14px; color: #8a817a;"> 세금&nbsp;&nbsp; <b>29만 7천원</b> </span></div>
+</div>
+<!-- ISA 서민형 -->
+<div style="background: #F3EFE9; border: 1px solid #E3D8CA; border-radius: 12px; padding: 18px 20px;">
+<div style="font-size: 15px; font-weight: bold; color: #4a4038; margin-bottom: 12px;">ISA 서민형</div>
+<div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 9px; border-bottom: 1px solid #E5DDD4;"><span style="font-size: 14px; color: #6b625b;"> 비과세 400만원 </span> <span style="font-size: 14px; color: #8a817a;"> 세금&nbsp;&nbsp; <b>0원</b> </span></div>
+<div style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px;"><span style="font-size: 14px; color: #6b625b;"> 100만원 &times; 9.9% </span> <span style="font-size: 14px; color: #8a817a;"> 세금&nbsp;&nbsp; <b>9만 9천원</b> </span></div>
+</div>
+<!-- 세금 부담 비교 -->
+<div style="margin-top: 14px; padding: 17px 18px; background: #EEE8DF; border-radius: 10px; text-align: center; line-height: 1.6;">
+<div style="font-size: 12px; color: #81776e; margin-bottom: 6px;">같은 500만원 수익이라면</div>
+<div style="font-size: 15px; color: #5a5048;"><span style="font-weight: bold;">77만원</span> <span style="margin: 0 7px; color: #a59b92;">&rarr;</span> <span style="font-weight: bold;">29.7만원</span> <span style="margin: 0 7px; color: #a59b92;">&rarr;</span> <span style="font-weight: bold; color: #5f7769;">9.9만원</span></div>
+<div style="margin-top: 5px; font-size: 11px; color: #81776e;">일반 계좌 &rarr; ISA 일반형 &rarr; ISA 서민형</div>
+<div style="margin-top: 12px; padding-top: 11px; border-top: 1px solid #DDD3C8; font-size: 14px; color: #5a5048;">일반 계좌보다 <span style="font-weight: bold; color: #5f7769;"> 최대 67만 1천원 절약 </span></div>
+</div>
+</div>
+<p style="margin: 0 0 18px !important; color: #77716b; font-size: 13px; line-height: 1.7;" data-ke-size="size16">※ 이해를 돕기 위해 500만원 전액이 15.4% 원천징수 대상이라고 가정한 단순 계산입니다. 수수료나 거래비용은 넣지 않았어요.</p>
+
+<!-- ========== 2. 흐름형 (3장) ========== -->
+<!-- 해외 ETF 손익통산 -->
+<div style="margin: 28px 0 24px;">
+<div style="background: #F8F5F1; border: 1px solid #E8E0D7; border-radius: 12px; padding: 20px;">
+<div style="font-size: 15px; font-weight: bold; color: #4a4038; margin-bottom: 16px;">해외 ETF 손익통산</div>
+<div style="font-size: 13px; color: #81776e; margin-bottom: 10px;">여러 해외 ETF에서 난 수익과 손실을 합쳐서 계산합니다.</div>
+<!-- 하나의 계산 흐름 -->
+<div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin: 14px 0 16px;">
+<div style="text-align: center; min-width: 82px;">
+<div style="font-size: 12px; color: #81776e; margin-bottom: 4px;">ETF A &middot; 수익</div>
+<b> +300만원 </b></div>
+<span style="font-size: 18px; color: #a59b92;"> &minus; </span>
+<div style="text-align: center; min-width: 82px;">
+<div style="font-size: 12px; color: #81776e; margin-bottom: 4px;">ETF B &middot; 손실</div>
+<b> 100만원 </b></div>
+<span style="font-size: 18px; color: #a59b92;"> = </span>
+<div style="text-align: center; min-width: 82px;">
+<div style="font-size: 12px; color: #81776e; margin-bottom: 4px;">합산 결과</div>
+<b> 200만원 </b></div>
+</div>
+<!-- 최종 메시지 -->
+<div style="padding-top: 13px; border-top: 1px solid #E5DDD4; text-align: center;"><span style="font-size: 13px; color: #81776e;"> 세금을 따져볼 때 </span> <b> 200만원을 기준으로 봅니다. </b></div>
+</div>
+</div>
+
+<!-- ========== 3. 한 줄형 (3장) ========== -->
+<!-- 세금 계산 -->
+<div style="margin: 24px 0; padding: 16px 20px; background: #F8F5F1; border: 1px solid #E8E0D7; border-radius: 12px;">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 16px;"><span style="font-size: 14px; color: #6b625b;"> 300만원 &times; 15.4% </span> <span style="font-size: 13px; color: #81776e;"> 세금 <b> 46만 2천원 </b> </span></div>
+</div>

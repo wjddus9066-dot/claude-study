@@ -48,6 +48,15 @@ const C = {
   calcArrow: '#A59B92',   // 화살표·기호 장식 (대비 2.24, 글자로 읽히지 않아도 되는 자리)
   calcAccent: '#5F7769',  // 마지막 결과 강조 초록
   calcNote: '#77716B',    // 박스 아래 계산 주석
+  calcRule: '#DDD3C8',    // 요약 박스 결론 윗선
+  // 계산 카드 — 사용자가 발행본에서 고친 모양 (2026-09-11, 05_자동화/생성/계산박스_기준.html)
+  cardBg1: '#F8F5F1', cardLine1: '#E8E0D7',
+  cardBg2: '#F5F0E9', cardLine2: '#E6DCCF',
+  cardBg3: '#F3EFE9', cardLine3: '#E3D8CA',
+  cardRule: '#E5DDD4',    // 카드 안 행 사이 선
+  cardTitle: '#4A4038',   // 카드 제목 (cardBg1 위 대비 9.28)
+  cardText: '#6B625B',    // 계산식 (cardBg1 5.48 / cardBg3 5.20)
+  cardMuted: '#8A817A',   // 「세금」 라벨 (3.51 — 권장선 아래, 사용자 지정)
 };
 
 const FONT = "'Malgun Gothic','맑은 고딕',-apple-system,'Segoe UI',sans-serif";

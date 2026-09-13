@@ -23,16 +23,42 @@
   table{border-collapse:collapse; width:100%; max-width:100%; font-size:.95rem; background:#FEF8F3;}
   th{border:1px solid #EADFD2; padding:11px 13px; text-align:left; vertical-align:top; background:#F6EDE2; font-weight:700; color:#0C2657; word-break:keep-all;}
   td{border:1px solid #EADFD2; padding:11px 13px; text-align:left; vertical-align:top;}
-  .calc-box{margin:14px 0 0; padding:15px 18px; background:#EEE8DF; border-radius:10px; text-align:center; line-height:1.6;}
-  .calc-solo{margin:14px 0 18px; padding:15px 18px; background:#EEE8DF; border-radius:10px; text-align:center; line-height:1.6;}
-  .calc-title{font-size:12px; color:#81776E; margin-bottom:5px;}
+  .calc-box{margin-top:14px; padding:17px 18px; background:#EEE8DF; border-radius:10px; text-align:center; line-height:1.6;}
+  .calc-solo{margin:14px 0 18px; padding:17px 18px; background:#EEE8DF; border-radius:10px; text-align:center; line-height:1.6;}
+  .calc-title{font-size:12px; color:#81776E; margin-bottom:6px;}
   .calc-values{font-size:15px; color:#5A5048;}
-  .calc-val{font-weight:700; color:#5A5048;}
-  .calc-accent{font-weight:700; color:#5F7769;}
-  .calc-sep{margin:0 8px; color:#A59B92;}
-  .calc-labels{margin-top:4px; font-size:12px; color:#81776E;}
+  .calc-val{font-weight:bold; color:#5A5048;}
+  .calc-accent{font-weight:bold; color:#5F7769;}
+  .calc-sep{margin:0 7px; color:#A59B92;}
+  .calc-labels{margin-top:5px; font-size:11px; color:#81776E;}
   .calc-formula{margin-top:6px; font-size:11px; color:#81776E;}
-  .calc-note{margin:12px 0 18px; color:#77716B; font-size:13px; line-height:1.7;}
+  .calc-sum-foot{margin-top:12px; padding-top:11px; border-top:1px solid #DDD3C8; font-size:14px; color:#5A5048;}
+  .calc-note{margin:0 0 18px; color:#77716B; font-size:13px; line-height:1.7;}
+  .calc-wrap{margin:28px 0 24px;}
+  .calc-card{background:#F8F5F1; border:1px solid #E8E0D7; border-radius:12px; padding:18px 20px; margin-bottom:12px;}
+  .calc-bg2{background:#F5F0E9; border:1px solid #E6DCCF;}
+  .calc-bg3{background:#F3EFE9; border:1px solid #E3D8CA;}
+  .calc-flowcard{padding:20px;}
+  .calc-nomb{margin-bottom:0;}
+  .calc-single{margin:24px 0; padding:16px 20px; background:#F8F5F1; border:1px solid #E8E0D7; border-radius:12px;}
+  .calc-card-title{font-size:15px; font-weight:bold; color:#4A4038; margin-bottom:12px;}
+  .calc-mb16{margin-bottom:16px;}
+  .calc-line{font-size:14px; color:#6B625B; line-height:1.7;}
+  .calc-desc{font-size:13px; color:#81776E; margin-bottom:10px;}
+  .calc-row{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+  .calc-row-first{padding-bottom:9px; border-bottom:1px solid #E5DDD4;}
+  .calc-row-next{padding-top:10px;}
+  .calc-row-after{margin-top:5px;}
+  .calc-left{font-size:14px; color:#6B625B;}
+  .calc-right{font-size:14px; color:#8A817A;}
+  .calc-right-sm{font-size:13px; color:#81776E;}
+  .calc-b{font-weight:bold;}
+  .calc-flow{display:flex; align-items:center; justify-content:center; gap:8px; margin:14px 0 16px;}
+  .calc-flow-item{text-align:center; min-width:82px;}
+  .calc-flow-label{font-size:12px; color:#81776E; margin-bottom:4px;}
+  .calc-flow-op{font-size:18px; color:#A59B92;}
+  .calc-card-foot{padding-top:13px; border-top:1px solid #E5DDD4; text-align:center;}
+  .calc-foot-muted{font-size:13px; color:#81776E;}
   pre{background:#F6EDE2; border:1px solid #EADFD2; border-radius:8px; padding:16px 18px; overflow-x:auto; max-width:100%; margin:24px 0; line-height:1.65; font-size:.86rem;}
   code{font-family:Consolas,'D2Coding','Malgun Gothic','맑은 고딕',monospace; font-size:.9rem;}
   ul{margin:0 0 20px; padding-left:24px;}
@@ -83,7 +109,7 @@
 <body>
 <article class="wrap">
 <h1>ISA, 다들 좋다는데 그래서 나한테 뭐가 좋은 걸까?</h1>
-<figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택_v3/01_썸네일.png" alt="바구니에 담기는 동전과 줄어드는 화살표로 ISA의 세금 혜택을 나타낸 썸네일" loading="lazy"></figure>
+<figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택_26.09.11/01_썸네일.png" alt="바구니에 담기는 동전과 줄어드는 화살표로 ISA의 세금 혜택을 나타낸 썸네일" loading="lazy"></figure>
 <hr>
 <p>"다들 ISA는 하나 만들어두라는데, 그게 <strong>나한테도</strong> 좋은 걸까?"</p>
 <p>한 번쯤 들어보셨을 겁니다. 저도 "안 만들면 손해"라는 말만 여러 번 듣고, 정작 뭐가 얼마나 좋은지는 설명하지 못했어요.</p>
@@ -127,22 +153,22 @@
 <p>총급여 5,000만원 이하면 직장인 중에 해당하는 분이 꽤 많아요. 다만 월급 말고도 임대소득이나 사업소득처럼 따로 신고해 합산되는 소득이 있다면, 종합소득금액이 3,800만원 이하인지로 봅니다. 이때도 총급여는 5,000만원 이하여야 해요. 프리랜서나 자영업으로 번다면 종합소득금액 기준이에요.</p>
 <h3>숫자로 보면 이만큼 차이가 납니다</h3>
 <p>ISA를 3년 유지하는 동안 이자와 배당으로 모두 500만원을 벌었다고 해볼게요. ISA에 넣지 않은 보통 계좌는 「그냥 계좌」라고 부를게요.</p>
-<div class="calc-box"><div class="calc-title">세금 부담 비교</div><div class="calc-values"><span class="calc-val">77만원</span><span class="calc-sep">→</span><span class="calc-val">29만 7천원</span><span class="calc-sep">→</span><span class="calc-accent">9만 9천원</span></div><div class="calc-labels">그냥 계좌 → ISA 일반형 → ISA 서민형</div><div class="calc-formula">500만원 × 15.4% · 한도 넘는 300만원 × 9.9% · 한도 넘는 100만원 × 9.9%</div></div>
-<p class="calc-note">세금만 놓고 본 단순 계산입니다. 수수료나 거래비용은 넣지 않았어요.</p>
-<figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택_v3/02_세금비교.png" alt="같은 500만원을 벌었을 때 그냥 계좌 77만원, ISA 일반형 29만 7천원, ISA 서민형 9만 9천원으로 세금이 갈리는 막대 그래프" loading="lazy"><figcaption>같은 500만원을 벌어도 어디에 담았느냐로 세금이 갈립니다.</figcaption></figure>
+<div class="calc-wrap"><div class="calc-card"><div class="calc-card-title">그냥 계좌</div><div class="calc-line">수익 500만원</div><div class="calc-row calc-row-after"><span class="calc-left">500만원 × 15.4%</span><span class="calc-right">세금&nbsp;&nbsp;<b class="calc-b">77만원</b></span></div></div><div class="calc-card calc-bg2"><div class="calc-card-title">ISA 일반형</div><div class="calc-row calc-row-first"><span class="calc-left">비과세 200만원</span><span class="calc-right">세금&nbsp;&nbsp;<b class="calc-b">0원</b></span></div><div class="calc-row calc-row-next"><span class="calc-left">300만원 × 9.9%</span><span class="calc-right">세금&nbsp;&nbsp;<b class="calc-b">29만 7천원</b></span></div></div><div class="calc-card calc-bg3 calc-nomb"><div class="calc-card-title">ISA 서민형</div><div class="calc-row calc-row-first"><span class="calc-left">비과세 400만원</span><span class="calc-right">세금&nbsp;&nbsp;<b class="calc-b">0원</b></span></div><div class="calc-row calc-row-next"><span class="calc-left">100만원 × 9.9%</span><span class="calc-right">세금&nbsp;&nbsp;<b class="calc-b">9만 9천원</b></span></div></div><div class="calc-box"><div class="calc-title">같은 500만원 수익이라면</div><div class="calc-values"><b class="calc-b">77만원</b> <span class="calc-sep">→</span> <b class="calc-b">29.7만원</b> <span class="calc-sep">→</span> <b class="calc-accent">9.9만원</b></div><div class="calc-labels">일반 계좌 → ISA 일반형 → ISA 서민형</div><div class="calc-sum-foot">일반 계좌보다 <b class="calc-accent">최대 67만 1천원 절약</b></div></div></div>
+<p class="calc-note">※ 이해를 돕기 위해 500만원 전액이 15.4% 원천징수 대상이라고 가정한 단순 계산입니다. 수수료나 거래비용은 넣지 않았어요.</p>
+<figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택_26.09.11/02_세금비교.png" alt="같은 500만원을 벌었을 때 그냥 계좌 77만원, ISA 일반형 29만 7천원, ISA 서민형 9만 9천원으로 세금이 갈리는 막대 그래프" loading="lazy"><figcaption>같은 500만원을 벌어도 어디에 담았느냐로 세금이 갈립니다.</figcaption></figure>
 <p>같은 500만원을 벌었는데 서민형이면 67만원이 남습니다. 한 달 통신비 몇 달치예요.</p>
 <h2>3. 「손해 본 것도 같이 쳐준다」는 게 무슨 뜻인가요?</h2>
 <p>쉽게 말하면, <strong>ISA 안에서 생긴 이익과 손실을 따로 계산하지 않고 합쳐서 보는 방식</strong>입니다.</p>
 <p>예를 들어볼게요. 미국 주식에 투자하는 ETF 두 개, A와 B를 ISA에 담았다고 해볼게요.</p>
 <p><strong>ETF</strong>는 여러 주식이나 채권 등을 한데 담아놓고, 주식처럼 사고팔 수 있는 상품이에요. A와 B는 한국 증시에 올라와 있어서 원화로 살 수 있는 <strong>국내 상장 해외 ETF</strong>입니다. 이런 ETF는 팔아서 남긴 돈에도 세금이 붙어서, 손실도 세금 계산에 들어갑니다.</p>
 <p>세금 계산에 들어가는 손익이 이렇게 나왔다고 해볼게요.</p>
-<div class="calc-box calc-solo"><div class="calc-title">ISA에서 합쳐 보면</div><div class="calc-values"><span class="calc-val">+300만원</span><span class="calc-sep">+</span><span class="calc-val">−100만원</span><span class="calc-sep">=</span><span class="calc-accent">200만원</span></div><div class="calc-labels">해외 ETF A + 해외 ETF B = 세금을 따져볼 수익</div></div>
+<div class="calc-wrap"><div class="calc-card calc-flowcard calc-nomb"><div class="calc-card-title calc-mb16">해외 ETF 손익통산</div><div class="calc-desc">여러 해외 ETF에서 난 수익과 손실을 합쳐서 계산합니다.</div><div class="calc-flow"><div class="calc-flow-item"><div class="calc-flow-label">ETF A · 수익</div><b class="calc-b">+300만원</b></div><span class="calc-flow-op">−</span><div class="calc-flow-item"><div class="calc-flow-label">ETF B · 손실</div><b class="calc-b">100만원</b></div><span class="calc-flow-op">=</span><div class="calc-flow-item"><div class="calc-flow-label">합산 결과</div><b class="calc-b">200만원</b></div></div><div class="calc-card-foot"><span class="calc-foot-muted">세금을 따져볼 때 </span> <b class="calc-b">200만원을 기준으로 봅니다.</b></div></div></div>
 <p>이 200만원은 비과세 한도 안이라 <strong>ISA에서는 세금이 0원</strong>입니다.</p>
 <p>그냥 계좌였다면 어떨까요? 그냥 계좌는 <strong>이익 난 것만 보고 세금을 뗍니다.</strong> B에서 잃은 100만원은 없는 셈 치고, A에서 번 300만원에만 세금이 붙어요.</p>
-<div class="calc-box"><div class="calc-title">그냥 계좌의 세금</div><div class="calc-values"><span class="calc-val">300만원</span><span class="calc-sep">×</span><span class="calc-val">15.4%</span><span class="calc-sep">=</span><span class="calc-val">46만 2천원</span></div><div class="calc-labels">A에서 번 돈 × 세율 = 세금</div></div>
-<p class="calc-note">실제 세금은 상품마다 정해진 과세 기준으로 계산해서 이보다 적을 수 있어요. 그래도 차이가 난다는 건 분명합니다.</p>
+<div class="calc-single"><div class="calc-row"><span class="calc-left">300만원 × 15.4%</span><span class="calc-right-sm">세금 <b class="calc-b">46만 2천원</b></span></div></div>
+<p>실제 세금은 상품마다 정해진 과세 기준으로 계산해서 이보다 적을 수 있어요. 그래도 차이가 난다는 건 분명합니다.</p>
 <p>같은 투자를 했는데 46만 2천원이 갈립니다.</p>
-<figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택_v3/03_손익통산.png" alt="그냥 계좌는 이익 300만원에만 세금을 매겨 46만 2천원, ISA는 손실을 뺀 200만원이 비과세 한도 안이라 0원인 비교 그림" loading="lazy"><figcaption>그냥 계좌는 이익 난 것만 봅니다. ISA는 바구니 전체를 봅니다.</figcaption></figure>
+<figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택_26.09.11/03_손익통산.png" alt="그냥 계좌는 이익 300만원에만 세금을 매겨 46만 2천원, ISA는 손실을 뺀 200만원이 비과세 한도 안이라 0원인 비교 그림" loading="lazy"><figcaption>그냥 계좌는 이익 난 것만 봅니다. ISA는 바구니 전체를 봅니다.</figcaption></figure>
 <p>그럼 ISA 안에서 난 손실이면 뭐든 합쳐줄까요? <strong>그렇지 않습니다.</strong></p>
 <ul>
 <li><strong>원래 세금이 안 붙는 손익은 빠집니다.</strong> 국내 주식형 ETF나 국내 주식형 펀드를 팔아서 난 손실이 대표적이에요. 팔아서 번 돈에 세금을 매기지 않는 대신, 잃은 돈도 합쳐주지 않습니다. 그래서 국내 주식형 ETF에서 100만원을 잃고 예금 이자를 300만원 받았다면, 300만원에서 그 100만원을 빼주지 않고 계산해요.</li>
@@ -166,7 +192,7 @@
 <h2>5. 3년 동안 돈이 묶이는 건가요?</h2>
 <p><strong>3년은 「수익을 자유롭게 인출할 수 있게 되는 시점」이 아니라, 세금 혜택을 받기 위한 최소 유지기간입니다.</strong> 이 기간을 <strong>의무가입기간</strong>이라고 해요.</p>
 <p>그렇다고 <strong>3년 동안 돈을 한 푼도 못 빼는 건 아닙니다.</strong> 무엇을 하려는지에 따라 결과가 갈려요.</p>
-<figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택_v3/04_인출과해지.png" alt="ISA에서 돈을 꺼내는 상황별 결과: 넣은 원금 안에서 꺼내기는 언제든 가능하고 혜택 유지(한도는 안 돌아옴), 원금보다 많이 꺼내려면 계좌를 해지해야 하며 3년 전이면 해지로 보고 깎아준 세금을 다시 냄, 3년 전 해지는 세금을 다시 내되 사망·해외이주·퇴직 등 부득이한 사유는 예외, 3년을 채우고 해지하면 혜택을 그대로 받음" loading="lazy"><figcaption>노란 칸은 세금 혜택이 남는 경우, 분홍 칸은 깎아준 세금을 다시 내는 경우입니다. 가운데 흰 칸은 언제 해지하느냐에 따라 갈려요.</figcaption></figure>
+<figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택_26.09.11/04_인출과해지.png" alt="ISA에서 돈을 꺼내는 상황별 결과: 넣은 원금 안에서 꺼내기는 언제든 가능하고 혜택 유지(한도는 안 돌아옴), 원금보다 많이 꺼내려면 계좌를 해지해야 하며 3년 전이면 해지로 보고 깎아준 세금을 다시 냄, 3년 전 해지는 세금을 다시 내되 사망·해외이주·퇴직 등 부득이한 사유는 예외, 3년을 채우고 해지하면 혜택을 그대로 받음" loading="lazy"><figcaption>노란 칸은 세금 혜택이 남는 경우, 분홍 칸은 깎아준 세금을 다시 내는 경우입니다. 가운데 흰 칸은 언제 해지하느냐에 따라 갈려요.</figcaption></figure>
 <p>한 줄로 줄이면, <strong>계좌를 둔 채로 꺼낼 수 있는 건 넣은 원금까지입니다. 번 돈까지 찾으려면 계좌를 해지해야 하고, 그 해지를 3년 채운 뒤에 해야 세금 혜택이 남아요.</strong></p>
 <p>3년 전에 해지해도 세금을 다시 걷지 않는 경우가 있긴 합니다. 사망이나 해외이주, 그리고 해지하기 전 6개월 안에 생긴 퇴직·폐업·천재지변·3개월 이상 입원치료가 필요한 병이나 사고 같은 <strong>부득이한 사유</strong>예요. 이때는 금융회사에 사유를 신고해야 합니다.</p>
 <p class="src-note">중도해지 추징·원금 초과 인출 — 조세특례제한법 제91조의18 제7항·제8항 / 부득이한 사유 — 조세특례제한법 시행령 제93조의4 제14항·제81조제6항제3호, 하나은행 ISA 안내 · <a href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A1%B0%EC%84%B8%ED%8A%B9%EB%A1%80%EC%A0%9C%ED%95%9C%EB%B2%95" target="_blank" rel="noopener">법령 보기</a> / 중도인출·한도 미복원 — 한국투자증권 ISA 중개형 상품설명서 / 국회예산정책처 「ISA의 국내외 현황 및 쟁점」 [표 1]</p>
@@ -188,7 +214,7 @@
 </blockquote>
 <p class="src-note">국회예산정책처 「ISA의 국내외 현황 및 쟁점」(2026-04-30) 각주 11 「국회 심사 과정에서 … 개정세법에 반영되지 않음」 · <a href="https://www.nabo.go.kr/board/file/down.do?fid=33319223" target="_blank" rel="noopener">보고서 보기</a></p>
 <p>검색해보면 이 숫자를 이미 시행된 제도처럼 쓴 글이 아직 많습니다.</p>
-<figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택_v3/05_떠도는숫자.png" alt="인터넷에 도는 연 4,000만원·비과세 500만원과 실제 적용되는 연 2,000만원·비과세 200만원을 나란히 비교한 표" loading="lazy"><figcaption>왼쪽은 2024년에 나왔다가 국회를 통과하지 못한 숫자입니다.</figcaption></figure>
+<figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택_26.09.11/05_떠도는숫자.png" alt="인터넷에 도는 연 4,000만원·비과세 500만원과 실제 적용되는 연 2,000만원·비과세 200만원을 나란히 비교한 표" loading="lazy"><figcaption>왼쪽은 2024년에 나왔다가 국회를 통과하지 못한 숫자입니다.</figcaption></figure>
 <h2>7. 그럼 내 경우에는 효과가 클까요?</h2>
 <p>어디에 투자하고 돈을 언제 쓸지에 따라 이렇게 갈립니다.</p>
 <p><strong>효과를 기대해볼 만한 쪽</strong></p>

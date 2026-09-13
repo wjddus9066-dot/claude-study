@@ -61,8 +61,118 @@ function inline(s) {
  * 검수.js 는 ```영문``` 펜스를 계산 블록으로 따로 보므로 따로 고칠 것이 없다.
  * 한 박스를 한 줄에 담는다. inlineStyles 가 줄 첫머리의 </div> 로 컨테이너를 닫기 때문이다.
  */
+/**
+ * 카드형 계산 박스 — 기준: 05_자동화/생성/계산박스_기준.html (사용자가 발행본에서 직접 고친 모양, 2026-09-11)
+ *
+ *   ```calc
+ *   카드: 그냥 계좌                        ← 카드 시작 (제목). 카드 바탕은 세 톤을 돌아가며 쓴다
+ *   수익 500만원                            ← | 없는 줄: 카드 안 작은 설명 줄
+ *   500만원 × 15.4% | 세금 | 77만원         ← 행: 왼쪽 계산식 ··· 오른쪽 「라벨 금액」 (금액은 굵게)
+ *   카드: ISA 일반형
+ *   비과세 200만원 | 세금 | 0원              ← 한 카드에 행이 둘 이상이면 사이에 가는 선
+ *   300만원 × 9.9% | 세금 | 29만 7천원
+ *   요약: 같은 500만원 수익이라면           ← 카드 아래 요약 박스 (다음 줄: 금액 → 금액, 이름 줄)
+ *   77만원 → 29만 7천원 → **9만 9천원**
+ *   그냥 계좌 → ISA 일반형 → ISA 서민형
+ *   결론: 그냥 계좌보다 **최대 67만 1천원 절약**   ← 요약 박스 맨 아래 한 줄 (** 는 강조색)
+ *   주: ※ 단순 계산입니다.                  ← 박스 아래 주석 문단
+ *   ```
+ *
+ *   카드: 해외 ETF 손익통산
+ *   설명: 여러 해외 ETF에서 난 수익과 손실을 합쳐서 계산합니다.
+ *   흐름: ETF A · 수익 = +300만원 | − | ETF B · 손실 = 100만원 | = | 합산 결과 = 200만원
+ *   결론: 세금을 따져볼 때 **200만원을 기준으로 봅니다.**      ← 카드 안 결론: 윗선 + 가운데
+ *
+ *   300만원 × 15.4% | 세금 | 46만 2천원      ← 카드: 없이 행 하나면 한 줄형
+ */
+function calcCards(rows) {
+  const bold = (s) => inline(s).replace(/<strong>/g, '<b class="calc-b">').replace(/<\/strong>/g, '</b>');
+  const accent = (s) => inline(s).replace(/<strong>/g, '<b class="calc-accent">').replace(/<\/strong>/g, '</b>');
+  const isRow = (l) => l.includes(' | ');
+  const note = rows.filter((l) => /^주:\s*/.test(l)).map((l) => l.replace(/^주:\s*/, ''));
+  const body = rows.filter((l) => !/^주:\s*/.test(l));
+
+  // 한 줄형 — 카드: 없이 행 하나
+  if (!body.some((l) => /^(카드|요약|흐름):/.test(l))) {
+    const [left, label, value] = body[0].split(' | ').map((x) => x.trim());
+    const html = `<div class="calc-single"><div class="calc-row"><span class="calc-left">${inline(left)}</span>` +
+      `<span class="calc-right-sm">${inline(label || '')} <b class="calc-b">${inline(value || '')}</b></span></div></div>`;
+    return [html, ...note.map((n) => `<p class="calc-note">${inline(n)}</p>`)];
+  }
+
+  // 덩어리로 나눈다: 카드 / 요약
+  const groups = [];
+  for (const l of body) {
+    if (/^카드:\s*/.test(l)) groups.push({ kind: 'card', title: l.replace(/^카드:\s*/, ''), lines: [] });
+    else if (/^요약:\s*/.test(l)) groups.push({ kind: 'sum', title: l.replace(/^요약:\s*/, ''), lines: [] });
+    else if (groups.length) groups[groups.length - 1].lines.push(l);
+    else { console.error('\n[오류] ```calc 카드형은 「카드:」나 「요약:」 줄로 시작해야 합니다.\n       ' + l); process.exit(1); }
+  }
+
+  const cards = groups.filter((g) => g.kind === 'card');
+  const hasSum = groups.some((g) => g.kind === 'sum');
+  let html = '<div class="calc-wrap">';
+  let cardNo = 0;
+  for (const g of groups) {
+    if (g.kind === 'card') {
+      const tone = ['', ' calc-bg2', ' calc-bg3'][cardNo % 3];
+      const lastCard = ++cardNo === cards.length;
+      const isFlow = g.lines.some((l) => /^흐름:/.test(l));
+      const cls = 'calc-card' + tone + (isFlow ? ' calc-flowcard' : '') + (lastCard && !hasSum ? ' calc-nomb' : '') + (lastCard && hasSum ? ' calc-nomb' : '');
+      html += `<div class="${cls}"><div class="${isFlow ? 'calc-card-title calc-mb16' : 'calc-card-title'}">${inline(g.title)}</div>`;
+      const rowLines = g.lines.filter(isRow);
+      let rowNo = 0;
+      let afterLine = false;
+      for (const l of g.lines) {
+        if (/^설명:\s*/.test(l)) { html += `<div class="calc-desc">${inline(l.replace(/^설명:\s*/, ''))}</div>`; continue; }
+        if (/^결론:\s*/.test(l)) { html += `<div class="calc-card-foot"><span class="calc-foot-muted">${inline(l.replace(/^결론:\s*/, '').replace(/\*\*.*$/, ''))}</span> ${bold((l.match(/\*\*.*\*\*/) || [''])[0])}</div>`; continue; }
+        if (/^흐름:\s*/.test(l)) {
+          const parts = l.replace(/^흐름:\s*/, '').split(' | ').map((x) => x.trim());
+          html += '<div class="calc-flow">' + parts.map((p) => {
+            if (!p.includes(' = ')) return `<span class="calc-flow-op">${esc(p)}</span>`;
+            const [lab, val] = p.split(' = ');
+            return `<div class="calc-flow-item"><div class="calc-flow-label">${inline(lab)}</div><b class="calc-b">${inline(val)}</b></div>`;
+          }).join('') + '</div>';
+          continue;
+        }
+        if (isRow(l)) {
+          const [left, label, value] = l.split(' | ').map((x) => x.trim());
+          let rc = 'calc-row';
+          if (rowLines.length > 1) rc += rowNo === 0 ? ' calc-row-first' : ' calc-row-next';
+          if (afterLine && rowNo === 0) rc += ' calc-row-after';
+          html += `<div class="${rc}"><span class="calc-left">${inline(left)}</span>` +
+            `<span class="calc-right">${inline(label || '')}&nbsp;&nbsp;<b class="calc-b">${inline(value || '')}</b></span></div>`;
+          rowNo++;
+          continue;
+        }
+        html += `<div class="calc-line">${inline(l)}</div>`;
+        afterLine = true;
+      }
+      html += '</div>';
+    } else {
+      // 요약 박스
+      const [values, labels, ...more] = g.lines;
+      const SEP = /\s+(→|\+|=|×)\s+/;
+      const valueHtml = (values || '').split(SEP).map((part, k) => {
+        if (k % 2 === 1) return `<span class="calc-sep">${esc(part)}</span>`;
+        const acc = /^\*\*(.+)\*\*$/.test(part);
+        return `<b class="${acc ? 'calc-accent' : 'calc-b'}">${esc(part.replace(/^\*\*(.+)\*\*$/, '$1'))}</b>`;
+      }).join(' ');  // 발행본처럼 금액과 화살표 사이에 공백을 둔다
+      html += `<div class="calc-box"><div class="calc-title">${inline(g.title)}</div><div class="calc-values">${valueHtml}</div>`;
+      if (labels && !/^결론:/.test(labels)) html += `<div class="calc-labels">${inline(labels)}</div>`;
+      [labels, ...more].filter((l) => l && /^결론:/.test(l)).forEach((l) => {
+        html += `<div class="calc-sum-foot">${accent(l.replace(/^결론:\s*/, ''))}</div>`;
+      });
+      html += '</div>';
+    }
+  }
+  html += '</div>';
+  return [html, ...note.map((n) => `<p class="calc-note">${inline(n)}</p>`)];
+}
+
 function calcBox(buf) {
   const rows = buf.map((l) => l.trim()).filter(Boolean);
+  if (rows.some((l) => /^(카드|요약|흐름):/.test(l) || l.includes(' | '))) return calcCards(rows);
   const note = rows.filter((l) => /^주:\s*/.test(l)).map((l) => l.replace(/^주:\s*/, ''));
   const formula = rows.filter((l) => /^계산:\s*/.test(l)).map((l) => l.replace(/^계산:\s*/, ''));
   const [title, values, labels] = rows.filter((l) => !/^(주|계산):/.test(l));
@@ -528,16 +638,44 @@ const STYLE = {
   td: `border:1px solid ${C.line}; padding:11px 13px; text-align:left; vertical-align:top;`,
 
   // 계산 비교 박스 — ```calc (2026-09-13 사용자 지정 디자인. 색은 팔레트.js calc* 만)
-  '.calc-box': `margin:14px 0 0; padding:15px 18px; background:${C.calcBg}; border-radius:10px; text-align:center; line-height:1.6;`,
-  '.calc-solo': `margin:14px 0 18px; padding:15px 18px; background:${C.calcBg}; border-radius:10px; text-align:center; line-height:1.6;`,
-  '.calc-title': `font-size:12px; color:${C.calcLabel}; margin-bottom:5px;`,
+  // 기준 모양: 05_자동화/생성/계산박스_기준.html (사용자가 발행본에서 직접 고친 HTML). 값은 그 파일과 맞춘다
+  '.calc-box': `margin-top:14px; padding:17px 18px; background:${C.calcBg}; border-radius:10px; text-align:center; line-height:1.6;`,
+  '.calc-solo': `margin:14px 0 18px; padding:17px 18px; background:${C.calcBg}; border-radius:10px; text-align:center; line-height:1.6;`,
+  '.calc-title': `font-size:12px; color:${C.calcLabel}; margin-bottom:6px;`,
   '.calc-values': `font-size:15px; color:${C.calcText};`,
-  '.calc-val': `font-weight:700; color:${C.calcText};`,
-  '.calc-accent': `font-weight:700; color:${C.calcAccent};`,
-  '.calc-sep': `margin:0 8px; color:${C.calcArrow};`,
-  '.calc-labels': `margin-top:4px; font-size:12px; color:${C.calcLabel};`,
+  '.calc-val': `font-weight:bold; color:${C.calcText};`,
+  '.calc-accent': `font-weight:bold; color:${C.calcAccent};`,
+  '.calc-sep': `margin:0 7px; color:${C.calcArrow};`,
+  '.calc-labels': `margin-top:5px; font-size:11px; color:${C.calcLabel};`,
   '.calc-formula': `margin-top:6px; font-size:11px; color:${C.calcLabel};`,
-  '.calc-note': `margin:12px 0 18px; color:${C.calcNote}; font-size:13px; line-height:1.7;`,
+  '.calc-sum-foot': `margin-top:12px; padding-top:11px; border-top:1px solid ${C.calcRule}; font-size:14px; color:${C.calcText};`,
+  '.calc-note': `margin:0 0 18px; color:${C.calcNote}; font-size:13px; line-height:1.7;`,
+  // 카드
+  '.calc-wrap': `margin:28px 0 24px;`,
+  '.calc-card': `background:${C.cardBg1}; border:1px solid ${C.cardLine1}; border-radius:12px; padding:18px 20px; margin-bottom:12px;`,
+  '.calc-bg2': `background:${C.cardBg2}; border:1px solid ${C.cardLine2};`,
+  '.calc-bg3': `background:${C.cardBg3}; border:1px solid ${C.cardLine3};`,
+  '.calc-flowcard': `padding:20px;`,
+  '.calc-nomb': `margin-bottom:0;`,
+  '.calc-single': `margin:24px 0; padding:16px 20px; background:${C.cardBg1}; border:1px solid ${C.cardLine1}; border-radius:12px;`,
+  '.calc-card-title': `font-size:15px; font-weight:bold; color:${C.cardTitle}; margin-bottom:12px;`,
+  '.calc-mb16': `margin-bottom:16px;`,
+  '.calc-line': `font-size:14px; color:${C.cardText}; line-height:1.7;`,
+  '.calc-desc': `font-size:13px; color:${C.calcLabel}; margin-bottom:10px;`,
+  '.calc-row': `display:flex; justify-content:space-between; align-items:center; gap:16px;`,
+  '.calc-row-first': `padding-bottom:9px; border-bottom:1px solid ${C.cardRule};`,
+  '.calc-row-next': `padding-top:10px;`,
+  '.calc-row-after': `margin-top:5px;`,
+  '.calc-left': `font-size:14px; color:${C.cardText};`,
+  '.calc-right': `font-size:14px; color:${C.cardMuted};`,
+  '.calc-right-sm': `font-size:13px; color:${C.calcLabel};`,
+  '.calc-b': `font-weight:bold;`,
+  '.calc-flow': `display:flex; align-items:center; justify-content:center; gap:8px; margin:14px 0 16px;`,
+  '.calc-flow-item': `text-align:center; min-width:82px;`,
+  '.calc-flow-label': `font-size:12px; color:${C.calcLabel}; margin-bottom:4px;`,
+  '.calc-flow-op': `font-size:18px; color:${C.calcArrow};`,
+  '.calc-card-foot': `padding-top:13px; border-top:1px solid ${C.cardRule}; text-align:center;`,
+  '.calc-foot-muted': `font-size:13px; color:${C.calcLabel};`,
 
   pre: `background:${C.creamD}; border:1px solid ${C.line}; border-radius:8px; padding:16px 18px; overflow-x:auto; max-width:100%; margin:24px 0; line-height:1.65; font-size:.86rem;`,
   code: `font-family:${MONO}; font-size:.9rem;`,
@@ -589,7 +727,7 @@ const SHELL = `color:${C.navy}; font-family:${FONT}; line-height:1.75; font-size
 
 // ---------------------------------------------------------------- 인라인 스타일
 
-const TAG_RE = /<(h[1-4]|p|a|strong|em|code|pre|ul|ol|li|table|th|td|figure|img|figcaption|blockquote|hr|aside|div|span)((?:\s[^>]*?)?)(\/?)>/g;
+const TAG_RE = /<(h[1-4]|p|a|strong|em|code|pre|ul|ol|li|table|th|td|figure|img|figcaption|blockquote|hr|aside|div|span|b)((?:\s[^>]*?)?)(\/?)>/g;
 
 /** 같은 속성이 두 번 들어가지 않게 정리한다. 뒤에 온 값이 이긴다. */
 function tidy(css) {
