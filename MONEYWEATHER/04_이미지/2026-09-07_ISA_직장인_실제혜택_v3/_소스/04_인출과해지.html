@@ -1,0 +1,77 @@
+<!doctype html>
+<meta charset="utf-8">
+<!-- @출력 04_이미지/2026-09-07_ISA_직장인_실제혜택_v3/04_인출과해지.png -->
+<!-- @크기 1080x1500 -->
+<!--
+  5장 「3년 동안 돈이 묶이는 건가요?」 — 문장 네 개로 쓰면 초보자가
+  「그래서 빼도 되는 거야, 안 되는 거야?」에서 멈춘다. 상황별 한 장씩으로 보여준다.
+
+  세로형인 이유 — 처음 1600x900 가로형으로 만들었더니 폭 390px 화면에서
+  글자가 5~7px로 줄어 읽히지 않았다(2026-09-13 스크린샷). 이 그림은 휴대폰에서
+  읽혀야 의미가 있으므로 폭 1080에 글자를 크게 둔다. 폰에서 1/3로 줄어도 핵심 글자가 15px 안팎.
+
+  칸마다 근거 (factcheck.md 8·9번)
+    ① 원금 안에서 인출  — 한투 상품설명서(납입원금 한도·횟수 제한 없음·한도 원상회복 불가)
+                           하나은행 「중도인출 가능 범위 내 인출 시 감면세액 추징하지 않음」
+    ② 3년 전 원금 초과  — 조특법 제91조의18 제8항 「인출일에 계약이 중도해지된 것으로 보아」
+    ③ 3년 전 해지       — 같은 조 제7항 (사망·해외이주 등 부득이한 사유 제외) / 시행령 제93조의4 제14항
+    ④ 3년 채우고 해지   — 같은 조 제7항의 반대 경우
+
+  쓰지 않은 것 — 3년이 지난 뒤 계좌를 둔 채 원금보다 많이 꺼낼 수 있는지는 확인하지 못했다.
+  그래서 ②를 「3년 전」으로 좁혔다.
+
+  색: 00_브랜드/색상.md — 직접 적지 않고 변수로 쓴다
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1080px; height:1500px; overflow:hidden; background:var(--ivory);
+    font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif; color:var(--navy);
+    padding:56px 60px 0;
+  }
+  h2 { font-size:62px; font-weight:800; letter-spacing:-2px; line-height:1.2; }
+  .sub { font-size:34px; color:var(--muted); margin-top:14px; }
+
+  .card { border-radius:26px; padding:26px 34px 26px; margin-top:26px; border:4px solid var(--line); }
+  .card.ok  { background:var(--gold-bg); border-color:var(--gold); }
+  .card.bad { background:var(--pink-bg); border-color:var(--pink); }
+
+  .sit { font-size:48px; font-weight:800; letter-spacing:-1.5px; }
+  .sit span { font-size:34px; font-weight:700; color:var(--muted); letter-spacing:-0.5px; margin-left:12px; }
+  .res { font-size:44px; font-weight:800; letter-spacing:-1px; margin-top:12px; }
+  .ok .res  { color:var(--navy-d); }
+  .bad .res { color:var(--rose); }
+  .note { font-size:32px; font-weight:600; color:var(--muted); margin-top:8px; }
+
+  .src { margin-top:26px; font-size:24px; color:var(--muted-l); line-height:1.5; }
+</style>
+
+<h2>3년 안에 돈을 꺼내면<br>어떻게 될까?</h2>
+<div class="sub">무엇을 하느냐에 따라 결과가 갈립니다</div>
+
+<div class="card ok">
+  <div class="sit">넣은 원금 안에서 꺼내기</div>
+  <div class="res">할 수 있어요 · 혜택 그대로</div>
+  <div class="note">뺀 만큼 넣을 수 있는 한도는 안 돌아와요</div>
+</div>
+
+<div class="card bad">
+  <div class="sit">원금보다 많이 꺼내기<span>3년 전</span></div>
+  <div class="res">해지한 것으로 봐요</div>
+  <div class="note">그래서 아래 줄과 같아요</div>
+</div>
+
+<div class="card bad">
+  <div class="sit">계좌 해지<span>3년 전</span></div>
+  <div class="res">깎아준 세금을 다시 내요</div>
+  <div class="note">사망·해외이주·퇴직 등 부득이한 사유는 예외</div>
+</div>
+
+<div class="card ok">
+  <div class="sit">계좌 해지<span>3년 채운 뒤</span></div>
+  <div class="res">혜택을 그대로 받아요</div>
+</div>
+
+<div class="src">
+  조세특례제한법 제91조의18 제7항·제8항 / 같은 법 시행령 제93조의4 제14항<br>한국투자증권·하나은행 ISA 안내
+</div>
