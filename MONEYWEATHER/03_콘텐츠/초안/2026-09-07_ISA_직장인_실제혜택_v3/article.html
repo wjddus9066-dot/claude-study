@@ -12,7 +12,7 @@
   h2{font-size:1.45rem; line-height:1.4; letter-spacing:-.5px; font-weight:800; color:#0C2657; margin:30px 0 18px; padding-top:20px; border-top:2px solid #EADFD2;}
   h3{font-size:1.16rem; line-height:1.45; font-weight:700; color:#C0546E; margin:34px 0 12px;}
   h4{font-size:1.02rem; font-weight:700; color:#1A3360; margin:24px 0 10px;}
-  p{margin:0 0 18px;}
+  p{margin:0 0 15px;}
   strong{font-weight:700; color:#0C2657;}
   em{font-style:normal; background:linear-gradient(transparent 62%, #FCE9ED 62%);}
   a{color:#B94A65; text-decoration:underline; text-underline-offset:2px;}
@@ -23,6 +23,16 @@
   table{border-collapse:collapse; width:100%; max-width:100%; font-size:.95rem; background:#FEF8F3;}
   th{border:1px solid #EADFD2; padding:11px 13px; text-align:left; vertical-align:top; background:#F6EDE2; font-weight:700; color:#0C2657; word-break:keep-all;}
   td{border:1px solid #EADFD2; padding:11px 13px; text-align:left; vertical-align:top;}
+  .calc-box{margin:14px 0 0; padding:15px 18px; background:#EEE8DF; border-radius:10px; text-align:center; line-height:1.6;}
+  .calc-solo{margin:14px 0 18px; padding:15px 18px; background:#EEE8DF; border-radius:10px; text-align:center; line-height:1.6;}
+  .calc-title{font-size:12px; color:#81776E; margin-bottom:5px;}
+  .calc-values{font-size:15px; color:#5A5048;}
+  .calc-val{font-weight:700; color:#5A5048;}
+  .calc-accent{font-weight:700; color:#5F7769;}
+  .calc-sep{margin:0 8px; color:#A59B92;}
+  .calc-labels{margin-top:4px; font-size:12px; color:#81776E;}
+  .calc-formula{margin-top:6px; font-size:11px; color:#81776E;}
+  .calc-note{margin:12px 0 18px; color:#77716B; font-size:13px; line-height:1.7;}
   pre{background:#F6EDE2; border:1px solid #EADFD2; border-radius:8px; padding:16px 18px; overflow-x:auto; max-width:100%; margin:24px 0; line-height:1.65; font-size:.86rem;}
   code{font-family:Consolas,'D2Coding','Malgun Gothic','맑은 고딕',monospace; font-size:.9rem;}
   ul{margin:0 0 20px; padding-left:24px;}
@@ -117,14 +127,8 @@
 <p>총급여 5,000만원 이하면 직장인 중에 해당하는 분이 꽤 많아요. 다만 월급 말고도 임대소득이나 사업소득처럼 따로 신고해 합산되는 소득이 있다면, 종합소득금액이 3,800만원 이하인지로 봅니다. 이때도 총급여는 5,000만원 이하여야 해요. 프리랜서나 자영업으로 번다면 종합소득금액 기준이에요.</p>
 <h3>숫자로 보면 이만큼 차이가 납니다</h3>
 <p>ISA를 3년 유지하는 동안 이자와 배당으로 모두 500만원을 벌었다고 해볼게요. ISA에 넣지 않은 보통 계좌는 「그냥 계좌」라고 부를게요.</p>
-<pre><code>그냥 계좌   500만원 × 15.4%   = 77만원   ← ISA에 안 넣었을 때
-
-ISA 일반형  200만원 → 0원
-            300만원 × 9.9%    = 29만 7천원
-
-ISA 서민형  400만원 → 0원
-            100만원 × 9.9%    = 9만 9천원</code></pre>
-<p>세금만 놓고 본 단순 계산입니다. 수수료나 거래비용은 넣지 않았어요.</p>
+<div class="calc-box"><div class="calc-title">세금 부담 비교</div><div class="calc-values"><span class="calc-val">77만원</span><span class="calc-sep">→</span><span class="calc-val">29만 7천원</span><span class="calc-sep">→</span><span class="calc-accent">9만 9천원</span></div><div class="calc-labels">그냥 계좌 → ISA 일반형 → ISA 서민형</div><div class="calc-formula">500만원 × 15.4% · 한도 넘는 300만원 × 9.9% · 한도 넘는 100만원 × 9.9%</div></div>
+<p class="calc-note">세금만 놓고 본 단순 계산입니다. 수수료나 거래비용은 넣지 않았어요.</p>
 <figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택_v3/02_세금비교.png" alt="같은 500만원을 벌었을 때 그냥 계좌 77만원, ISA 일반형 29만 7천원, ISA 서민형 9만 9천원으로 세금이 갈리는 막대 그래프" loading="lazy"><figcaption>같은 500만원을 벌어도 어디에 담았느냐로 세금이 갈립니다.</figcaption></figure>
 <p>같은 500만원을 벌었는데 서민형이면 67만원이 남습니다. 한 달 통신비 몇 달치예요.</p>
 <h2>3. 「손해 본 것도 같이 쳐준다」는 게 무슨 뜻인가요?</h2>
@@ -132,14 +136,11 @@ ISA 서민형  400만원 → 0원
 <p>예를 들어볼게요. 미국 주식에 투자하는 ETF 두 개, A와 B를 ISA에 담았다고 해볼게요.</p>
 <p><strong>ETF</strong>는 여러 주식이나 채권 등을 한데 담아놓고, 주식처럼 사고팔 수 있는 상품이에요. A와 B는 한국 증시에 올라와 있어서 원화로 살 수 있는 <strong>국내 상장 해외 ETF</strong>입니다. 이런 ETF는 팔아서 남긴 돈에도 세금이 붙어서, 손실도 세금 계산에 들어갑니다.</p>
 <p>세금 계산에 들어가는 손익이 이렇게 나왔다고 해볼게요.</p>
-<pre><code>해외 ETF A   +300만원   (번 투자)
-해외 ETF B   −100만원   (손해 본 투자)
-──────────────────────────
-세금을 따져볼 수익     200만원</code></pre>
+<div class="calc-box calc-solo"><div class="calc-title">ISA에서 합쳐 보면</div><div class="calc-values"><span class="calc-val">+300만원</span><span class="calc-sep">+</span><span class="calc-val">−100만원</span><span class="calc-sep">=</span><span class="calc-accent">200만원</span></div><div class="calc-labels">해외 ETF A + 해외 ETF B = 세금을 따져볼 수익</div></div>
 <p>이 200만원은 비과세 한도 안이라 <strong>ISA에서는 세금이 0원</strong>입니다.</p>
 <p>그냥 계좌였다면 어떨까요? 그냥 계좌는 <strong>이익 난 것만 보고 세금을 뗍니다.</strong> B에서 잃은 100만원은 없는 셈 치고, A에서 번 300만원에만 세금이 붙어요.</p>
-<pre><code>300만원 × 15.4% = 46만 2천원</code></pre>
-<p>실제 세금은 상품마다 정해진 과세 기준으로 계산해서 이보다 적을 수 있어요. 그래도 차이가 난다는 건 분명합니다.</p>
+<div class="calc-box"><div class="calc-title">그냥 계좌의 세금</div><div class="calc-values"><span class="calc-val">300만원</span><span class="calc-sep">×</span><span class="calc-val">15.4%</span><span class="calc-sep">=</span><span class="calc-val">46만 2천원</span></div><div class="calc-labels">A에서 번 돈 × 세율 = 세금</div></div>
+<p class="calc-note">실제 세금은 상품마다 정해진 과세 기준으로 계산해서 이보다 적을 수 있어요. 그래도 차이가 난다는 건 분명합니다.</p>
 <p>같은 투자를 했는데 46만 2천원이 갈립니다.</p>
 <figure><img src="../../../04_이미지/2026-09-07_ISA_직장인_실제혜택_v3/03_손익통산.png" alt="그냥 계좌는 이익 300만원에만 세금을 매겨 46만 2천원, ISA는 손실을 뺀 200만원이 비과세 한도 안이라 0원인 비교 그림" loading="lazy"><figcaption>그냥 계좌는 이익 난 것만 봅니다. ISA는 바구니 전체를 봅니다.</figcaption></figure>
 <p>그럼 ISA 안에서 난 손실이면 뭐든 합쳐줄까요? <strong>그렇지 않습니다.</strong></p>

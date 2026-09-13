@@ -42,6 +42,54 @@ function inline(s) {
     .replace(/(^|[\s(])(https?:\/\/[^\s<)]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
 }
 
+// ---------------------------------------------------------------- 계산 비교 박스
+
+/**
+ * ```calc … ``` — 계산 결과를 한 줄로 비교하는 박스 (2026-09-13 사용자 지정 디자인)
+ *
+ * 고정폭 글꼴 코드블록은 초보자 글에서 딱딱하고, 휴대폰에서 줄이 밀린다.
+ * 그래서 계산은 「제목 / 금액 줄 / 이름 줄」 세 줄 박스로 보여준다.
+ *
+ *   ```calc
+ *   세금 부담 비교                              ← 1줄: 제목
+ *   77만원 → 29만 7천원 → **9만 9천원**         ← 2줄: 금액. → + = × 로 나눈다. ** 는 결과 강조색
+ *   그냥 계좌 → ISA 일반형 → ISA 서민형         ← 3줄: 이름
+ *   계산: 500만원 × 15.4% · 300만원 × 9.9%      ← 선택: 박스 안 작은 계산식 (계산 과정을 숨기지 않는다, CLAUDE.md §17)
+ *   주: 세금만 놓고 본 단순 계산입니다.          ← 선택: 박스 아래 주석 문단
+ *   ```
+ *
+ * 검수.js 는 ```영문``` 펜스를 계산 블록으로 따로 보므로 따로 고칠 것이 없다.
+ * 한 박스를 한 줄에 담는다. inlineStyles 가 줄 첫머리의 </div> 로 컨테이너를 닫기 때문이다.
+ */
+function calcBox(buf) {
+  const rows = buf.map((l) => l.trim()).filter(Boolean);
+  const note = rows.filter((l) => /^주:\s*/.test(l)).map((l) => l.replace(/^주:\s*/, ''));
+  const formula = rows.filter((l) => /^계산:\s*/.test(l)).map((l) => l.replace(/^계산:\s*/, ''));
+  const [title, values, labels] = rows.filter((l) => !/^(주|계산):/.test(l));
+  if (!title || !values) {
+    console.error('\n[오류] ```calc 블록에는 제목 줄과 금액 줄이 있어야 합니다.');
+    console.error('       ' + rows.join(' / '));
+    process.exit(1);
+  }
+  const SEP = /\s+(→|\+|=|×)\s+/;
+  const sep = (s) => `<span class="calc-sep">${esc(s)}</span>`;
+  const valueHtml = values.split(SEP).map((part, k) => {
+    if (k % 2 === 1) return sep(part);
+    const accent = /^\*\*(.+)\*\*$/.test(part);
+    const text = esc(part.replace(/^\*\*(.+)\*\*$/, '$1'));
+    return `<span class="${accent ? 'calc-accent' : 'calc-val'}">${text}</span>`;
+  }).join('');
+
+  let box = `<div class="${note.length ? 'calc-box' : 'calc-box calc-solo'}">` +
+    `<div class="calc-title">${inline(title)}</div>` +
+    `<div class="calc-values">${valueHtml}</div>`;
+  if (labels) box += `<div class="calc-labels">${inline(labels)}</div>`;
+  formula.forEach((f) => { box += `<div class="calc-formula">${inline(f)}</div>`; });
+  box += '</div>';
+
+  return [box, ...note.map((n) => `<p class="calc-note">${inline(n)}</p>`)];
+}
+
 // ---------------------------------------------------------------- 마커 블록
 
 /**
@@ -174,10 +222,12 @@ function convert(md) {
     }
 
     if (/^```/.test(line)) {
+      const lang = line.replace(/^```/, '').trim();
       i++;
       const buf = [];
       while (i < lines.length && !/^```/.test(lines[i])) buf.push(lines[i++]);
       i++;
+      if (lang === 'calc') { out.push(...calcBox(buf)); continue; }
       out.push(`<pre><code>${esc(buf.join('\n'))}</code></pre>`);
       continue;
     }
@@ -463,7 +513,7 @@ const STYLE = {
   h2: `font-size:1.45rem; line-height:1.4; letter-spacing:-.5px; font-weight:800; color:${C.navyD}; margin:30px 0 18px; padding-top:20px; border-top:2px solid ${C.line};`,
   h3: `font-size:1.16rem; line-height:1.45; font-weight:700; color:${C.roseD}; margin:34px 0 12px;`,
   h4: `font-size:1.02rem; font-weight:700; color:${C.navy}; margin:24px 0 10px;`,
-  p: `margin:0 0 18px;`,
+  p: `margin:0 0 15px;`,   // 18px → 15px (2026-09-13 사용자 지정)
   strong: `font-weight:700; color:${C.navyD};`,
   em: `font-style:normal; background:linear-gradient(transparent 62%, ${C.pinkBg} 62%);`,
   a: `color:${C.rose}; text-decoration:underline; text-underline-offset:2px;`,
@@ -476,6 +526,18 @@ const STYLE = {
   table: `border-collapse:collapse; width:100%; max-width:100%; font-size:.95rem; background:${C.ivory};`,
   th: `border:1px solid ${C.line}; padding:11px 13px; text-align:left; vertical-align:top; background:${C.creamD}; font-weight:700; color:${C.navyD}; word-break:keep-all;`,
   td: `border:1px solid ${C.line}; padding:11px 13px; text-align:left; vertical-align:top;`,
+
+  // 계산 비교 박스 — ```calc (2026-09-13 사용자 지정 디자인. 색은 팔레트.js calc* 만)
+  '.calc-box': `margin:14px 0 0; padding:15px 18px; background:${C.calcBg}; border-radius:10px; text-align:center; line-height:1.6;`,
+  '.calc-solo': `margin:14px 0 18px; padding:15px 18px; background:${C.calcBg}; border-radius:10px; text-align:center; line-height:1.6;`,
+  '.calc-title': `font-size:12px; color:${C.calcLabel}; margin-bottom:5px;`,
+  '.calc-values': `font-size:15px; color:${C.calcText};`,
+  '.calc-val': `font-weight:700; color:${C.calcText};`,
+  '.calc-accent': `font-weight:700; color:${C.calcAccent};`,
+  '.calc-sep': `margin:0 8px; color:${C.calcArrow};`,
+  '.calc-labels': `margin-top:4px; font-size:12px; color:${C.calcLabel};`,
+  '.calc-formula': `margin-top:6px; font-size:11px; color:${C.calcLabel};`,
+  '.calc-note': `margin:12px 0 18px; color:${C.calcNote}; font-size:13px; line-height:1.7;`,
 
   pre: `background:${C.creamD}; border:1px solid ${C.line}; border-radius:8px; padding:16px 18px; overflow-x:auto; max-width:100%; margin:24px 0; line-height:1.65; font-size:.86rem;`,
   code: `font-family:${MONO}; font-size:.9rem;`,
@@ -527,7 +589,7 @@ const SHELL = `color:${C.navy}; font-family:${FONT}; line-height:1.75; font-size
 
 // ---------------------------------------------------------------- 인라인 스타일
 
-const TAG_RE = /<(h[1-4]|p|a|strong|em|code|pre|ul|ol|li|table|th|td|figure|img|figcaption|blockquote|hr|aside|div)((?:\s[^>]*?)?)(\/?)>/g;
+const TAG_RE = /<(h[1-4]|p|a|strong|em|code|pre|ul|ol|li|table|th|td|figure|img|figcaption|blockquote|hr|aside|div|span)((?:\s[^>]*?)?)(\/?)>/g;
 
 /** 같은 속성이 두 번 들어가지 않게 정리한다. 뒤에 온 값이 이긴다. */
 function tidy(css) {
@@ -722,6 +784,12 @@ function previewMd(rawMd, specs) {
   t = t.replace(/^\[안내\]\s*$/m, '> [!NOTE]');
   t = t.replace(/^\[FOOTER\]\s*$/m, '---');
   t = t.replace(/^\[출처\]\s*(.+)$/gm, '<sub>출처 · $1</sub>');
+  // ```calc 블록은 코드블록으로 두되, 「주:」 줄은 블록 밖 문단으로 꺼낸다 (발행본과 같은 위치에 그림이 들어가게)
+  t = t.replace(/^```calc\n([\s\S]*?)^```$/gm, (m, inner) => {
+    const notes = inner.split('\n').filter((l) => /^주:\s*/.test(l)).map((l) => l.replace(/^주:\s*/, ''));
+    const rest = inner.split('\n').filter((l) => !/^주:\s*/.test(l)).join('\n');
+    return '```text\n' + rest + '```' + (notes.length ? '\n\n' + notes.join('\n\n') : '');
+  });
 
   // [!NOTE] 다음 문단들을 인용문으로 만든다
   const lines = t.split('\n');

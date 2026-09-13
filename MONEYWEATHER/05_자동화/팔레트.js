@@ -39,6 +39,15 @@ const C = {
   roseD: '#C0546E',   // 소제목 (큰 글씨 전용, 대비 4.21)
   gold: '#F7CE5A',    // 장식 전용 — 글자색으로 쓰지 않는다 (대비 1.43)
   goldBg: '#FDF6E6',
+  // 계산 비교 박스(```calc) 전용 — 사용자 지정 (2026-09-13). 박스 밖에는 쓰지 않는다.
+  // 대비: calcText/calcBg 6.44, calcNote/ivory 4.57 는 통과.
+  //       calcLabel/calcBg 3.59, calcAccent/calcBg 3.98 은 작은 글씨 권장선 4.5 아래 — 사용자 지정이라 그대로 둔다.
+  calcBg: '#EEE8DF',
+  calcLabel: '#81776E',
+  calcText: '#5A5048',
+  calcArrow: '#A59B92',   // 화살표·기호 장식 (대비 2.24, 글자로 읽히지 않아도 되는 자리)
+  calcAccent: '#5F7769',  // 마지막 결과 강조 초록
+  calcNote: '#77716B',    // 박스 아래 계산 주석
 };
 
 const FONT = "'Malgun Gothic','맑은 고딕',-apple-system,'Segoe UI',sans-serif";
