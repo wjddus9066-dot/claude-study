@@ -1,0 +1,65 @@
+<!doctype html>
+<meta charset="utf-8">
+<!-- @출력 04_이미지/2026-09-13_국민참여성장펀드2차_2030/02_5년타임라인.png -->
+<!-- @크기 880x600 -->
+<!--
+  8장 뒤 — 환매 불가 / 상장 후 양도 / 3년 전 추징 / 부득이한 사유를 시점별로 보여준다.
+
+  작게 고침 (2026-09-14, 사용자 「이미지가 부담스럽다」)
+    전: 1080x1520 → 폭 420 에서 591px (화면의 3/4).  후: 880x600 → 361px
+    제목 두 줄을 한 줄로, 부제를 빼고, 칸 여백과 글자를 줄였다.
+
+  칸마다 근거
+    ① 5년 내내 환매 불가   — 금융위원회 보도자료(2026-09-08) Ⅲ-2
+    ② 3년 전 팔기         — 조특법 제91조의28 제5항·제6항 / 시행령 제93조의14 제8항
+    ③ 3년 뒤 ~ 5년 전     — 추징 없음. 상장 후 거래 가능하나 기준가보다 낮을 수 있음
+    ④ 5년 만기            — 보도자료 「만기 5년」
+  색: 변수로만
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:880px; height:600px; overflow:hidden; background:var(--ivory);
+    font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif; color:var(--navy);
+    padding:22px 26px 0;
+  }
+  h2 { font-size:24px; font-weight:800; letter-spacing:-1.2px; line-height:1.25; margin-bottom:15px; }
+  .card { border-radius:16px; padding:10px 14px; margin-bottom:11px; border:3px solid var(--line); }
+  .card.ok  { background:var(--gold-bg); border-color:var(--gold); }
+  .card.bad { background:var(--pink-bg); border-color:var(--pink); }
+  .card.mid { background:var(--cream); border-color:var(--line-d); }
+  .sit { font-size:20px; font-weight:800; letter-spacing:-1px; }
+  .sit span { font-size:15px; font-weight:700; color:var(--muted); margin-left:10px; }
+  .res { font-size:20px; font-weight:800; letter-spacing:-.8px; margin-top:5px; color:var(--navy-d); }
+  .bad .res { color:var(--rose); }
+  .note { font-size:15px; font-weight:600; color:var(--muted); margin-top:4px; line-height:1.35; }
+  .src { margin-top:11px; font-size:12px; color:var(--muted-l); line-height:1.45; }
+</style>
+
+<h2>5년 동안 내 돈은 어떻게 될까?</h2>
+
+<div class="card mid">
+  <div class="sit">펀드 해지하고 돌려받기<span>5년 내내</span></div>
+  <div class="res">할 수 없어요</div>
+  <div class="note">상장되면 다른 사람에게 팔 수는 있어요</div>
+</div>
+
+<div class="card bad">
+  <div class="sit">팔기<span>넣은 날부터 3년 전</span></div>
+  <div class="res">깎아준 세금을 다시 내요</div>
+  <div class="note">원칙은 판 금액의 14% · 사망·해외이주·퇴직 등 부득이한 사유는 예외</div>
+</div>
+
+<div class="card mid">
+  <div class="sit">팔기<span>3년 뒤 ~ 5년 전</span></div>
+  <div class="res">세금은 다시 안 걷어요</div>
+  <div class="note">사려는 사람이 적으면 제값보다 낮게 팔릴 수 있어요</div>
+</div>
+
+<div class="card ok">
+  <div class="sit">만기<span>5년</span></div>
+  <div class="res">펀드가 끝나고 돈을 돌려받아요</div>
+  <div class="note">원금 보장은 아니에요</div>
+</div>
+
+<div class="src">금융위원회 보도자료(2026-09-08) / 조세특례제한법 제91조의28 · 시행령 제93조의14</div>

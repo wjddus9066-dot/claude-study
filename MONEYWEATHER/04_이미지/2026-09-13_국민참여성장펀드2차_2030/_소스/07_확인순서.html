@@ -1,0 +1,79 @@
+<!doctype html>
+<meta charset="utf-8">
+<!-- @출력 04_이미지/2026-09-13_국민참여성장펀드2차_2030/07_확인순서.png -->
+<!-- @크기 880x530 -->
+<!--
+  13장 마무리 — 가입 판단을 순서로 바꿔주는 그림.
+
+  작게 고침 (2026-09-14, 사용자 「이미지가 부담스럽다」)
+    전: 1080x1300 → 폭 420 화면에서 506px (화면의 2/3). 그림 안 제목이 본문 소제목과 같은 말이라
+        같은 말을 두 번 읽으며 화면 하나를 넘겨야 했다.
+    후: 880x530 → 폭 420 화면에서 334px. 그림 안 제목·부제를 빼고(본문 소제목이 그 일을 한다)
+        여백과 글자를 줄였다. 도면 폭을 1080 → 880 으로 줄여 같은 글자 크기가 화면에서 더 크게 보인다.
+
+  근거
+    ① 소득공제는 종합소득금액 한도 — 조특법 제91조의28 제2항
+    ② 5년 만기 환매금지형 — 금융위원회 보도자료(2026-09-08) Ⅲ-2
+    ③ 원금 비보장·위험등급 1등급 — 금융위원회 FAQ(2026-05-19) 8번
+    ④ 전용계좌 요건 — 조특법 제91조의28 제1항제1호
+  색: 변수로만
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:880px; height:530px; overflow:hidden; background:var(--ivory);
+    font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif; color:var(--navy);
+    padding:22px 26px 0;
+  }
+  .step { display:flex; gap:18px; margin-bottom:12px; align-items:stretch; }
+  .no {
+    flex:0 0 56px; border-radius:16px; background:var(--cream);
+    border:3px solid var(--line-d); font-size:20px; font-weight:800;
+    display:flex; align-items:center; justify-content:center; color:var(--navy-d);
+  }
+  .box { flex:1; border:3px solid var(--line); border-radius:16px; background:var(--cream); padding:9px 13px; }
+  .step.first .no { background:var(--pink-bg); border-color:var(--pink); color:var(--rose); }
+  .step.first .box { background:var(--pink-bg); border-color:var(--pink); }
+  .q { font-size:22px; font-weight:800; letter-spacing:-1px; line-height:1.25; }
+  .a { font-size:17px; color:var(--muted); margin-top:5px; line-height:1.4; }
+  .a b { color:var(--navy-d); }
+  .end { background:var(--gold-bg); border:3px solid var(--gold); border-radius:16px;
+         padding:9px 13px; font-size:18px; font-weight:800; color:var(--navy-d); line-height:1.35; }
+  .src { margin-top:11px; font-size:12px; color:var(--muted-l); line-height:1.45; }
+</style>
+
+<div class="step first">
+  <div class="no">1</div>
+  <div class="box">
+    <div class="q">작년에 낸 소득세가 있나요?</div>
+    <div class="a">원천징수영수증의 <b>결정세액</b>이 0원에 가깝다면 소득공제로 줄어들 세금도 거의 없어요</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="no">2</div>
+  <div class="box">
+    <div class="q">5년 동안 안 써도 되는 돈인가요?</div>
+    <div class="a">전세·결혼·이사·비상금은 먼저 빼두기</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="no">3</div>
+  <div class="box">
+    <div class="q">값이 내려가도 버틸 수 있나요?</div>
+    <div class="a">원금이 보장되는 상품이 아니에요</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="no">4</div>
+  <div class="box">
+    <div class="q">전용계좌를 만들 수 있나요?</div>
+    <div class="a">19세 이상 등 요건을 확인하세요</div>
+  </div>
+</div>
+
+<div class="end">여기까지 통과했다면 그때 금액과 세금 혜택을 계산해보세요</div>
+
+<div class="src">조세특례제한법 제91조의28 / 금융위원회 보도자료(2026-09-08) · FAQ(2026-05-19)</div>

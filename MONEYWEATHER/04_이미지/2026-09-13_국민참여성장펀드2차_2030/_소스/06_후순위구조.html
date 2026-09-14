@@ -1,0 +1,63 @@
+<!doctype html>
+<meta charset="utf-8">
+<!-- @출력 04_이미지/2026-09-13_국민참여성장펀드2차_2030/06_후순위구조.png -->
+<!-- @크기 880x410 -->
+<!--
+  9장 「정부가 손실 20%를 막아준다」 — 「내 돈의 20%」가 아니라
+  「자펀드별로 재정이 먼저 깎인다」는 구조를 층으로 보여준다.
+
+  작게 고침 (2026-09-14, 사용자 「이미지가 부담스럽다」)
+    전: 1080x1240 → 폭 420 에서 482px.  후: 880x410 → 310px
+    부제를 빼고 층 칸 여백을 줄였다.
+
+  근거: 금융위원회 FAQ(2026-05-19) 9번 / 보도자료(2026-09-08) Ⅱ
+  색: 변수로만
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:880px; height:410px; overflow:hidden; background:var(--ivory);
+    font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif; color:var(--navy);
+    padding:22px 26px 0;
+  }
+  h2 { font-size:24px; font-weight:800; letter-spacing:-1.2px; line-height:1.25; margin-bottom:15px; }
+  .layer { border-radius:16px; padding:10px 14px; border:3px solid var(--line); margin-bottom:8px;
+           display:flex; align-items:baseline; gap:16px; }
+  .layer.people { background:var(--cream); border-color:var(--line-d); }
+  .layer.gov { background:var(--gold-bg); border-color:var(--gold); }
+  .num { font-size:22px; font-weight:800; letter-spacing:-1px; white-space:nowrap; }
+  .lab { font-size:16px; color:var(--muted); font-weight:700; }
+  .sum { text-align:center; font-size:17px; font-weight:800; color:var(--navy-d); margin:6px 0 14px; }
+  .split { background:var(--cream); border:3px solid var(--line-d); border-radius:16px;
+           padding:10px 14px; font-size:16px; line-height:1.45; }
+  .split b { color:var(--navy-d); }
+  .no { background:var(--pink-bg); border:3px solid var(--pink); border-radius:16px;
+        padding:10px 14px; margin-top:11px; }
+  .no .t { font-size:17px; font-weight:800; color:var(--rose); }
+  .no .b { font-size:17px; font-weight:800; color:var(--navy-d); margin-top:5px; line-height:1.35; }
+  .src { margin-top:11px; font-size:12px; color:var(--muted-l); }
+</style>
+
+<h2>정부 돈은 내 계좌가 아니라 펀드에 들어가요</h2>
+
+<div class="layer people">
+  <div class="num">6,000억원</div>
+  <div class="lab">국민이 넣는 돈 · 손실을 나중에 부담</div>
+</div>
+<div class="layer gov">
+  <div class="num">1,200억원</div>
+  <div class="lab">정부 재정 · 손실이 나면 먼저 깎임</div>
+</div>
+
+<div class="sum">합쳐서 7,200억원</div>
+
+<div class="split">
+  <b>10개 운용사 펀드로 나뉘어</b> 들어가고, 손실도 <b>펀드별로 따로</b> 계산됩니다.
+</div>
+
+<div class="no">
+  <div class="t">❌ 내 돈의 20%를 정부가 보장</div>
+  <div class="b">⭕ 정부 돈이 먼저 깎일 뿐, 원금 보장은 아니에요</div>
+</div>
+
+<div class="src">금융위원회 FAQ(2026-05-19) 9번 / 금융위원회 보도자료(2026-09-08)</div>

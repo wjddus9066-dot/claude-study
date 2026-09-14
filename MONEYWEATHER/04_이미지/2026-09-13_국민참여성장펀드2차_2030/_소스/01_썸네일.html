@@ -1,0 +1,130 @@
+<!doctype html>
+<meta charset="utf-8">
+<!-- @출력 04_이미지/2026-09-13_국민참여성장펀드2차_2030/01_썸네일.png -->
+<!-- @크기 1600x900 -->
+<!--
+  썸네일 — CLAUDE.md §41.2
+
+    1. 카테고리 배지   — 투자
+    2. 질문형 큰 제목   — 글 제목과 같은 뜻, 다른 문장
+         글 제목: 국민참여성장펀드 2차, 세금 깎아준다는데 20·30대도 「들어가볼 만할까?」
+         썸네일 : 5년짜리 국민성장펀드,  내 세금은  「정말 줄어들까?」
+    3. 손글씨 말풍선    — 사회초년생이 속으로 하는 말. 답은 주지 않는다
+    4. 일러스트         — 투자 포트폴리오 카드(오르내리는 막대·선) + 자물쇠 + 5년 달력
+
+  일러스트를 바꾼 이유 (2026-09-14, 사용자 지적)
+    처음에는 돼지저금통을 그렸는데, 저금통은 「저축·안전하게 보관」으로 읽힌다.
+    이 상품은 원금이 보장되지 않는 투자상품이라 첫인상이 어긋난다.
+    그래서 값이 오르내리는 포트폴리오 카드로 바꾸고, 5년 잠김을 자물쇠로,
+    기간을 달력으로 표시했다. 막대는 오르기만 하지 않는다 — 수익을 약속하지 않기 위해서다.
+
+  지키는 것
+    - 답을 주지 않는다 (결정세액 · 추징 14% 는 본문에서만)
+    - 본문에 없는 숫자를 넣지 않는다 — 「5년」만 쓴다
+    - 로고(온도계)를 넣지 않는다. 그건 파비콘이다
+
+  글꼴: 학교안심 알림장 / 색: 변수로만
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1600px; height:900px; overflow:hidden;
+    font-family:'알림장','Malgun Gothic',sans-serif;
+    background:var(--cream); color:var(--navy-d);
+    position:relative;
+  }
+  .blob { position:absolute; border-radius:50%; }
+  .blob.a { width:660px; height:660px; right:-160px; top:-210px; background:var(--gold-bg); }
+  .blob.b { width:320px; height:320px; right:-70px; bottom:-120px; background:var(--pink-bg); }
+
+  .card { position:relative; width:1600px; height:900px; padding:62px 80px 0; }
+  .badge {
+    display:inline-block; background:var(--ivory); border:3px solid var(--navy-d);
+    border-radius:999px; padding:9px 34px; font-size:34px; font-weight:700;
+  }
+  h1 { margin-top:32px; font-size:98px; font-weight:700; line-height:1.24; letter-spacing:-3px; }
+  h1 .hi { color:var(--rose); }
+
+  .bubble {
+    position:relative; display:inline-block; margin-top:46px;
+    background:var(--ivory); border:3px solid var(--line-d);
+    border-radius:28px; padding:20px 34px;
+    font-size:42px; color:var(--muted); line-height:1.34;
+  }
+  .bubble::after {
+    content:''; position:absolute; left:60px; bottom:-21px;
+    border:18px solid transparent; border-top-color:var(--line-d); border-bottom:0;
+  }
+  .bubble::before {
+    content:''; position:absolute; left:64px; bottom:-15px; z-index:1;
+    border:14px solid transparent; border-top-color:var(--ivory); border-bottom:0;
+  }
+  .brand { position:absolute; left:80px; bottom:48px; font-size:32px; color:var(--muted); }
+  .art { position:absolute; right:84px; top:176px; }
+</style>
+
+<div class="blob a"></div>
+<div class="blob b"></div>
+
+<div class="card">
+  <div class="badge">투자</div>
+  <h1>5년짜리 국민성장펀드,<br>내 세금은<br><span class="hi">정말 줄어들까?</span></h1>
+  <div class="bubble">연봉 얼마 안 되는데<br>나도 혜택이 있나…?</div>
+</div>
+
+<!-- 투자 포트폴리오 카드 + 자물쇠 + 5년 달력 -->
+<svg class="art" width="580" height="580" viewBox="0 0 580 580" fill="none">
+
+  <!-- 뒤쪽 카드 (여러 자산에 나눠 담긴 느낌) -->
+  <rect x="70" y="96" width="400" height="300" rx="30"
+        style="fill:var(--ivory);stroke:var(--line-d)" stroke-width="8"/>
+
+  <!-- 앞쪽 포트폴리오 카드 -->
+  <rect x="34" y="150" width="400" height="300" rx="30"
+        style="fill:var(--ivory);stroke:var(--navy-d)" stroke-width="9"/>
+
+  <!-- 카드 머리줄 -->
+  <rect x="34" y="150" width="400" height="62" rx="30"
+        style="fill:var(--gold-bg);stroke:var(--navy-d)" stroke-width="9"/>
+  <rect x="34" y="186" width="400" height="26" style="fill:var(--gold-bg)"/>
+  <line x1="34" y1="212" x2="434" y2="212" stroke-width="9" style="stroke:var(--navy-d)"/>
+  <circle cx="76" cy="181" r="11" style="fill:var(--navy-d)"/>
+  <circle cx="112" cy="181" r="11" style="fill:var(--line-d)"/>
+
+  <!-- 막대 — 오르기만 하지 않는다 -->
+  <g style="fill:var(--gold);stroke:var(--navy-d)" stroke-width="7">
+    <rect x="80"  y="330" width="52" height="82" rx="10"/>
+    <rect x="152" y="290" width="52" height="122" rx="10"/>
+    <rect x="224" y="346" width="52" height="66" rx="10"/>
+  </g>
+  <rect x="296" y="262" width="52" height="150" rx="10"
+        style="fill:var(--pink);stroke:var(--navy-d)" stroke-width="7"/>
+
+  <!-- 값이 오르내리는 선 -->
+  <polyline points="92,316 178,276 250,332 322,248 400,286" fill="none"
+            stroke-width="10" stroke-linecap="round" stroke-linejoin="round"
+            style="stroke:var(--rose)"/>
+  <circle cx="400" cy="286" r="13" style="fill:var(--rose)"/>
+
+  <!-- 자물쇠 — 5년 동안 꺼낼 수 없다 -->
+  <g stroke-width="9" style="stroke:var(--navy-d)">
+    <path d="M364 476 L364 442 Q364 402 404 402 Q444 402 444 442 L444 476" stroke-linecap="round"/>
+    <rect x="340" y="470" width="128" height="102" rx="18" style="fill:var(--gold)"/>
+  </g>
+  <circle cx="404" cy="510" r="13" style="fill:var(--navy-d)"/>
+  <line x1="404" y1="518" x2="404" y2="544" stroke-width="10" stroke-linecap="round"
+        style="stroke:var(--navy-d)"/>
+
+  <!-- 5년 달력 -->
+  <g stroke-width="9" style="stroke:var(--navy-d)">
+    <rect x="418" y="46" width="150" height="140" rx="20" style="fill:var(--ivory)"/>
+    <path d="M418 92 L568 92"/>
+    <line x1="452" y1="30" x2="452" y2="62" stroke-linecap="round"/>
+    <line x1="534" y1="30" x2="534" y2="62" stroke-linecap="round"/>
+  </g>
+  <rect x="422" y="50" width="142" height="38" rx="16" style="fill:var(--pink)"/>
+  <text x="493" y="158" font-size="68" font-weight="700" text-anchor="middle"
+        font-family="'알림장',sans-serif" style="fill:var(--navy-d)">5년</text>
+</svg>
+
+<div class="brand">☀ 오늘의 재테크온도</div>

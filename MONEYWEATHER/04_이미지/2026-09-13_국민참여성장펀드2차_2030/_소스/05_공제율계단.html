@@ -1,0 +1,59 @@
+<!doctype html>
+<meta charset="utf-8">
+<!-- @출력 04_이미지/2026-09-13_국민참여성장펀드2차_2030/05_공제율계단.png -->
+<!-- @크기 880x440 -->
+<!--
+  5장 「얼마를 넣었을 때 소득공제를 얼마나 받나요?」 — 표를 대신한다.
+  40%/20%/10% 를 문장으로만 쓰면 「3,000만원 넘으면 전체가 20%」로 잘못 읽는다.
+
+  작게 고침 (2026-09-14, 사용자 「이미지가 부담스럽다」)
+    전: 1080x1260 → 폭 420 에서 490px.  후: 880x440 → 폭 420 에서 334px
+    그림 안 부제를 빼고(본문 소제목이 그 일을 한다) 막대 높이와 여백을 줄였다.
+
+  근거: 조특법 제91조의28 제2항, 금융위원회 보도자료(2026-09-08) Ⅲ-2
+  막대 길이 = 공제액 비례 (1,800만원 = 100%)
+  색: 변수로만
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:880px; height:440px; overflow:hidden; background:var(--ivory);
+    font-family:'Malgun Gothic','맑은 고딕','Segoe UI',sans-serif; color:var(--navy);
+    padding:22px 26px 0;
+  }
+  h2 { font-size:24px; font-weight:800; letter-spacing:-1.2px; line-height:1.25; margin-bottom:17px; }
+  .row { display:flex; align-items:center; margin-bottom:10px; }
+  .amt { width:160px; font-size:17px; font-weight:700; text-align:right; padding-right:16px; }
+  .bar { height:29px; border-radius:8px; background:var(--gold); border:2px solid var(--gold); }
+  .bar.hi { background:var(--pink); border-color:var(--pink); }
+  .val { font-size:17px; font-weight:800; margin-left:12px; white-space:nowrap; }
+
+  .legend { margin-top:14px; background:var(--cream); border:3px solid var(--line-d);
+            border-radius:16px; padding:11px 14px; font-size:16px; line-height:1.5; }
+  .legend b { color:var(--navy-d); }
+  .warn { margin-top:12px; font-size:17px; font-weight:800; color:var(--rose); line-height:1.3; }
+  .src { margin-top:11px; font-size:12px; color:var(--muted-l); }
+</style>
+
+<h2>넣은 돈이 커질수록 공제 비율은 낮아져요</h2>
+
+<div class="row"><div class="amt">500만원</div>
+  <div style="display:flex;align-items:center;flex:1"><div class="bar" style="width:11%"></div><div class="val">200만원</div></div></div>
+<div class="row"><div class="amt">1,000만원</div>
+  <div style="display:flex;align-items:center;flex:1"><div class="bar" style="width:22%"></div><div class="val">400만원</div></div></div>
+<div class="row"><div class="amt">2,000만원</div>
+  <div style="display:flex;align-items:center;flex:1"><div class="bar" style="width:44%"></div><div class="val">800만원</div></div></div>
+<div class="row"><div class="amt">3,000만원</div>
+  <div style="display:flex;align-items:center;flex:1"><div class="bar" style="width:67%"></div><div class="val">1,200만원</div></div></div>
+<div class="row"><div class="amt">5,000만원</div>
+  <div style="display:flex;align-items:center;flex:1"><div class="bar" style="width:89%"></div><div class="val">1,600만원</div></div></div>
+<div class="row"><div class="amt">7,000만원</div>
+  <div style="display:flex;align-items:center;flex:1"><div class="bar hi" style="width:100%"></div><div class="val">1,800만원</div></div></div>
+
+<div class="legend">
+  <b>3,000만원까지 40%</b> · 그다음 5,000만원까지 20% · 그다음 7,000만원까지 10%
+</div>
+
+<div class="warn">1,800만원은 현금이 아니라 소득에서 빼주는 최대 금액이에요</div>
+
+<div class="src">조세특례제한법 제91조의28 제2항 / 금융위원회 보도자료(2026-09-08)</div>
